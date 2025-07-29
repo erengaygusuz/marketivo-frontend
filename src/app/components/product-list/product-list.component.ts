@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { ProductService } from '../../services/product.service';
-import { Product } from '../../common/product';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../../services/cart.service';
-import { CartItem } from '../../common/cart-item';
+import { Product } from '../../common/models/product';
+import { CartItem } from '../../common/models/cart-item';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
-  standalone: false
+  standalone: false,
 })
 export class ProductListComponent {
   products: Product[] = [];
@@ -48,20 +48,22 @@ export class ProductListComponent {
   handleSearchProducts() {
     const keyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
-    if(this.previousKeyword !== keyword) {
+    if (this.previousKeyword !== keyword) {
       this.thePageNumber = 1;
     }
 
     this.previousKeyword = keyword;
 
-    this.productService.searchProductsPaginate(this.thePageNumber - 1, this.thePageSize, keyword).subscribe(this.processResult());
+    this.productService
+      .searchProductsPaginate(this.thePageNumber - 1, this.thePageSize, keyword)
+      .subscribe(this.processResult());
   }
 
   handleListProducts() {
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
     if (hasCategoryId) {
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
-    }else{
+    } else {
       this.currentCategoryId = 1;
     }
 
@@ -71,13 +73,19 @@ export class ProductListComponent {
 
     this.previousCategoryId = this.currentCategoryId;
 
-    this.productService.getProductListPaginate(this.thePageNumber - 1, this.thePageSize, this.currentCategoryId).subscribe(this.processResult());
+    this.productService
+      .getProductListPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        this.currentCategoryId
+      )
+      .subscribe(this.processResult());
   }
 
   updatePageSize(pageSize: string) {
     this.thePageSize = +pageSize;
-    this.thePageNumber = 1; 
-    this.listProducts(); 
+    this.thePageNumber = 1;
+    this.listProducts();
   }
 
   processResult() {

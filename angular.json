@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-ecommerce": {
+    "marketivo-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/angular-ecommerce",
+            "outputPath": "dist/marketivo-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -87,13 +87,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-ecommerce:build:production"
+              "buildTarget": "marketivo-frontend:build:production"
             },
             "development": {
-              "buildTarget": "angular-ecommerce:build:development"
+              "buildTarget": "marketivo-frontend:build:development"
             },
             "staging": {
-              "buildTarget": "angular-ecommerce:build:staging"
+              "buildTarget": "marketivo-frontend:build:staging"
             }
           },
           "defaultConfiguration": "development"
@@ -101,7 +101,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angular-ecommerce:build"
+            "buildTarget": "marketivo-frontend:build"
           }
         },
         "test": {

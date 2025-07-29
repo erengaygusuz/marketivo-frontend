@@ -3,22 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { ProductService } from './services/product.service';
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CartStatus } from './components/cart-status/cart-status';
-import { CartDetails } from './components/cart-details/cart-details';
-import { Checkout } from './components/checkout/checkout';
+import { CartStatusComponent } from './components/cart-status/cart-status.component';
+import { CartDetailsComponent } from './components/cart-details/cart-details.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LoginStatus } from './components/login-status/login-status';
 import { AuthModule } from '@auth0/auth0-angular';
 import myAppConfig from './config/my-app-config';
-import { MembersPage } from './components/members-page/members-page';
+import { MembersPageComponent } from './components/members-page/members-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
-import { AuthInterceptorService } from './services/auth-interceptor';
+import { AuthInterceptor } from './interceptors/auth-interceptor';
+import { LoginStatusComponent } from './components/login-status/login-status.component';
 
 @NgModule({
   declarations: [
@@ -27,28 +30,29 @@ import { AuthInterceptorService } from './services/auth-interceptor';
     ProductCategoryMenuComponent,
     SearchComponent,
     ProductDetailsComponent,
-    CartStatus,
-    CartDetails,
-    Checkout,
-    LoginStatus,
-    MembersPage,
-    OrderHistoryComponent
+    CartStatusComponent,
+    CartDetailsComponent,
+    CheckoutComponent,
+    LoginStatusComponent,
+    MembersPageComponent,
+    OrderHistoryComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
     AuthModule.forRoot({
       ...myAppConfig.auth,
-      // cacheLocation: 'localstorage',
       httpInterceptor: {
         ...myAppConfig.httpInterceptor,
       },
-    })
+    }),
   ],
-  providers: [ProductService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true, },],
-  bootstrap: [AppComponent]
+  providers: [
+    ProductService,
+    provideHttpClient(withInterceptors([AuthInterceptor])),
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

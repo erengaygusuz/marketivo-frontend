@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ProductCategory } from '../../common/product-category';
 import { ProductService } from '../../services/product.service';
+import { ProductCategory } from '../../common/models/product-category';
 
 @Component({
   selector: 'app-product-category-menu',
   templateUrl: './product-category-menu.component.html',
   styleUrl: './product-category-menu.component.css',
-  standalone: false
+  standalone: false,
 })
 export class ProductCategoryMenuComponent {
   productCategories: ProductCategory[] = [];
@@ -18,7 +18,7 @@ export class ProductCategoryMenuComponent {
   }
 
   listProductCategories(): void {
-    this.productService.getProductCategories().subscribe(data => {
+    this.productService.getProductCategories().subscribe((data) => {
       this.productCategories = data;
     });
   }

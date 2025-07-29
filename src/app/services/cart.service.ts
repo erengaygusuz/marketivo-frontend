@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { CartItem } from '../common/cart-item';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { CartItem } from '../common/models/cart-item';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
-  cartItems: CartItem[] = []; 
+  cartItems: CartItem[] = [];
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
   storage: Storage = localStorage;
 
-  constructor() { 
+  constructor() {
     let data = JSON.parse(this.storage.getItem('cartItems')!);
 
     if (data !== null) {
@@ -26,8 +26,10 @@ export class CartService {
     let existingCartItem: CartItem | undefined;
 
     if (this.cartItems.length > 0) {
-      existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id === theCartItem.id);
-      alreadyExistsInCart = (existingCartItem !== undefined);
+      existingCartItem = this.cartItems.find(
+        (tempCartItem) => tempCartItem.id === theCartItem.id
+      );
+      alreadyExistsInCart = existingCartItem !== undefined;
     }
 
     if (alreadyExistsInCart) {
@@ -65,8 +67,10 @@ export class CartService {
   }
 
   remove(cartItem: CartItem) {
-    const itemIndex = this.cartItems.findIndex(item => item.id === cartItem.id);
-    
+    const itemIndex = this.cartItems.findIndex(
+      (item) => item.id === cartItem.id
+    );
+
     if (itemIndex > -1) {
       this.cartItems.splice(itemIndex, 1);
       this.computeCartTotals();
