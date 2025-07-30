@@ -1,46 +1,42 @@
-/*
-    Copy from styles.css -> .au-btn-submit
-    Rename as .security-btn
-    Change border to 10px
-*/
+/* ✅ Flexbox: Make container responsive */
+.login-status-header {
+    display: flex;
+    flex-wrap: wrap;               /* ✅ lets buttons wrap instead of breaking */
+    align-items: center;           /* ✅ vertically centers items */
+    gap: 8px;                      /* ✅ space between buttons */
+}
+
+/* ✅ Button styling (refined) */
 .security-btn {
-    position:relative;
-    right:0;
-    min-width:95px;
-    color:#fff;
-    border:10px solid #205b8d;
-    -webkit-border-radius:3px;
-    -moz-border-radius:3px;
-    border-radius:43px;
-    background:#205b8d
+    color: #fff;
+    background: #205b8d;
+    border: 2px solid #205b8d;     /* ✅ reduce from 10px to 2px for cleaner look */
+    border-radius: 43px;
+    padding: 6px 16px;             /* ✅ comfortable padding */
+    min-width: 95px;
+    font-size: 15px;
+    transition: background 0.3s ease, color 0.3s ease;
+    cursor: pointer;
 }
 
-/*
-    Copy from styles.css -> .form-header
-    Rename as .login-status-header
-*/
-.login-status-header{
-    display:-webkit-box;
-    display:-webkit-flex;
-    display:-moz-box;
-    display:-ms-flexbox;
-    display:flex
+/* ✅ Hover effect */
+.security-btn:hover {
+    background: #fff;
+    color: #205b8d;
 }
 
-/*
-    Copy from styles.css -> .au-input
-    Rename as .login-status-user-info
-    - remove 'solid', 'font-size', 'color'
-*/
+/* ✅ User info box */
 .login-status-user-info {
-    line-height:43px;
-    border:1px;
-    padding:0 17px;
-    -webkit-border-radius:3px;
-    -moz-border-radius:3px;
-    border-radius:3px;
-    -webkit-transition:all .5s ease;
-    -o-transition:all .5s ease;
-    -moz-transition:all .5s ease;
-    transition:all .5s ease
+    line-height: 43px;
+    padding: 0 17px;
+    border-radius: 3px;
+}
+
+/* ✅ Small screens: make buttons slightly smaller */
+@media (max-width: 576px) {
+    .security-btn {
+        min-width: 80px;
+        padding: 4px 12px;
+        font-size: 14px;
+    }
 }

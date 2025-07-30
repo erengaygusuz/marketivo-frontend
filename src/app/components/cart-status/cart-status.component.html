@@ -1,5 +1,22 @@
-<div class="cart-area d-n">
-    <a routerLink="/cart-details">
-        <div class="total">{{ totalPrice | currency: 'USD' }} <span> {{ totalQuantity }}</span> </div> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-    </a>
+<div class="cart-area d-flex align-items-center ms-3">
+
+  <!-- Cart link -->
+  <a routerLink="/cart-details" class="cart-link d-flex align-items-center text-decoration-none">
+
+    <!-- Cart icon wrapper -->
+    <div class="cart-icon-wrapper position-relative">
+      <i class="fa fa-shopping-cart cart-icon" aria-hidden="true"></i>
+
+      <!-- ✅ Bootstrap badge -->
+      <span *ngIf="totalQuantity > 0" class="badge bg-danger rounded-pill cart-badge">
+        {{ totalQuantity }}
+      </span>
+    </div>
+
+    <!-- ✅ Total price (now always visible) -->
+    <div class="cart-total-text ms-3">
+      {{ totalPrice | currency:'USD' }}
+    </div>
+
+  </a>
 </div>

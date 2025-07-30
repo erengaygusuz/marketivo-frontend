@@ -1,0 +1,26 @@
+/* ✅ Navbar stays on top */
+.navbar {
+  z-index: 1050;
+}
+
+/* ✅ Footer stays fixed at bottom */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1040;
+}
+
+/* ✅ Sidebar hidden for mobile */
+@media (max-width: 992px) {
+  .menu-sidebar {
+    display: none;
+  }
+}
+
+/* ✅ Make sure body doesn’t hide behind fixed navbar/footer */
+body {
+  padding-top: 70px;  /* same height as navbar */
+  padding-bottom: 60px; /* same height as footer */
+}
