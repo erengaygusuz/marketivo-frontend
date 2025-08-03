@@ -4,13 +4,13 @@ export default {
     clientId: '4Bt3FnArUUElthacdpLdxSszDTczN1VI',
     authorizationParams: {
       redirect_uri: window.location.origin + '/login/callback',
-      audience: 'https://api-marketivo.erengaygusuz.com.tr',
+      audience: 'https://marketivo.erengaygusuz.com.tr/api',
     },
   },
   httpInterceptor: {
     allowedList: [
-      'https://api-marketivo.erengaygusuz.com.tr/api/orders/**',
-      'https://api-marketivo.erengaygusuz.com.tr/api/checkout/purchase',
+      'https://marketivo.erengaygusuz.com.tr/api/orders/**',
+      'https://marketivo.erengaygusuz.com.tr/api/checkout/purchase',
     ],
   },
 };
