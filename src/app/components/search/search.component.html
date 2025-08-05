@@ -1,6 +1,4 @@
-<div class="form-header">
-    <input #myInput class="au-input au-input-xl" type="text" placeholder="Search for products ..." (keyup.enter)="doSearch(myInput.value)"/>
-    <button class="au-btn-submit" (click)="doSearch(myInput.value)">
-        Search
-    </button>
-</div>
+<p-iconfield iconPosition="left">
+    <input #myInput pInputText type="text" placeholder="Search for products ..." class="w-full" (keyup.enter)="doSearch(myInput.value)" />
+    <p-inputicon class="pi pi-search" (click)="doSearch(myInput.value)" />
+</p-iconfield>

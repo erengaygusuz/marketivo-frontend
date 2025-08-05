@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { ProductService } from '../../services/product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../common/models/product';
 import { CartItem } from '../../common/models/cart-item';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.css',
-  imports: [CommonModule],
+  styleUrls: ['./product-details.component.css'],
+  imports: [CommonModule, ButtonModule, RouterModule],
 })
 export class ProductDetailsComponent {
   product!: Product;

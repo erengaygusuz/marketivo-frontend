@@ -5,12 +5,19 @@ import { CartService } from '../../services/cart.service';
 import { Product } from '../../common/models/product';
 import { CartItem } from '../../common/models/cart-item';
 import { CommonModule } from '@angular/common';
+import { DataViewModule } from "primeng/dataview";
+import { SelectButtonModule } from "primeng/selectbutton";
+import { TagModule } from "primeng/tag";
+import { ButtonModule } from "primeng/button";
+import { PickListModule } from "primeng/picklist";
+import { OrderListModule } from "primeng/orderlist";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule, DataViewModule, SelectButtonModule, TagModule, ButtonModule, PickListModule, OrderListModule],
 })
 export class ProductListComponent {
   products: Product[] = [];
@@ -23,6 +30,10 @@ export class ProductListComponent {
   theTotalElements: number = 0;
 
   previousKeyword: string = '';
+
+  layout: 'list' | 'grid' = 'list';
+
+  options = ['list', 'grid'];
 
   constructor(
     private productService: ProductService,
