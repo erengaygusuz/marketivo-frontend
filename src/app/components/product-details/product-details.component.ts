@@ -4,12 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../common/models/product';
 import { CartItem } from '../../common/models/cart-item';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css',
-  standalone: false,
+  imports: [CommonModule],
 })
 export class ProductDetailsComponent {
   product!: Product;

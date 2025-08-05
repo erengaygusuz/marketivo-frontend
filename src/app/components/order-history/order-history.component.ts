@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { OrderHistoryService } from '../../services/order-history.service';
 import { OrderHistory } from '../../common/models/order-history';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-order-history-component',
-  standalone: false,
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.css',
+  imports: [CommonModule],
 })
 export class OrderHistoryComponent {
   orderHistoryList: OrderHistory[] = [];

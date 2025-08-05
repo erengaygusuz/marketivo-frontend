@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CartService } from '../../services/cart.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cart-status',
-  standalone: false,
   templateUrl: './cart-status.component.html',
   styleUrls: ['./cart-status.component.css'],
+  imports: [CommonModule],
 })
 export class CartStatusComponent {
   totalPrice: number = 0.0;

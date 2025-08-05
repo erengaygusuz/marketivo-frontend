@@ -3,6 +3,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
@@ -17,12 +18,13 @@ import { CountryStateService } from '../../services/country-state.service';
 import { Order } from '../../common/models/order';
 import { OrderItem } from '../../common/models/order-item';
 import { Purchase } from '../../common/models/purchase';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-checkout',
-  standalone: false,
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class CheckoutComponent {
   totalPrice: number = 0;
@@ -39,7 +41,28 @@ export class CheckoutComponent {
 
   userEmail: string = JSON.parse(this.storage.getItem('userEmail')!);
 
-  checkoutFormGroup: FormGroup = new FormGroup({
+  checkoutFormGroup: FormGroup = new FormGroup({});
+
+  stripe = Stripe(environment.stripePublishableKey);
+
+  paymentInfo: PaymentInfo = new PaymentInfo();
+  cardElement: any;
+  displayError: any = '';
+
+  isDisabled: boolean = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private countryStateService: CountryStateService,
+    private cartService: CartService,
+    private checkoutService: CheckoutService,
+    private router: Router
+  ) {
+    this.countryStateService.getCountries().subscribe((data) => {
+      this.countries = data;
+    });
+
+    this.checkoutFormGroup = new FormGroup({
     customer: this.formBuilder.group({
       firstName: new FormControl('', [
         Validators.required,
@@ -97,25 +120,6 @@ export class CheckoutComponent {
     }),
     creditCard: this.formBuilder.group({}),
   });
-
-  stripe = Stripe(environment.stripePublishableKey);
-
-  paymentInfo: PaymentInfo = new PaymentInfo();
-  cardElement: any;
-  displayError: any = '';
-
-  isDisabled: boolean = false;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private countryStateService: CountryStateService,
-    private cartService: CartService,
-    private checkoutService: CheckoutService,
-    private router: Router
-  ) {
-    this.countryStateService.getCountries().subscribe((data) => {
-      this.countries = data;
-    });
   }
 
   ngOnInit(): void {

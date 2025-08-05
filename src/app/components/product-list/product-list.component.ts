@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { ProductService } from '../../services/product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../common/models/product';
 import { CartItem } from '../../common/models/cart-item';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
-  standalone: false,
+  imports: [CommonModule, RouterModule],
 })
 export class ProductListComponent {
   products: Product[] = [];
