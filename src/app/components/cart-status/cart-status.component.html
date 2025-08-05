@@ -1,22 +1,3 @@
-<div class="cart-area d-flex align-items-center ms-3">
-
-  <!-- Cart link -->
-  <a routerLink="/cart-details" class="cart-link d-flex align-items-center text-decoration-none">
-
-    <!-- Cart icon wrapper -->
-    <div class="cart-icon-wrapper position-relative">
-      <i class="fa fa-shopping-cart cart-icon" aria-hidden="true"></i>
-
-      <!-- ✅ Bootstrap badge -->
-      <span *ngIf="totalQuantity > 0" class="badge bg-danger rounded-pill cart-badge">
-        {{ totalQuantity }}
-      </span>
-    </div>
-
-    <!-- ✅ Total price (now always visible) -->
-    <div class="cart-total-text ms-3">
-      {{ totalPrice | currency:'USD' }}
-    </div>
-
-  </a>
-</div>
+<p-overlaybadge [value]="totalQuantity" severity="danger">
+  <i class="pi pi-shopping-cart" style="font-size: 1.5rem;"></i>
+</p-overlaybadge>
