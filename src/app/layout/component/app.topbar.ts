@@ -10,11 +10,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { CartStatusComponent } from "@/components/cart-status/cart-status.component";
+import { LoginStatusComponent } from "@/components/login-status/login-status.component";
 
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, IconFieldModule, InputIconModule, InputTextModule, BadgeModule, OverlayBadgeModule, CartStatusComponent],
+    imports: [RouterModule, CommonModule, StyleClassModule, IconFieldModule, InputIconModule, InputTextModule, BadgeModule, OverlayBadgeModule, CartStatusComponent, LoginStatusComponent],
     template: ` <div class="layout-topbar">
         <div class="layout-topbar-logo-container">
             <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
@@ -48,10 +49,7 @@ import { CartStatusComponent } from "@/components/cart-status/cart-status.compon
                             <app-cart-status></app-cart-status>
                         </a>
                     </button>
-                    <button type="button" class="layout-topbar-action">
-                        <i class="pi pi-user"></i>
-                        <span>Profile</span>
-                    </button>
+                    <app-login-status></app-login-status>
                 </div>
             </div>
         </div>

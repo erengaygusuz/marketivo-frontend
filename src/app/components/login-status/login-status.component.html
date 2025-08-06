@@ -1,28 +1,37 @@
 <div class="login-status-header flex-wrap align-items-center">
 
-  <!-- Show if authenticated -->
-  <div *ngIf="isAuthenticated" class="login-status-user-info">
-    Welcome back {{ userEmail }}!
-  </div>
-
   <!-- Login button -->
-  <button *ngIf="!isAuthenticated" (click)="login()" class="security-btn">
-    Login
+  <button type="button" class="layout-topbar-action" *ngIf="!isAuthenticated" (click)="login()">
+    <div class="flex items-center">
+      <i class="pi pi-sign-in"></i>
+      <span>Login</span>
+    </div>
   </button>
 
-  <!-- Logout button -->
-  <button *ngIf="isAuthenticated" (click)="logout()" class="security-btn">
-    Logout
+  <button type="button" class="layout-topbar-action" *ngIf="isAuthenticated" (click)="logout()">
+    <div class="flex items-center">
+      <i class="pi pi-sign-out"></i>
+      <span>Logout</span>
+    </div>
   </button>
 
-  <!-- Member link -->
-  <button *ngIf="isAuthenticated" routerLink="/members" class="security-btn">
-    Member
+  <button type="button" class="layout-topbar-action" *ngIf="isAuthenticated">
+    <a routerLink="/members" class="flex items-center">
+      <i class="pi pi-briefcase"></i>
+      <span>Member</span>
+    </a>
   </button>
 
-  <!-- Order History link -->
-  <button *ngIf="isAuthenticated" routerLink="/order-history" class="security-btn">
-    Order History
+  <button type="button" class="layout-topbar-action" *ngIf="isAuthenticated">
+    <a routerLink="/order-history" class="flex items-center">
+      <i class="pi pi-box"></i>
+      <span>Order History</span>
+    </a>
+  </button>
+
+  <button type="button" class="layout-topbar-action" *ngIf="isAuthenticated">
+    <i class="pi pi-user"></i>
+    <span>Welcome back {{ userEmail }}!</span>
   </button>
 
 </div>
