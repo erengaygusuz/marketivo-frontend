@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { OrderHistoryService } from '../../services/order-history.service';
 import { OrderHistory } from '../../common/models/order-history';
 import { CommonModule } from '@angular/common';
+import { TableModule } from 'primeng/table';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-order-history-component',
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.css',
-  imports: [CommonModule],
+  imports: [CommonModule, TableModule, MessageModule],
 })
 export class OrderHistoryComponent {
   orderHistoryList: OrderHistory[] = [];

@@ -1,30 +1,31 @@
-<div class="main-content">
-    <div class="section-content section-content-p30">
-        <div class="container-fluid">
-            <h3>Your Orders</h3>
-            <div *ngIf="orderHistoryList.length > 0">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th width="20%">Order Tracking Number</th>
-                            <th width="20%">Total Price</th>
-                            <th width="20%">Total Quantity</th>
-                            <th width="20%">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let order of orderHistoryList">
-                            <td>{{ order.orderTrackingNumber }}</td>
-                            <td>{{ order.totalPrice | currency: 'USD' }}</td>
-                            <td>{{ order.totalQuantity }}</td>
-                            <td>{{ order.dateCreated | date:'medium' }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div *ngIf="orderHistoryList.length === 0" class="alert alert-warning col-md-12" role="alert">
-                No orders found.
-            </div>
-        </div>
+<div class="card">
+    <div class="font-semibold text-xl mb-4">Your Orders</div>
+    <div *ngIf="orderHistoryList.length > 0">
+        <p-table [value]="orderHistoryList" [scrollable]="true" scrollHeight="680px"
+            [tableStyle]="{ 'min-width': '60rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 25%">Order Tracking Number</th>
+                    <th style="width: 25%">Total Price</th>
+                    <th style="width: 25%">Total Quantity</th>
+                    <th style="width: 25%">Date</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-order>
+                <tr>
+                    <td>{{ order.orderTrackingNumber }}</td>
+                    <td>{{ order.totalPrice | currency: 'USD' }}</td>
+                    <td>{{ order.totalQuantity }}</td>
+                    <td>{{ order.dateCreated | date:'medium' }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <div *ngIf="orderHistoryList.length === 0">
+        <p-message severity="info" [closable]="false">
+            <ng-template pTemplate>
+                <span>No orders found.</span>
+            </ng-template>
+        </p-message>
     </div>
 </div>
