@@ -214,8 +214,9 @@
                     <div id="card-element-wrapper" style="width: 100%;">
                         <div id="card-element" style="padding: 12px; border: 1px solid #ccc; border-radius: 4px;"
                             class="mb-2"></div>
-                        <p-message *ngIf="displayError" severity="error" size="small" variant="simple">{{ displayError
-                            }}</p-message>
+                        @if (displayError) {
+                            <p-message severity="error" size="small" variant="simple">{{ displayError }}</p-message>
+                        }
                     </div>
                 </div>
             </div>

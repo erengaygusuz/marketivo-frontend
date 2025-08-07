@@ -1,37 +1,41 @@
 <div class="login-status-header flex-wrap align-items-center">
 
   <!-- Login button -->
-  <button type="button" class="layout-topbar-action" *ngIf="!isAuthenticated" (click)="login()">
-    <div class="flex items-center">
-      <i class="pi pi-sign-in"></i>
-      <span>Login</span>
-    </div>
-  </button>
+  @if (!isAuthenticated) {
+    <button type="button" class="layout-topbar-action" (click)="login()">
+      <div class="flex items-center">
+        <i class="pi pi-sign-in"></i>
+        <span>Login</span>
+      </div>
+    </button>
+  }
 
-  <button type="button" class="layout-topbar-action" *ngIf="isAuthenticated" (click)="logout()">
-    <div class="flex items-center">
-      <i class="pi pi-sign-out"></i>
-      <span>Logout</span>
-    </div>
-  </button>
+  @if (isAuthenticated) {
+    <button type="button" class="layout-topbar-action" (click)="logout()">
+      <div class="flex items-center">
+        <i class="pi pi-sign-out"></i>
+        <span>Logout</span>
+      </div>
+    </button>
 
-  <button type="button" class="layout-topbar-action" *ngIf="isAuthenticated">
-    <a routerLink="/members" class="flex items-center">
-      <i class="pi pi-briefcase"></i>
-      <span>Member</span>
-    </a>
-  </button>
+    <button type="button" class="layout-topbar-action">
+      <a routerLink="/members" class="flex items-center">
+        <i class="pi pi-briefcase"></i>
+        <span>Member</span>
+      </a>
+    </button>
 
-  <button type="button" class="layout-topbar-action" *ngIf="isAuthenticated">
-    <a routerLink="/order-history" class="flex items-center">
-      <i class="pi pi-box"></i>
-      <span>Order History</span>
-    </a>
-  </button>
+    <button type="button" class="layout-topbar-action">
+      <a routerLink="/order-history" class="flex items-center">
+        <i class="pi pi-box"></i>
+        <span>Order History</span>
+      </a>
+    </button>
 
-  <button type="button" class="layout-topbar-action" *ngIf="isAuthenticated">
-    <i class="pi pi-user"></i>
-    <span>Welcome back {{ userEmail }}!</span>
-  </button>
+    <button type="button" class="layout-topbar-action">
+      <i class="pi pi-user"></i>
+      <span>Welcome back {{ userEmail }}!</span>
+    </button>
+  }
 
 </div>
