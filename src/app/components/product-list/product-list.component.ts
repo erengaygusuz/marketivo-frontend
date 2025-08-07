@@ -11,19 +11,22 @@ import { TagModule } from "primeng/tag";
 import { ButtonModule } from "primeng/button";
 import { PickListModule } from "primeng/picklist";
 import { OrderListModule } from "primeng/orderlist";
+import { MessageModule } from 'primeng/message';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
-  imports: [CommonModule, RouterModule, FormsModule, DataViewModule, SelectButtonModule, TagModule, ButtonModule, PickListModule, OrderListModule],
+  imports: [CommonModule, RouterModule, FormsModule, DataViewModule, SelectButtonModule, TagModule, ButtonModule, PickListModule, OrderListModule, MessageModule],
 })
 export class ProductListComponent {
   products: Product[] = [];
   currentCategoryId: number = 1;
   previousCategoryId: number = 1;
   searchMode: boolean = false;
+  isLoading: boolean = true;
+  errorMessage: string = '';
 
   thePageNumber: number = 1;
   thePageSize: number = 5;
@@ -48,6 +51,10 @@ export class ProductListComponent {
   }
 
   listProducts() {
+    console.log('Loading products...');
+    this.isLoading = true;
+    this.errorMessage = '';
+    
     this.searchMode = this.route.snapshot.paramMap.has('keyword');
 
     if (this.searchMode) {
@@ -68,7 +75,19 @@ export class ProductListComponent {
 
     this.productService
       .searchProductsPaginate(this.thePageNumber - 1, this.thePageSize, keyword)
-      .subscribe(this.processResult());
+      .subscribe({
+        next: (data) => {
+          console.log('Search products response:', data);
+          this.processResult()(data);
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error searching products:', error);
+          this.errorMessage = 'Failed to search products. Please try again.';
+          this.products = [];
+          this.isLoading = false;
+        }
+      });
   }
 
   handleListProducts() {
@@ -91,7 +110,19 @@ export class ProductListComponent {
         this.thePageSize,
         this.currentCategoryId
       )
-      .subscribe(this.processResult());
+      .subscribe({
+        next: (data) => {
+          console.log('Products list response:', data);
+          this.processResult()(data);
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading products:', error);
+          this.errorMessage = 'Failed to load products. Please try again.';
+          this.products = [];
+          this.isLoading = false;
+        }
+      });
   }
 
   updatePageSize(pageSize: string) {
