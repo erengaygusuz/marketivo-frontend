@@ -1,29 +1,26 @@
 <div class="flex flex-col">
     <div class="card">
         <div class="font-semibold text-xl mb-4">Products</div>
-        
-        <!-- Loading State -->
+
         @if (isLoading) {
-            <div class="text-center py-8">
-                <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
-                <p class="mt-2">Loading products...</p>
-            </div>
+        <div class="text-center py-8">
+            <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+            <p class="mt-2">Loading products...</p>
+        </div>
         }
-        
-        <!-- Error State -->
+
         @if (!isLoading && errorMessage) {
-            <div>
-                <p-message severity="error" [closable]="false">
-                    <ng-template pTemplate>
-                        <span>{{ errorMessage }}</span>
-                    </ng-template>
-                </p-message>
-            </div>
+        <div>
+            <p-message severity="error" [closable]="false">
+                <ng-template pTemplate>
+                    <span>{{ errorMessage }}</span>
+                </ng-template>
+            </p-message>
+        </div>
         }
-        
-        <!-- Products Data View -->
+
         @if (!isLoading && !errorMessage && products.length > 0) {
-            <p-dataview [value]="products" [layout]="layout">
+        <p-dataview [value]="products" [layout]="layout">
             <ng-template #header>
                 <div class="flex justify-end">
                     <p-select-button [(ngModel)]="layout" [options]="options" [allowEmpty]="false">
@@ -38,33 +35,33 @@
             <ng-template #list let-items>
                 <div class="flex flex-col">
                     @for (item of items; track item.id; let i = $index) {
-                        <div class="flex flex-col sm:flex-row sm:items-center p-6 gap-4"
-                            [ngClass]="{ 'border-t border-surface': i !== 0 }">
-                            <div class="md:w-40 relative">
-                                <a routerLink="/products/{{ item.id }}">
-                                    <img class="block xl:block mx-auto rounded w-full" src="{{item.imageUrl}}"
-                                        [alt]="item.name" />
-                                </a>
-                            </div>
-                            <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
-                                <div class="flex flex-row md:flex-col justify-between items-start gap-2">
-                                    <div>
-                                        <a routerLink="/products/{{ item.id }}">
-                                            <div class="text-lg font-medium mt-2">{{ item.name }}</div>
-                                        </a>
-                                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center p-6 gap-4"
+                        [ngClass]="{ 'border-t border-surface': i !== 0 }">
+                        <div class="md:w-40 relative">
+                            <a routerLink="/products/{{ item.id }}">
+                                <img class="block xl:block mx-auto rounded w-full" src="{{item.imageUrl}}"
+                                    [alt]="item.name" />
+                            </a>
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
+                            <div class="flex flex-row md:flex-col justify-between items-start gap-2">
+                                <div>
+                                    <a routerLink="/products/{{ item.id }}">
+                                        <div class="text-lg font-medium mt-2">{{ item.name }}</div>
+                                    </a>
                                 </div>
-                                <div class="flex flex-col md:items-end gap-8">
-                                    <span class="text-xl font-semibold">$ {{ item.unitPrice }}</span>
-                                    <div class="flex flex-row-reverse md:flex-row gap-2">
-                                        <p-button icon="pi pi-shopping-cart" label="Add to Cart"
-                                            [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
-                                            styleClass="flex-auto md:flex-initial whitespace-nowrap"
-                                            (click)="addToCart(item)"></p-button>
-                                    </div>
+                            </div>
+                            <div class="flex flex-col md:items-end gap-8">
+                                <span class="text-xl font-semibold">$ {{ item.unitPrice }}</span>
+                                <div class="flex flex-row-reverse md:flex-row gap-2">
+                                    <p-button icon="pi pi-shopping-cart" label="Add to Cart"
+                                        [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
+                                        styleClass="flex-auto md:flex-initial whitespace-nowrap"
+                                        (click)="addToCart(item)"></p-button>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     }
                 </div>
             </ng-template>
@@ -72,51 +69,56 @@
             <ng-template #grid let-items>
                 <div class="grid grid-cols-12 gap-4">
                     @for (item of items; track item.id; let i = $index) {
-                        <div class="col-span-12 sm:col-span-6 lg:col-span-4 p-2">
-                            <div
-                                class="p-6 border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded flex flex-col">
-                                <div class="relative w-full shadow-sm">
-                                    <a routerLink="/products/{{ item.id }}">
-                                        <img class="rounded w-full" src="{{item.imageUrl}}" [alt]="item.name" />
-                                    </a>
-                                </div>
-                                <div class="pt-12">
-                                    <div class="flex flex-row justify-between items-start gap-2">
-                                        <div>
-                                            <a routerLink="/products/{{ item.id }}">
-                                                <div class="text-lg font-medium mt-1">
-                                                    {{ item.name }}
-                                                </div>
-                                            </a>
-                                        </div>
+                    <div class="col-span-12 sm:col-span-6 lg:col-span-4 p-2">
+                        <div
+                            class="p-6 border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded flex flex-col">
+                            <div class="relative w-full shadow-sm">
+                                <a routerLink="/products/{{ item.id }}">
+                                    <img class="rounded w-full" src="{{item.imageUrl}}" [alt]="item.name" />
+                                </a>
+                            </div>
+                            <div class="pt-12">
+                                <div class="flex flex-row justify-between items-start gap-2">
+                                    <div>
+                                        <a routerLink="/products/{{ item.id }}">
+                                            <div class="text-lg font-medium mt-1">
+                                                {{ item.name }}
+                                            </div>
+                                        </a>
                                     </div>
-                                    <div class="flex flex-col gap-6 mt-6">
-                                        <span class="text-2xl font-semibold">$ {{ item.unitPrice }}</span>
-                                        <div class="flex gap-2">
-                                            <p-button icon="pi pi-shopping-cart" label="Add to Cart"
-                                                [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
-                                                class="flex-auto whitespace-nowrap" styleClass="w-full"
-                                                (click)="addToCart(item)"></p-button>
-                                        </div>
+                                </div>
+                                <div class="flex flex-col gap-6 mt-6">
+                                    <span class="text-2xl font-semibold">$ {{ item.unitPrice }}</span>
+                                    <div class="flex gap-2">
+                                        <p-button icon="pi pi-shopping-cart" label="Add to Cart"
+                                            [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
+                                            class="flex-auto whitespace-nowrap" styleClass="w-full"
+                                            (click)="addToCart(item)"></p-button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     }
                 </div>
             </ng-template>
         </p-dataview>
-        }
         
-        <!-- No Products Found -->
+        <div class="flex flex-col items-center mt-4">
+            <p-paginator [rows]="thePageSize" [totalRecords]="theTotalElements"
+                [first]="(thePageNumber - 1) * thePageSize" [rowsPerPageOptions]="[5, 10, 20, 50]"
+                (onPageChange)="onPageChange($event)" styleClass="w-full"></p-paginator>
+        </div>
+        }
+
         @if (!isLoading && !errorMessage && products.length === 0) {
-            <div>
-                <p-message severity="info" [closable]="false">
-                    <ng-template pTemplate>
-                        <span>No products found. Try adjusting your search or browse different categories.</span>
-                    </ng-template>
-                </p-message>
-            </div>
+        <div>
+            <p-message severity="info" [closable]="false">
+                <ng-template pTemplate>
+                    <span>No products found. Try adjusting your search or browse different categories.</span>
+                </ng-template>
+            </p-message>
+        </div>
         }
     </div>
 </div>
