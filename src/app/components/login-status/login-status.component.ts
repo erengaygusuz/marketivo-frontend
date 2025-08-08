@@ -1,12 +1,13 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-login-status',
   templateUrl: './login-status.component.html',
   styleUrls: ['./login-status.component.css'],
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
 })
 export class LoginStatusComponent {
   isAuthenticated: boolean = false;
