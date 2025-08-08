@@ -8,9 +8,9 @@
         "watch": "ng build --watch --configuration development",
         "format": "prettier --write \"**/*.{js,mjs,ts,mts,d.ts,html}\" --cache",
         "test": "ng test",
-        "start:development": "ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=development",
-        "start:staging": "ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=staging",
-        "start:production": "ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=production"
+        "dev": "ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=development",
+        "stage": "ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=staging",
+        "prod": "ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=production"
     },
     "private": true,
     "dependencies": {

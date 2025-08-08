@@ -3,7 +3,7 @@ export default {
     domain: 'dev-p2akft8jby3faqa5.us.auth0.com',
     clientId: '4Bt3FnArUUElthacdpLdxSszDTczN1VI',
     authorizationParams: {
-      redirect_uri: window.location.origin,
+      redirect_uri: window.location.origin + '/login/callback',
       audience: 'https://marketivo.erengaygusuz.com.tr/api',
     },
   },
