@@ -7,6 +7,7 @@ import { ProductListComponent } from '@/components/product-list/product-list.com
 import { OrderHistoryComponent } from '@/components/order-history/order-history.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { MembersPageComponent } from '@/components/members-page/members-page.component';
+import { ProfilePageComponent } from '@/components/profile-page/profile-page.component';
 import { AuthCallbackComponent } from '@/components/auth-callback/auth-callback.component';
 
 export const appRoutes: Routes = [
@@ -21,6 +22,11 @@ export const appRoutes: Routes = [
             {
                 path: 'members',
                 component: MembersPageComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'profile',
+                component: ProfilePageComponent,
                 canActivate: [AuthGuard]
             },
             {

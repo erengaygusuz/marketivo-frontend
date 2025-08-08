@@ -12,7 +12,7 @@ import { AuthService } from '@auth0/auth0-angular';
 export class LoginStatusComponent {
   isAuthenticated: boolean = false;
   profileJson: string | undefined;
-  userEmail: string | undefined;
+  userDisplayName: string | undefined;
   storage: Storage = sessionStorage;
 
   constructor(
@@ -26,8 +26,9 @@ export class LoginStatusComponent {
       console.log('User is authenticated: ', this.isAuthenticated);
     });
     this.auth.user$.subscribe((user) => {
-      this.userEmail = user?.email;
-      this.storage.setItem('userEmail', JSON.stringify(this.userEmail));
+      // Prefer 'name', fallback to 'nickname', fallback to email
+      this.userDisplayName = user?.name || user?.nickname || user?.email;
+      this.storage.setItem('userDisplayName', JSON.stringify(this.userDisplayName));
     });
   }
 

@@ -9,16 +9,31 @@ import { ProductService } from '@/services/product.service';
     selector: 'app-menu',
     standalone: true,
     imports: [CommonModule, AppMenuitem, RouterModule],
-    template: `<ul class="layout-menu">
-        @for (item of model; track item.label; let i = $index) {
-            @if (!item.separator) {
-                <li app-menuitem [item]="item" [index]="i" [root]="true"></li>
-            }
-            @if (item.separator) {
-                <li class="menu-separator"></li>
+    template: `
+    <ul class="layout-menu">
+        @if (isLoading) {
+            <li class="text-center py-4">
+                <i class="pi pi-spin pi-spinner" style="font-size: 1.5rem"></i>
+                <div>Loading categories...</div>
+            </li>
+        }
+        @if (!isLoading && errorMessage) {
+            <li class="text-center py-4 text-red-500">
+                {{ errorMessage }}
+            </li>
+        }
+        @if (!isLoading && !errorMessage) {
+            @for (item of model; track item.label; let i = $index) {
+                @if (!item.separator) {
+                    <li app-menuitem [item]="item" [index]="i" [root]="true"></li>
+                }
+                @if (item.separator) {
+                    <li class="menu-separator"></li>
+                }
             }
         }
-    </ul> `
+    </ul>
+    `
 })
 export class AppMenu {
     model: MenuItem[] = [
@@ -26,6 +41,8 @@ export class AppMenu {
             items: []
         }
     ];
+    isLoading: boolean = true;
+    errorMessage: string = '';
 
     constructor(private productService: ProductService) {}
 
@@ -34,12 +51,22 @@ export class AppMenu {
     }
 
     listProductCategories(): void {
-        this.productService.getProductCategories().subscribe((data) => {
-            this.model[0].label = 'Categories';
-            this.model[0].items = data.map((category) => ({
-                label: category.categoryName,
-                routerLink: [`/category/${category.id}`]
-            }));
+        this.isLoading = true;
+        this.errorMessage = '';
+        this.productService.getProductCategories().subscribe({
+            next: (data) => {
+                this.model[0].label = 'Categories';
+                this.model[0].items = data.map((category) => ({
+                    label: category.categoryName,
+                    routerLink: [`/category/${category.id}`]
+                }));
+                this.isLoading = false;
+            },
+            error: (error) => {
+                this.errorMessage = 'Failed to load categories. Please try again.';
+                this.model[0].items = [];
+                this.isLoading = false;
+            }
         });
     }
 }
