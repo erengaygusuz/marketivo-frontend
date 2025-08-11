@@ -6,11 +6,12 @@ import { TableModule } from "primeng/table";
 import { ButtonModule } from "primeng/button";
 import { MessageModule } from 'primeng/message';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart-details',
   templateUrl: './cart-details.component.html',
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule, MessageModule]
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, MessageModule, TranslateModule]
 })
 export class CartDetailsComponent {
   cartItems: CartItem[] = [];

@@ -6,12 +6,13 @@ import { TableModule } from 'primeng/table';
 import { MessageModule } from 'primeng/message';
 import { ButtonModule } from 'primeng/button';
 import { Subject } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-history-component',
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.css',
-  imports: [CommonModule, TableModule, MessageModule, ButtonModule],
+  imports: [CommonModule, TableModule, MessageModule, ButtonModule, TranslateModule],
 })
 export class OrderHistoryComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();

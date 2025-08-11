@@ -1,6 +1,6 @@
 <div class="flex flex-col">
     <div class="card">
-        <div class="font-semibold text-xl mb-4">Profile</div>
+        <div class="font-semibold text-xl mb-4">{{ 'Profile.Title' | translate }}</div>
         
         <div class="flex flex-col lg:flex-row items-center lg:items-start p-6 gap-6">
             <!-- User Photo -->
@@ -14,12 +14,12 @@
                     <p-table [value]="[user]" [scrollable]="true" scrollHeight="auto">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th class="text-sm md:text-base">Name</th>
-                                <th class="text-sm md:text-base">Email</th>
-                                <th class="text-sm md:text-base hidden sm:table-cell">Member Since</th>
-                                <th class="text-sm md:text-base">Username</th>
-                                <th class="text-sm md:text-base hidden md:table-cell">Phone</th>
-                                <th class="text-sm md:text-base hidden lg:table-cell">Address</th>
+                                <th class="text-sm md:text-base">{{ 'Profile.Name' | translate }}</th>
+                                <th class="text-sm md:text-base">{{ 'Profile.Email' | translate }}</th>
+                                <th class="text-sm md:text-base hidden sm:table-cell">{{ 'Profile.MemberSince' | translate }}</th>
+                                <th class="text-sm md:text-base">{{ 'Profile.Username' | translate }}</th>
+                                <th class="text-sm md:text-base hidden md:table-cell">{{ 'Profile.Phone' | translate }}</th>
+                                <th class="text-sm md:text-base hidden lg:table-cell">{{ 'Profile.Address' | translate }}</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-userInfo>

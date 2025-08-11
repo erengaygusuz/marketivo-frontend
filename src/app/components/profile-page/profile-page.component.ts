@@ -5,11 +5,12 @@ import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { AuthService } from '@auth0/auth0-angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [CommonModule, CardModule, DividerModule, ButtonModule, TableModule],
+  imports: [CommonModule, CardModule, DividerModule, ButtonModule, TableModule, TranslateModule],
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss']
 })

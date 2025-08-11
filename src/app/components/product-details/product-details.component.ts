@@ -6,12 +6,13 @@ import { Product } from '../../common/models/product';
 import { CartItem } from '../../common/models/cart-item';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css'],
-  imports: [CommonModule, ButtonModule, RouterModule],
+  imports: [CommonModule, ButtonModule, RouterModule, TranslateModule],
 })
 export class ProductDetailsComponent {
   product!: Product;

@@ -1,11 +1,11 @@
 <div class="flex flex-col">
     <div class="card">
-        <div class="font-semibold text-xl mb-4">Products</div>
+        <div class="font-semibold text-xl mb-4">{{ 'ProductList.Title' | translate }}</div>
 
         @if (isLoading) {
         <div class="text-center py-8">
             <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
-            <p class="mt-2">Loading products...</p>
+            <p class="mt-2">{{ 'Common.Loading' | translate }}</p>
         </div>
         }
 
@@ -54,7 +54,7 @@
                             <div class="flex flex-col md:items-end gap-8">
                                 <span class="text-xl font-semibold">$ {{ item.unitPrice }}</span>
                                 <div class="flex flex-row-reverse md:flex-row gap-2">
-                                    <p-button icon="pi pi-shopping-cart" label="Add to Cart"
+                                    <p-button icon="pi pi-shopping-cart" [label]="'ProductList.AddToCart' | translate"
                                         [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
                                         styleClass="flex-auto md:flex-initial whitespace-nowrap"
                                         (click)="addToCart(item)"></p-button>
@@ -90,7 +90,7 @@
                                 <div class="flex flex-col gap-6 mt-6">
                                     <span class="text-2xl font-semibold">$ {{ item.unitPrice }}</span>
                                     <div class="flex gap-2">
-                                        <p-button icon="pi pi-shopping-cart" label="Add to Cart"
+                                        <p-button icon="pi pi-shopping-cart" [label]="'ProductList.AddToCart' | translate"
                                             [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
                                             class="flex-auto whitespace-nowrap" styleClass="w-full"
                                             (click)="addToCart(item)"></p-button>
@@ -115,7 +115,7 @@
         <div>
             <p-message severity="info" [closable]="false">
                 <ng-template pTemplate>
-                    <span>No products found. Try adjusting your search or browse different categories.</span>
+                    <span>{{ 'ProductList.NoProductsFound' | translate }}</span>
                 </ng-template>
             </p-message>
         </div>

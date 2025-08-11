@@ -5,7 +5,7 @@
     <button type="button" class="layout-topbar-action" (click)="login()">
       <div class="flex items-center">
         <i class="pi pi-sign-in"></i>
-        <span>Login</span>
+        <span>{{ 'Auth.Login' | translate }}</span>
       </div>
     </button>
   }
@@ -14,28 +14,28 @@
     <button type="button" class="layout-topbar-action">
       <a routerLink="/members" class="flex items-center">
         <i class="pi pi-briefcase"></i>
-        <span>Member</span>
+        <span>{{ 'Navigation.Member' | translate }}</span>
       </a>
     </button>
 
     <button type="button" class="layout-topbar-action">
       <a routerLink="/order-history" class="flex items-center">
         <i class="pi pi-box"></i>
-        <span>Order History</span>
+        <span>{{ 'Navigation.OrderHistory' | translate }}</span>
       </a>
     </button>
 
     <button type="button" class="layout-topbar-action">
       <a routerLink="/profile" class="flex items-center">
         <i class="pi pi-user"></i>
-        <span>Welcome back {{ userDisplayName }}!</span>
+        <span>{{ 'Auth.WelcomeBack' | translate }} {{ userDisplayName }}!</span>
       </a>
     </button>
 
     <button type="button" class="layout-topbar-action" (click)="logout()">
       <div class="flex items-center">
         <i class="pi pi-sign-out"></i>
-        <span>Logout</span>
+        <span>{{ 'Auth.Logout' | translate }}</span>
       </div>
     </button>
   }

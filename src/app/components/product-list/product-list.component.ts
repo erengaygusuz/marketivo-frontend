@@ -14,12 +14,13 @@ import { OrderListModule } from 'primeng/orderlist';
 import { MessageModule } from 'primeng/message';
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule } from 'primeng/paginator';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-product-list',
     templateUrl: './product-list.component.html',
     styleUrl: './product-list.component.css',
-    imports: [CommonModule, RouterModule, FormsModule, DataViewModule, SelectButtonModule, TagModule, ButtonModule, PickListModule, OrderListModule, MessageModule, PaginatorModule]
+    imports: [CommonModule, RouterModule, FormsModule, DataViewModule, SelectButtonModule, TagModule, ButtonModule, PickListModule, OrderListModule, MessageModule, PaginatorModule, TranslateModule]
 })
 export class ProductListComponent {
     products: Product[] = [];

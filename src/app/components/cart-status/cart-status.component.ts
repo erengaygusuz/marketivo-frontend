@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
 import { OverlayBadgeModule } from "primeng/overlaybadge";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart-status',
   templateUrl: './cart-status.component.html',
   styleUrls: ['./cart-status.component.css'],
-  imports: [CommonModule, OverlayBadgeModule],
+  imports: [CommonModule, OverlayBadgeModule, TranslateModule],
 })
 export class CartStatusComponent {
   totalPrice: number = 0.0;

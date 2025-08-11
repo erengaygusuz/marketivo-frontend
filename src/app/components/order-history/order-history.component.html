@@ -1,10 +1,10 @@
 <div class="card">
     <div class="flex justify-between items-center mb-4">
-        <div class="font-semibold text-xl">Your Orders</div>
+        <div class="font-semibold text-xl">{{ 'OrderHistory.Title' | translate }}</div>
         <button class="btn btn-outline-primary" (click)="refreshOrders()" 
                 [disabled]="isLoading" style="padding: 0.5rem 1rem; border: 1px solid #007bff; background: transparent; color: #007bff; border-radius: 4px; cursor: pointer;">
             <i class="pi pi-refresh" [class.pi-spin]="isLoading"></i>
-            <span class="ml-2">{{ isLoading ? 'Loading...' : 'Refresh' }}</span>
+            <span class="ml-2">{{ isLoading ? ('Common.Loading' | translate) : ('OrderHistory.Refresh' | translate) }}</span>
         </button>
     </div>
     
@@ -12,7 +12,7 @@
     @if (isLoading) {
         <div class="text-center py-4">
             <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
-            <p class="mt-2">Loading your orders...</p>
+            <p class="mt-2">{{ 'OrderHistory.LoadingOrders' | translate }}</p>
         </div>
     }
     

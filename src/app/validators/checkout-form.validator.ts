@@ -42,27 +42,27 @@ export class CustomerValidator extends Validator<CustomerData> {
 
         this.ruleFor('firstName')
             .notEmpty()
-            .withMessage('First name is required')
+            .withMessage('Validation.FirstNameRequired')
             .minLength(2)
-            .withMessage('First name must be at least 2 characters')
+            .withMessage('Validation.FirstNameMinLength')
             .must(this.notOnlyWhitespace)
-            .withMessage('First name cannot contain only whitespace');
+            .withMessage('Validation.FirstNameWhitespace');
 
         this.ruleFor('lastName')
             .notEmpty()
-            .withMessage('Last name is required')
+            .withMessage('Validation.LastNameRequired')
             .minLength(2)
-            .withMessage('Last name must be at least 2 characters')
+            .withMessage('Validation.LastNameMinLength')
             .must(this.notOnlyWhitespace)
-            .withMessage('Last name cannot contain only whitespace');
+            .withMessage('Validation.LastNameWhitespace');
 
         this.ruleFor('email')
             .notEmpty()
-            .withMessage('Email is required')
+            .withMessage('Validation.EmailRequired')
             .emailAddress()
-            .withMessage('Please enter a valid email address')
+            .withMessage('Validation.EmailInvalid')
             .must(this.notOnlyWhitespace)
-            .withMessage('Email cannot contain only whitespace');
+            .withMessage('Validation.EmailWhitespace');
     }
 
     private notOnlyWhitespace = (value: string): boolean => {
@@ -76,35 +76,35 @@ export class AddressValidator extends Validator<AddressData> {
 
         this.ruleFor('street')
             .notEmpty()
-            .withMessage('Street is required')
+            .withMessage('Validation.StreetRequired')
             .minLength(2)
-            .withMessage('Street must be at least 2 characters')
+            .withMessage('Validation.StreetMinLength')
             .must(this.notOnlyWhitespace)
-            .withMessage('Street cannot contain only whitespace');
+            .withMessage('Validation.StreetWhitespace');
 
         this.ruleFor('city')
             .notEmpty()
-            .withMessage('City is required')
+            .withMessage('Validation.CityRequired')
             .minLength(2)
-            .withMessage('City must be at least 2 characters')
+            .withMessage('Validation.CityMinLength')
             .must(this.notOnlyWhitespace)
-            .withMessage('City cannot contain only whitespace');
+            .withMessage('Validation.CityWhitespace');
 
         this.ruleFor('state')
             .must(this.isValidSelection)
-            .withMessage('State is required');
+            .withMessage('Validation.StateRequired');
 
         this.ruleFor('country')
             .must(this.isValidSelection)
-            .withMessage('Country is required');
+            .withMessage('Validation.CountryRequired');
 
         this.ruleFor('zipCode')
             .notEmpty()
-            .withMessage('Zip code is required')
+            .withMessage('Validation.ZipCodeRequired')
             .minLength(2)
-            .withMessage('Zip code must be at least 2 characters')
+            .withMessage('Validation.ZipCodeMinLength')
             .must(this.notOnlyWhitespace)
-            .withMessage('Zip code cannot contain only whitespace');
+            .withMessage('Validation.ZipCodeWhitespace');
     }
 
     private notOnlyWhitespace = (value: string): boolean => {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn, FormGroup } from '@angular/forms';
 import { CheckoutFormValidator, CheckoutFormData } from '../validators/checkout-form.validator';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Generic Fluent Validation Service
@@ -60,6 +61,8 @@ import { CheckoutFormValidator, CheckoutFormData } from '../validators/checkout-
 })
 export class FluentValidationService {
     private checkoutValidator = new CheckoutFormValidator();
+
+    constructor(private translate: TranslateService) {}
 
     /**
      * Creates a validator function that can be used with Angular reactive forms
@@ -135,7 +138,10 @@ export class FluentValidationService {
      */
     getFieldErrorMessage(control: any): string {
         if (control && control.errors && control.errors['fluentValidation']) {
-            return control.errors['fluentValidation'];
+            const translationKey = control.errors['fluentValidation'];
+            // Try to translate the key, fallback to the key itself if translation is not found
+            const translatedMessage = this.translate.instant(translationKey);
+            return translatedMessage !== translationKey ? translatedMessage : translationKey;
         }
         return '';
     }

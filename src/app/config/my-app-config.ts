@@ -13,4 +13,8 @@ export default {
       'https://marketivo.erengaygusuz.com.tr/api/checkout/purchase',
     ],
   },
+  i18n: {
+    defaultLanguage: 'en-US',
+    supportedLanguages: ['en-US', 'tr-TR'],
+  },
 };

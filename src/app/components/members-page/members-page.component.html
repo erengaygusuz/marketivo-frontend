@@ -2,16 +2,16 @@
     <div class="card">
         <div class="text-center p-4">
             <i class="pi pi-star text-6xl text-yellow-500 mb-3"></i>
-            <h2 class="text-2xl font-bold text-primary m-0">Members Special</h2>
+            <h2 class="text-2xl font-bold text-primary m-0">{{ 'Members.Title' | translate }}</h2>
         </div>
         
         <div class="text-center">
-            <p class="text-lg font-semibold text-green-600 mb-4">Thank you for being a member!</p>
+            <p class="text-lg font-semibold text-green-600 mb-4">{{ 'Members.ThankYou' | translate }}</p>
             
-            <p class="text-lg mb-4">Member discounts are coming soon!</p>
+            <p class="text-lg mb-4">{{ 'Members.DiscountsComingSoon' | translate }}</p>
             
             <p-button 
-                label="Explore Products" 
+                [label]="'Members.ExploreProducts' | translate" 
                 icon="pi pi-shopping-cart" 
                 styleClass="p-button-lg"
                 routerLink="/products">
