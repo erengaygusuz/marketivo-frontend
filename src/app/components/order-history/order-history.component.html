@@ -20,9 +20,7 @@
     @if (!isLoading && errorMessage) {
         <div>
             <p-message severity="error" [closable]="false">
-                <ng-template pTemplate>
-                    <span>{{ errorMessage }}</span>
-                </ng-template>
+                <span>{{ errorMessage }}</span>
             </p-message>
         </div>
     }
@@ -34,10 +32,10 @@
                 [tableStyle]="{ 'min-width': '60rem' }">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 25%">Order Tracking Number</th>
-                        <th style="width: 25%">Total Price</th>
-                        <th style="width: 25%">Total Quantity</th>
-                        <th style="width: 25%">Date</th>
+                        <th style="width: 25%">{{ 'OrderHistory.TrackingNumber' | translate }}</th>
+                        <th style="width: 25%">{{ 'OrderHistory.Total' | translate }}</th>
+                        <th style="width: 25%">{{ 'Cart.TotalQuantity' | translate }}</th>
+                        <th style="width: 25%">{{ 'OrderHistory.Date' | translate }}</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-order>
@@ -56,9 +54,7 @@
     @if (!isLoading && !errorMessage && orderHistoryList.length === 0) {
         <div>
             <p-message severity="info" [closable]="false">
-                <ng-template pTemplate>
-                    <span>No orders found. Start shopping to see your order history!</span>
-                </ng-template>
+                <span>{{ 'OrderHistory.NoOrdersMessage' | translate }}</span>
             </p-message>
         </div>
     }

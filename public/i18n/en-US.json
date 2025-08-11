@@ -148,9 +148,18 @@
     "Total": "Total",
     "ViewDetails": "View Details",
     "NoOrders": "No orders found",
+    "NoOrdersMessage": "You haven't placed any orders yet. Start shopping to see your order history!",
+    "StartShopping": "Start Shopping",
     "TrackingNumber": "Tracking Number",
     "Refresh": "Refresh",
-    "LoadingOrders": "Loading your orders..."
+    "LoadingOrders": "Loading your orders...",
+    "Errors": {
+      "NoUserEmail": "User authentication required. Please log in to view your order history.",
+      "LoadFailed": "Failed to load order history. Please try again.",
+      "AuthenticationFailed": "Authentication failed. Please log in again.",
+      "AccessDenied": "Access denied. You do not have permission to view orders.",
+      "ServiceNotFound": "Order service not found."
+    }
   },
   "Profile": {
     "Title": "Profile",

@@ -148,9 +148,18 @@
     "Total": "Toplam",
     "ViewDetails": "Detayları Gör",
     "NoOrders": "Sipariş bulunamadı",
+    "NoOrdersMessage": "Henüz hiç siparişiniz yok. Sipariş geçmişinizi görmek için alışverişe başlayın!",
+    "StartShopping": "Alışverişe Başla",
     "TrackingNumber": "Takip Numarası",
     "Refresh": "Yenile",
-    "LoadingOrders": "Siparişleriniz yükleniyor..."
+    "LoadingOrders": "Siparişleriniz yükleniyor...",
+    "Errors": {
+      "NoUserEmail": "Kullanıcı kimlik doğrulaması gerekli. Sipariş geçmişinizi görüntülemek için giriş yapın.",
+      "LoadFailed": "Sipariş geçmişi yüklenemedi. Lütfen tekrar deneyin.",
+      "AuthenticationFailed": "Kimlik doğrulama başarısız. Lütfen tekrar giriş yapın.",
+      "AccessDenied": "Erişim reddedildi. Siparişleri görüntüleme izniniz yok.",
+      "ServiceNotFound": "Sipariş servisi bulunamadı."
+    }
   },
   "Profile": {
     "Title": "Profil",

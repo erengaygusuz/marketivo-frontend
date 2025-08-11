@@ -30,6 +30,11 @@ export class LoginStatusComponent {
       // Prefer 'name', fallback to 'nickname', fallback to email
       this.userDisplayName = user?.name || user?.nickname || user?.email;
       this.storage.setItem('userDisplayName', JSON.stringify(this.userDisplayName));
+      
+      // Store user email for order history and checkout
+      if (user?.email) {
+        this.storage.setItem('userEmail', JSON.stringify(user.email));
+      }
     });
   }
 
@@ -38,6 +43,10 @@ export class LoginStatusComponent {
   }
 
   logout(): void {
+    // Clear stored user data
+    this.storage.removeItem('userEmail');
+    this.storage.removeItem('userDisplayName');
+    
     this.auth.logout({
       logoutParams: {
         returnTo: this.doc.location.origin,

@@ -6,7 +6,7 @@ import { TableModule } from 'primeng/table';
 import { MessageModule } from 'primeng/message';
 import { ButtonModule } from 'primeng/button';
 import { Subject } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-history-component',
@@ -22,7 +22,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   errorMessage: string = '';
 
   constructor(
-    private orderHistoryService: OrderHistoryService
+    private orderHistoryService: OrderHistoryService,
+    private translate: TranslateService
   ) {
     
   }
@@ -51,7 +52,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     
     if (!userEmail) {
       console.error('No user email found in sessionStorage');
-      this.errorMessage = 'No user email found. Please log in again.';
+      this.errorMessage = this.translate.instant('OrderHistory.Errors.NoUserEmail');
       this.isLoading = false;
       return;
     }
@@ -72,16 +73,16 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error fetching order history:', error);
-        this.errorMessage = 'Failed to load order history. Please try again.';
+        this.errorMessage = this.translate.instant('OrderHistory.Errors.LoadFailed');
         this.orderHistoryList = [];
         this.isLoading = false;
         
         if (error.status === 401) {
-          this.errorMessage = 'Authentication failed. Please log in again.';
+          this.errorMessage = this.translate.instant('OrderHistory.Errors.AuthenticationFailed');
         } else if (error.status === 403) {
-          this.errorMessage = 'Access denied. You do not have permission to view orders.';
+          this.errorMessage = this.translate.instant('OrderHistory.Errors.AccessDenied');
         } else if (error.status === 404) {
-          this.errorMessage = 'Order service not found.';
+          this.errorMessage = this.translate.instant('OrderHistory.Errors.ServiceNotFound');
         }
       }
     });

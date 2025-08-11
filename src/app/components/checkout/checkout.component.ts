@@ -47,7 +47,7 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
 
     storage: Storage = sessionStorage;
 
-    userEmail: string = JSON.parse(this.storage.getItem('userEmail')!);
+    userEmail: string = this.getUserEmailFromStorage();
 
     checkoutFormGroup: FormGroup = new FormGroup({});
 
@@ -76,6 +76,11 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         });
 
         this.initializeForm();
+    }
+
+    private getUserEmailFromStorage(): string {
+        const userEmailFromStorage = this.storage.getItem('userEmail');
+        return userEmailFromStorage ? JSON.parse(userEmailFromStorage) : '';
     }
 
     private initializeForm() {
