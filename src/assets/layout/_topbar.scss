@@ -99,10 +99,21 @@
 
 @media (max-width: 991px) {
     .layout-topbar {
-        padding: 0 2rem;
+        padding: 0 1rem; // Reduced padding for mobile
 
         .layout-topbar-logo-container {
             width: auto;
+            flex: 1; // Take remaining space when logo is hidden
+        }
+
+        // Hide logo on mobile
+        .layout-topbar-logo {
+            display: none !important;
+        }
+
+        // Hide search field on mobile
+        p-iconfield {
+            display: none !important;
         }
 
         .layout-menu-button {
@@ -124,7 +135,7 @@
                 0px 1px 4px rgba(0, 0, 0, 0.08);
             border-radius: var(--content-border-radius);
             padding: 1rem;
-            right: 2rem;
+            right: 1rem; // Adjusted for reduced padding
             top: 4rem;
             min-width: 15rem;
             border: 1px solid var(--surface-border);
@@ -155,6 +166,37 @@
 
         .layout-topbar-menu-content {
             flex-direction: column;
+        }
+
+        .layout-topbar-actions {
+            margin-left: auto;
+        }
+    }
+}
+
+// Additional mobile styles for smaller devices
+@media (max-width: 767px) {
+    .layout-topbar {
+        padding: 0 0.5rem; // Further reduced padding for small mobile
+
+        .layout-topbar-logo-container {
+            justify-content: flex-start;
+        }
+
+        // Ensure logo stays hidden on smaller devices too
+        .layout-topbar-logo {
+            display: none !important;
+        }
+
+        // Ensure search field stays hidden on smaller devices too
+        p-iconfield {
+            display: none !important;
+        }
+
+        .layout-topbar-menu {
+            right: 0.5rem;
+            min-width: calc(100vw - 1rem);
+            max-width: 20rem;
         }
     }
 }
