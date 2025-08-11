@@ -1,81 +1,26 @@
 {
   "Common": {
-    "Loading": "Yükleniyor...",
-    "Search": "Ara",
-    "Clear": "Temizle",
-    "Save": "Kaydet",
-    "Cancel": "İptal",
-    "Delete": "Sil",
-    "Edit": "Düzenle",
-    "Add": "Ekle",
-    "Update": "Güncelle",
-    "Back": "Geri",
-    "Next": "İleri",
-    "Previous": "Önceki",
-    "Submit": "Gönder",
-    "Reset": "Sıfırla",
-    "Select": "Seç",
-    "None": "Hiçbiri",
-    "All": "Hepsi",
-    "Yes": "Evet",
-    "No": "Hayır",
-    "Close": "Kapat",
-    "Open": "Aç",
-    "Export": "Dışa Aktar",
-    "Import": "İçe Aktar",
-    "Download": "İndir",
-    "Upload": "Yükle",
-    "Print": "Yazdır",
-    "Share": "Paylaş",
-    "Copy": "Kopyala",
-    "Cut": "Kes",
-    "Paste": "Yapıştır",
-    "Refresh": "Yenile"
+    "Loading": "Yükleniyor..."
   },
   "Navigation": {
-    "Home": "Ana Sayfa",
-    "Products": "Ürünler",
     "Categories": "Kategoriler",
-    "Cart": "Sepet",
-    "Checkout": "Ödeme",
-    "Orders": "Siparişler",
-    "Profile": "Profil",
-    "Login": "Giriş",
-    "Logout": "Çıkış",
-    "Dashboard": "Ana Panel",
-    "Settings": "Ayarlar",
     "OrderHistory": "Sipariş Geçmişi",
     "LoadingCategories": "Kategoriler yükleniyor...",
     "FailedToLoadCategories": "Kategoriler yüklenemedi. Lütfen tekrar deneyin."
   },
   "ProductList": {
     "Title": "Ürünler",
-    "SearchPlaceholder": "Ürün ara...",
-    "NoProductsFound": "Ürün bulunamadı. Aramanızı ayarlayın veya farklı kategorilere göz atın.",
-    "Category": "Kategori",
-    "Price": "Fiyat",
     "AddToCart": "Sepete Ekle",
-    "ViewDetails": "Detayları Görüntüle",
-    "OutOfStock": "Stokta Yok",
-    "InStock": "Stokta",
-    "LowStock": "Düşük Stok"
+    "NoProductsFound": "Ürün bulunamadı. Aramanızı ayarlayın veya farklı kategorilere göz atın."
   },
   "ProductDetails": {
-    "Title": "Ürün Detayları",
     "Description": "Açıklama",
-    "Price": "Fiyat",
-    "SKU": "SKU",
-    "Availability": "Mevcudiyet",
-    "Quantity": "Miktar",
     "AddToCart": "Sepete Ekle",
     "BackToProducts": "Ürünlere Dön"
   },
   "Cart": {
     "Title": "Sepet Detayları",
     "EmptyCart": "Sepetiniz boş",
-    "Items": "Ürünler",
-    "Subtotal": "Ara Toplam",
-    "Total": "Toplam",
     "TotalPrice": "Toplam Fiyat",
     "TotalQuantity": "Toplam Miktar",
     "Shipping": "Kargo",
@@ -85,16 +30,10 @@
     "Quantity": "Miktar",
     "Remove": "Kaldır",
     "Checkout": "Ödeme",
-    "ContinueShopping": "Alışverişe Devam Et",
-    "ProceedToCheckout": "Ödemeye Geç",
-    "ItemAdded": "Ürün sepete eklendi",
-    "ItemRemoved": "Ürün sepetten kaldırıldı",
-    "ItemUpdated": "Sepet güncellendi"
+    "Subtotal": "Ara Toplam"
   },
   "Checkout": {
-    "Title": "Ödeme",
     "Customer": "Müşteri",
-    "CustomerInformation": "Müşteri Bilgileri",
     "ShippingAddress": "Teslimat Adresi",
     "BillingAddress": "Fatura Adresi",
     "PaymentInformation": "Ödeme Bilgileri",
@@ -109,10 +48,7 @@
     "ZipCode": "Posta Kodu",
     "SameAsShipping": "Teslimat adresi ile aynı",
     "PlaceOrder": "Siparişi Ver",
-    "Processing": "İşleniyor...",
     "SelectOne": "Birini Seçin",
-    "OrderSuccess": "Sipariş başarıyla verildi!",
-    "OrderError": "Sipariş işlenirken hata oluştu",
     "TotalQuantity": "Toplam Adet",
     "Shipping": "Kargo",
     "FreeShipping": "ÜCRETSİZ",
@@ -127,33 +63,16 @@
     "PaymentIntentErrorDetail": "Ödeme amacı oluşturulurken bir hata oluştu: {{error}}"
   },
   "CreditCard": {
-    "IncompleteCardNumber": "Kart numaranız eksik.",
-    "IncompleteExpiryDate": "Kartınızın son kullanma tarihi eksik.",
-    "IncompleteCVC": "Kartınızın güvenlik kodu eksik.",
-    "IncompletePostalCode": "Posta kodunuz eksik.",
-    "InvalidCardNumber": "Kart numaranız geçersiz.",
-    "InvalidExpiryDate": "Kartınızın son kullanma tarihi geçersiz.",
-    "InvalidCVC": "Kartınızın güvenlik kodu geçersiz.",
-    "ExpiredCard": "Kartınızın süresi dolmuş.",
-    "ExpiredYear": "Kartınızın son kullanma yılı geçmişte.",
-    "DeclinedCard": "Kartınız reddedildi.",
-    "UnsupportedCard": "Kartınız bu tür satın alımları desteklemiyor.",
-    "ProcessingError": "Kartınız işlenirken bir hata oluştu. Biraz sonra tekrar deneyin.",
-    "TestModeError": "Kartınız reddedildi. İsteğiniz test modundaydı, ancak test dışı kart kullanıldı."
+    "ExpiredYear": "Kartınızın son kullanma yılı geçmişte."
   },
   "OrderHistory": {
     "Title": "Siparişleriniz",
-    "OrderNumber": "Sipariş Numarası",
     "Date": "Tarih",
-    "Status": "Durum",
     "Total": "Toplam",
-    "ViewDetails": "Detayları Görüntüle",
-    "NoOrders": "Sipariş bulunamadı",
-    "NoOrdersMessage": "Henüz hiç siparişiniz yok. Sipariş geçmişinizi görmek için alışverişe başlayın!",
-    "StartShopping": "Alışverişe Başla",
     "TrackingNumber": "Takip Numarası",
     "Refresh": "Yenile",
     "LoadingOrders": "Siparişleriniz yükleniyor...",
+    "NoOrdersMessage": "Henüz hiç siparişiniz yok. Sipariş geçmişinizi görmek için alışverişe başlayın!",
     "Errors": {
       "NoUserEmail": "Kullanıcı kimlik doğrulaması gerekli. Sipariş geçmişinizi görüntülemek için giriş yapın.",
       "LoadFailed": "Sipariş geçmişi yüklenemedi. Lütfen tekrar deneyin.",
@@ -164,10 +83,6 @@
   },
   "Profile": {
     "Title": "Profil",
-    "PersonalInformation": "Kişisel Bilgiler",
-    "ChangePassword": "Şifre Değiştir",
-    "UpdateProfile": "Profili Güncelle",
-    "ProfileUpdated": "Profil başarıyla güncellendi",
     "Name": "Ad",
     "Email": "E-posta",
     "MemberSince": "Üye Olma Tarihi",
@@ -184,22 +99,9 @@
   "Auth": {
     "Login": "Giriş",
     "Logout": "Çıkış",
-    "Register": "Kayıt Ol",
-    "ForgotPassword": "Şifremi Unuttum",
-    "RememberMe": "Beni Hatırla",
-    "LoginSuccess": "Giriş başarılı",
-    "LoginError": "Giriş başarısız",
-    "LogoutSuccess": "Çıkış başarılı",
     "WelcomeBack": "Tekrar hoş geldiniz"
   },
   "Validation": {
-    "Required": "Bu alan gereklidir",
-    "Email": "Lütfen geçerli bir e-posta adresi girin",
-    "MinLength": "Minimum uzunluk {{min}} karakterdir",
-    "MaxLength": "Maksimum uzunluk {{max}} karakterdir",
-    "Pattern": "Lütfen geçerli bir format girin",
-    "Min": "Minimum değer {{min}}",
-    "Max": "Maksimum değer {{max}}",
     "FirstNameRequired": "Ad gereklidir",
     "FirstNameMinLength": "Ad en az 2 karakter olmalıdır",
     "FirstNameWhitespace": "Ad sadece boşluk içeremez",
@@ -221,34 +123,9 @@
     "ZipCodeMinLength": "Posta kodu en az 2 karakter olmalıdır",
     "ZipCodeWhitespace": "Posta kodu sadece boşluk içeremez"
   },
-  "Toast": {
-    "Success": {
-      "Summary": "Başarılı",
-      "Detail": "İşlem başarıyla tamamlandı"
-    },
-    "Error": {
-      "Summary": "Hata",
-      "Detail": "Bir hata oluştu"
-    },
-    "Warning": {
-      "Summary": "Uyarı",
-      "Detail": "Lütfen girişinizi kontrol edin"
-    },
-    "Info": {
-      "Summary": "Bilgi",
-      "Detail": "Bilgi mesajı"
-    }
-  },
   "Components": {
     "LanguageSelector": {
       "SelectLanguage": "Dil Seç"
-    },
-    "Pagination": {
-      "First": "İlk",
-      "Previous": "Önceki",
-      "Next": "Sonraki",
-      "Last": "Son",
-      "Showing": "{{totalRecords}} kayıttan {{first}} - {{last}} arası gösteriliyor"
     }
   },
   "Search": {

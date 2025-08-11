@@ -1,81 +1,26 @@
 {
   "Common": {
-    "Loading": "Loading...",
-    "Search": "Search",
-    "Clear": "Clear",
-    "Save": "Save",
-    "Cancel": "Cancel",
-    "Delete": "Delete",
-    "Edit": "Edit",
-    "Add": "Add",
-    "Update": "Update",
-    "Back": "Back",
-    "Next": "Next",
-    "Previous": "Previous",
-    "Submit": "Submit",
-    "Reset": "Reset",
-    "Select": "Select",
-    "None": "None",
-    "All": "All",
-    "Yes": "Yes",
-    "No": "No",
-    "Close": "Close",
-    "Open": "Open",
-    "Export": "Export",
-    "Import": "Import",
-    "Download": "Download",
-    "Upload": "Upload",
-    "Print": "Print",
-    "Share": "Share",
-    "Copy": "Copy",
-    "Cut": "Cut",
-    "Paste": "Paste",
-    "Refresh": "Refresh"
+    "Loading": "Loading..."
   },
   "Navigation": {
-    "Home": "Home",
-    "Products": "Products",
     "Categories": "Categories",
-    "Cart": "Cart",
-    "Checkout": "Checkout",
-    "Orders": "Orders",
-    "Profile": "Profile",
-    "Login": "Login",
-    "Logout": "Logout",
-    "Dashboard": "Dashboard",
-    "Settings": "Settings",
     "OrderHistory": "Order History",
     "LoadingCategories": "Loading categories...",
     "FailedToLoadCategories": "Failed to load categories. Please try again."
   },
   "ProductList": {
     "Title": "Products",
-    "SearchPlaceholder": "Search products...",
-    "NoProductsFound": "No products found. Try adjusting your search or browse different categories.",
-    "Category": "Category",
-    "Price": "Price",
     "AddToCart": "Add to Cart",
-    "ViewDetails": "View Details",
-    "OutOfStock": "Out of Stock",
-    "InStock": "In Stock",
-    "LowStock": "Low Stock"
+    "NoProductsFound": "No products found. Try adjusting your search or browse different categories."
   },
   "ProductDetails": {
-    "Title": "Product Details",
     "Description": "Description",
-    "Price": "Price",
-    "SKU": "SKU",
-    "Availability": "Availability",
-    "Quantity": "Quantity",
     "AddToCart": "Add to Cart",
     "BackToProducts": "Back to Product List"
   },
   "Cart": {
     "Title": "Cart Details",
     "EmptyCart": "Your cart is empty",
-    "Items": "Items",
-    "Subtotal": "Subtotal",
-    "Total": "Total",
     "TotalPrice": "Total Price",
     "TotalQuantity": "Total Quantity",
     "Shipping": "Shipping",
@@ -85,16 +30,10 @@
     "Quantity": "Quantity",
     "Remove": "Remove",
     "Checkout": "Checkout",
-    "ContinueShopping": "Continue Shopping",
-    "ProceedToCheckout": "Proceed to Checkout",
-    "ItemAdded": "Item added to cart",
-    "ItemRemoved": "Item removed from cart",
-    "ItemUpdated": "Cart updated"
+    "Subtotal": "Subtotal"
   },
   "Checkout": {
-    "Title": "Checkout",
     "Customer": "Customer",
-    "CustomerInformation": "Customer Information",
     "ShippingAddress": "Shipping Address",
     "BillingAddress": "Billing Address",
     "PaymentInformation": "Payment Information",
@@ -109,10 +48,7 @@
     "ZipCode": "Zip Code",
     "SameAsShipping": "Same as shipping address",
     "PlaceOrder": "Place Order",
-    "Processing": "Processing...",
     "SelectOne": "Select One",
-    "OrderSuccess": "Order placed successfully!",
-    "OrderError": "Error processing order",
     "TotalQuantity": "Total Quantity",
     "Shipping": "Shipping",
     "FreeShipping": "FREE",
@@ -127,33 +63,16 @@
     "PaymentIntentErrorDetail": "There was an error creating the payment intent: {{error}}"
   },
   "CreditCard": {
-    "IncompleteCardNumber": "Your card number is incomplete.",
-    "IncompleteExpiryDate": "Your card's expiration date is incomplete.",
-    "IncompleteCVC": "Your card's security code is incomplete.",
-    "IncompletePostalCode": "Your postal code is incomplete.",
-    "InvalidCardNumber": "Your card number is invalid.",
-    "InvalidExpiryDate": "Your card's expiration date is invalid.",
-    "InvalidCVC": "Your card's security code is invalid.",
-    "ExpiredCard": "Your card has expired.",
-    "ExpiredYear": "Your card's expiration year is in the past.",
-    "DeclinedCard": "Your card was declined.",
-    "UnsupportedCard": "Your card does not support this type of purchase.",
-    "ProcessingError": "An error occurred while processing your card. Try again in a little bit.",
-    "TestModeError": "Your card was declined. Your request was in test mode, but used a non test card."
+    "ExpiredYear": "Your card's expiration year is in the past."
   },
   "OrderHistory": {
     "Title": "Your Orders",
-    "OrderNumber": "Order Number",
     "Date": "Date",
-    "Status": "Status",
     "Total": "Total",
-    "ViewDetails": "View Details",
-    "NoOrders": "No orders found",
-    "NoOrdersMessage": "You haven't placed any orders yet. Start shopping to see your order history!",
-    "StartShopping": "Start Shopping",
     "TrackingNumber": "Tracking Number",
     "Refresh": "Refresh",
     "LoadingOrders": "Loading your orders...",
+    "NoOrdersMessage": "You haven't placed any orders yet. Start shopping to see your order history!",
     "Errors": {
       "NoUserEmail": "User authentication required. Please log in to view your order history.",
       "LoadFailed": "Failed to load order history. Please try again.",
@@ -164,10 +83,6 @@
   },
   "Profile": {
     "Title": "Profile",
-    "PersonalInformation": "Personal Information",
-    "ChangePassword": "Change Password",
-    "UpdateProfile": "Update Profile",
-    "ProfileUpdated": "Profile updated successfully",
     "Name": "Name",
     "Email": "Email",
     "MemberSince": "Member Since",
@@ -184,22 +99,9 @@
   "Auth": {
     "Login": "Login",
     "Logout": "Logout",
-    "Register": "Register",
-    "ForgotPassword": "Forgot Password",
-    "RememberMe": "Remember Me",
-    "LoginSuccess": "Login successful",
-    "LoginError": "Login failed",
-    "LogoutSuccess": "Logout successful",
     "WelcomeBack": "Welcome back"
   },
   "Validation": {
-    "Required": "This field is required",
-    "Email": "Please enter a valid email address",
-    "MinLength": "Minimum length is {{min}} characters",
-    "MaxLength": "Maximum length is {{max}} characters",
-    "Pattern": "Please enter a valid format",
-    "Min": "Minimum value is {{min}}",
-    "Max": "Maximum value is {{max}}",
     "FirstNameRequired": "First name is required",
     "FirstNameMinLength": "First name must be at least 2 characters",
     "FirstNameWhitespace": "First name cannot contain only whitespace",
@@ -221,34 +123,9 @@
     "ZipCodeMinLength": "Zip code must be at least 2 characters",
     "ZipCodeWhitespace": "Zip code cannot contain only whitespace"
   },
-  "Toast": {
-    "Success": {
-      "Summary": "Success",
-      "Detail": "Operation completed successfully"
-    },
-    "Error": {
-      "Summary": "Error",
-      "Detail": "An error occurred"
-    },
-    "Warning": {
-      "Summary": "Warning",
-      "Detail": "Please check your input"
-    },
-    "Info": {
-      "Summary": "Information",
-      "Detail": "Information message"
-    }
-  },
   "Components": {
     "LanguageSelector": {
       "SelectLanguage": "Select Language"
-    },
-    "Pagination": {
-      "First": "First",
-      "Previous": "Previous",
-      "Next": "Next",
-      "Last": "Last",
-      "Showing": "Showing {{first}} to {{last}} of {{totalRecords}} entries"
     }
   },
   "Search": {
