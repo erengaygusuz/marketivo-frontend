@@ -6,7 +6,6 @@ import { ProductDetailsComponent } from '@/components/product-details/product-de
 import { ProductListComponent } from '@/components/product-list/product-list.component';
 import { OrderHistoryComponent } from '@/components/order-history/order-history.component';
 import { AuthGuard } from '@auth0/auth0-angular';
-import { MembersPageComponent } from '@/components/members-page/members-page.component';
 import { ProfilePageComponent } from '@/components/profile-page/profile-page.component';
 import { AuthCallbackComponent } from '@/components/auth-callback/auth-callback.component';
 
@@ -18,11 +17,6 @@ export const appRoutes: Routes = [
             {
                 path: 'login/callback',
                 component: AuthCallbackComponent
-            },
-            {
-                path: 'members',
-                component: MembersPageComponent,
-                canActivate: [AuthGuard]
             },
             {
                 path: 'profile',

@@ -44,7 +44,6 @@
     "Logout": "Çıkış",
     "Dashboard": "Ana Panel",
     "Settings": "Ayarlar",
-    "Member": "Üye",
     "OrderHistory": "Sipariş Geçmişi",
     "LoadingCategories": "Kategoriler yükleniyor...",
     "FailedToLoadCategories": "Kategoriler yüklenemedi. Lütfen tekrar deneyin."
@@ -52,21 +51,21 @@
   "ProductList": {
     "Title": "Ürünler",
     "SearchPlaceholder": "Ürün ara...",
-    "NoProductsFound": "Ürün bulunamadı. Aramanızı değiştirmeyi deneyin veya farklı kategorilere göz atın.",
+    "NoProductsFound": "Ürün bulunamadı. Aramanızı ayarlayın veya farklı kategorilere göz atın.",
     "Category": "Kategori",
     "Price": "Fiyat",
     "AddToCart": "Sepete Ekle",
-    "ViewDetails": "Detayları Gör",
+    "ViewDetails": "Detayları Görüntüle",
     "OutOfStock": "Stokta Yok",
     "InStock": "Stokta",
-    "LowStock": "Az Stok"
+    "LowStock": "Düşük Stok"
   },
   "ProductDetails": {
     "Title": "Ürün Detayları",
     "Description": "Açıklama",
     "Price": "Fiyat",
-    "SKU": "Ürün Kodu",
-    "Availability": "Stok Durumu",
+    "SKU": "SKU",
+    "Availability": "Mevcudiyet",
     "Quantity": "Miktar",
     "AddToCart": "Sepete Ekle",
     "BackToProducts": "Ürünlere Dön"
@@ -111,9 +110,9 @@
     "SameAsShipping": "Teslimat adresi ile aynı",
     "PlaceOrder": "Siparişi Ver",
     "Processing": "İşleniyor...",
+    "SelectOne": "Birini Seçin",
     "OrderSuccess": "Sipariş başarıyla verildi!",
     "OrderError": "Sipariş işlenirken hata oluştu",
-    "SelectOne": "Birini Seçin",
     "TotalQuantity": "Toplam Adet",
     "Shipping": "Kargo",
     "FreeShipping": "ÜCRETSİZ",
@@ -138,9 +137,9 @@
     "ExpiredCard": "Kartınızın süresi dolmuş.",
     "ExpiredYear": "Kartınızın son kullanma yılı geçmişte.",
     "DeclinedCard": "Kartınız reddedildi.",
-    "UnsupportedCard": "Kartınız bu tür satın alma işlemini desteklemiyor.",
+    "UnsupportedCard": "Kartınız bu tür satın alımları desteklemiyor.",
     "ProcessingError": "Kartınız işlenirken bir hata oluştu. Biraz sonra tekrar deneyin.",
-    "TestModeError": "Kartınız reddedildi. İsteğiniz test modundaydı, ancak test dışı bir kart kullandınız."
+    "TestModeError": "Kartınız reddedildi. İsteğiniz test modundaydı, ancak test dışı kart kullanıldı."
   },
   "OrderHistory": {
     "Title": "Siparişleriniz",
@@ -148,7 +147,7 @@
     "Date": "Tarih",
     "Status": "Durum",
     "Total": "Toplam",
-    "ViewDetails": "Detayları Gör",
+    "ViewDetails": "Detayları Görüntüle",
     "NoOrders": "Sipariş bulunamadı",
     "NoOrdersMessage": "Henüz hiç siparişiniz yok. Sipariş geçmişinizi görmek için alışverişe başlayın!",
     "StartShopping": "Alışverişe Başla",
@@ -171,7 +170,7 @@
     "ProfileUpdated": "Profil başarıyla güncellendi",
     "Name": "Ad",
     "Email": "E-posta",
-    "MemberSince": "Üyelik Tarihi",
+    "MemberSince": "Üye Olma Tarihi",
     "Username": "Kullanıcı Adı",
     "Phone": "Telefon",
     "Address": "Adres",
@@ -179,7 +178,8 @@
     "NoEmailProvided": "E-posta bilgisi yok",
     "NoPhoneProvided": "Telefon bilgisi yok",
     "UnknownUser": "Bilinmeyen Kullanıcı",
-    "NotAvailable": "Mevcut Değil"
+    "NotAvailable": "Mevcut Değil",
+    "UserPhoto": "Kullanıcı Fotoğrafı"
   },
   "Auth": {
     "Login": "Giriş",
@@ -193,31 +193,31 @@
     "WelcomeBack": "Tekrar hoş geldiniz"
   },
   "Validation": {
-    "Required": "Bu alan zorunludur",
+    "Required": "Bu alan gereklidir",
     "Email": "Lütfen geçerli bir e-posta adresi girin",
     "MinLength": "Minimum uzunluk {{min}} karakterdir",
     "MaxLength": "Maksimum uzunluk {{max}} karakterdir",
     "Pattern": "Lütfen geçerli bir format girin",
     "Min": "Minimum değer {{min}}",
     "Max": "Maksimum değer {{max}}",
-    "FirstNameRequired": "Ad zorunludur",
+    "FirstNameRequired": "Ad gereklidir",
     "FirstNameMinLength": "Ad en az 2 karakter olmalıdır",
     "FirstNameWhitespace": "Ad sadece boşluk içeremez",
-    "LastNameRequired": "Soyad zorunludur",
+    "LastNameRequired": "Soyad gereklidir",
     "LastNameMinLength": "Soyad en az 2 karakter olmalıdır",
     "LastNameWhitespace": "Soyad sadece boşluk içeremez",
-    "EmailRequired": "E-posta zorunludur",
+    "EmailRequired": "E-posta gereklidir",
     "EmailInvalid": "Lütfen geçerli bir e-posta adresi girin",
     "EmailWhitespace": "E-posta sadece boşluk içeremez",
-    "StreetRequired": "Sokak adresi zorunludur",
-    "StreetMinLength": "Sokak adresi en az 2 karakter olmalıdır",
-    "StreetWhitespace": "Sokak adresi sadece boşluk içeremez",
-    "CityRequired": "Şehir zorunludur",
+    "StreetRequired": "Sokak gereklidir",
+    "StreetMinLength": "Sokak en az 2 karakter olmalıdır",
+    "StreetWhitespace": "Sokak sadece boşluk içeremez",
+    "CityRequired": "Şehir gereklidir",
     "CityMinLength": "Şehir en az 2 karakter olmalıdır",
     "CityWhitespace": "Şehir sadece boşluk içeremez",
-    "StateRequired": "Eyalet/İl zorunludur",
-    "CountryRequired": "Ülke zorunludur",
-    "ZipCodeRequired": "Posta kodu zorunludur",
+    "StateRequired": "Eyalet/İl gereklidir",
+    "CountryRequired": "Ülke gereklidir",
+    "ZipCodeRequired": "Posta kodu gereklidir",
     "ZipCodeMinLength": "Posta kodu en az 2 karakter olmalıdır",
     "ZipCodeWhitespace": "Posta kodu sadece boşluk içeremez"
   },
@@ -232,7 +232,7 @@
     },
     "Warning": {
       "Summary": "Uyarı",
-      "Detail": "Lütfen girişlerinizi kontrol edin"
+      "Detail": "Lütfen girişinizi kontrol edin"
     },
     "Info": {
       "Summary": "Bilgi",
@@ -241,7 +241,7 @@
   },
   "Components": {
     "LanguageSelector": {
-      "SelectLanguage": "Dil Seçin"
+      "SelectLanguage": "Dil Seç"
     },
     "Pagination": {
       "First": "İlk",
@@ -250,12 +250,6 @@
       "Last": "Son",
       "Showing": "{{totalRecords}} kayıttan {{first}} - {{last}} arası gösteriliyor"
     }
-  },
-  "Members": {
-    "Title": "Üye Özel",
-    "ThankYou": "Üye olduğunuz için teşekkür ederiz!",
-    "DiscountsComingSoon": "Üye indirimleri yakında geliyor!",
-    "ExploreProducts": "Ürünleri Keşfet"
   },
   "Search": {
     "Placeholder": "Ürün ara..."

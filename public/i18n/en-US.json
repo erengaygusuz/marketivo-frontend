@@ -44,7 +44,6 @@
     "Logout": "Logout",
     "Dashboard": "Dashboard",
     "Settings": "Settings",
-    "Member": "Member",
     "OrderHistory": "Order History",
     "LoadingCategories": "Loading categories...",
     "FailedToLoadCategories": "Failed to load categories. Please try again."
@@ -179,7 +178,8 @@
     "NoEmailProvided": "No email provided",
     "NoPhoneProvided": "No phone provided",
     "UnknownUser": "Unknown User",
-    "NotAvailable": "N/A"
+    "NotAvailable": "N/A",
+    "UserPhoto": "User Photo"
   },
   "Auth": {
     "Login": "Login",
@@ -250,12 +250,6 @@
       "Last": "Last",
       "Showing": "Showing {{first}} to {{last}} of {{totalRecords}} entries"
     }
-  },
-  "Members": {
-    "Title": "Members Special",
-    "ThankYou": "Thank you for being a member!",
-    "DiscountsComingSoon": "Member discounts are coming soon!",
-    "ExploreProducts": "Explore Products"
   },
   "Search": {
     "Placeholder": "Search for products..."

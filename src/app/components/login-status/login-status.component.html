@@ -12,13 +12,6 @@
 
   @if (isAuthenticated) {
     <button type="button" class="layout-topbar-action">
-      <a routerLink="/members" class="flex items-center">
-        <i class="pi pi-briefcase"></i>
-        <span>{{ 'Navigation.Member' | translate }}</span>
-      </a>
-    </button>
-
-    <button type="button" class="layout-topbar-action">
       <a routerLink="/order-history" class="flex items-center">
         <i class="pi pi-box"></i>
         <span>{{ 'Navigation.OrderHistory' | translate }}</span>
