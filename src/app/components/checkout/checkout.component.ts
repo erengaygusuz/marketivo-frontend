@@ -1,12 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Country } from '../../common/models/country';
 import { State } from '../../common/models/state';
-import { CustomValidator } from '../../validators/custom-validator';
 import { PaymentInfo } from '../../common/models/payment-info';
 import { CountryStateService } from '../../services/country-state.service';
 import { Order } from '../../common/models/order';
@@ -23,6 +22,8 @@ import { loadStripe, Stripe, StripeCardElement, StripeElements } from '@stripe/s
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
+import { FluentValidationService } from '../../services/fluent-validation.service';
+import { CheckoutFormData } from '../../validators/checkout-form.validator';
 
 @Component({
     selector: 'app-checkout',
@@ -64,33 +65,43 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         private cartService: CartService,
         private checkoutService: CheckoutService,
         private router: Router,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private fluentValidationService: FluentValidationService
     ) {
         this.countryStateService.getCountries().subscribe((data) => {
             this.countries = data;
         });
 
+        this.initializeForm();
+    }
+
+    private initializeForm() {
         this.checkoutFormGroup = new FormGroup({
             customer: this.formBuilder.group({
-                firstName: new FormControl('', [Validators.required, Validators.minLength(2), CustomValidator.notOnlyWhitespace]),
-                lastName: new FormControl('', [Validators.required, Validators.minLength(2), CustomValidator.notOnlyWhitespace]),
-                email: new FormControl(this.userEmail, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), CustomValidator.notOnlyWhitespace])
+                firstName: new FormControl(''),
+                lastName: new FormControl(''),
+                email: new FormControl(this.userEmail)
             }),
             shippingAddress: this.formBuilder.group({
-                street: new FormControl('', [Validators.required, Validators.minLength(2), CustomValidator.notOnlyWhitespace]),
-                city: new FormControl('', [Validators.required, Validators.minLength(2), CustomValidator.notOnlyWhitespace]),
-                state: new FormControl('', [Validators.required]),
-                country: new FormControl('', [Validators.required]),
-                zipCode: new FormControl('', [Validators.required, Validators.minLength(2), CustomValidator.notOnlyWhitespace])
+                street: new FormControl(''),
+                city: new FormControl(''),
+                state: new FormControl(''),
+                country: new FormControl(''),
+                zipCode: new FormControl('')
             }),
             billingAddress: this.formBuilder.group({
-                street: new FormControl('', [Validators.required, Validators.minLength(2), CustomValidator.notOnlyWhitespace]),
-                city: new FormControl('', [Validators.required, Validators.minLength(2), CustomValidator.notOnlyWhitespace]),
-                state: new FormControl('', [Validators.required]),
-                country: new FormControl('', [Validators.required]),
-                zipCode: new FormControl('', [Validators.required, Validators.minLength(2), CustomValidator.notOnlyWhitespace])
+                street: new FormControl(''),
+                city: new FormControl(''),
+                state: new FormControl(''),
+                country: new FormControl(''),
+                zipCode: new FormControl('')
             }),
             creditCard: this.formBuilder.group({})
+        });
+
+        // Subscribe to form value changes to trigger validation
+        this.checkoutFormGroup.valueChanges.subscribe(() => {
+            this.validateForm();
         });
     }
 
@@ -102,6 +113,18 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
 
     ngOnInit() {
         this.reviewCartDetails();
+        // Trigger initial validation to show required field errors
+        this.validateForm();
+    }
+
+    private validateForm() {
+        const formData: CheckoutFormData = {
+            customer: this.checkoutFormGroup.controls['customer'].value,
+            shippingAddress: this.checkoutFormGroup.controls['shippingAddress'].value,
+            billingAddress: this.checkoutFormGroup.controls['billingAddress'].value
+        };
+
+        this.fluentValidationService.validateCheckoutForm(this.checkoutFormGroup, formData);
     }
 
     setupStripePaymentForm() {
@@ -138,15 +161,36 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
 
     onSubmit() {
         console.log('onSubmit called');
-        console.log('Form valid:', this.checkoutFormGroup.valid);
         console.log('Display error:', this.displayError);
         console.log('Total price:', this.totalPrice);
         console.log('Total quantity:', this.totalQuantity);
         console.log('Cart items:', this.cartService.cartItems);
         
-        if (this.checkoutFormGroup.invalid) {
-            console.log('Form is invalid, marking all touched');
-            this.checkoutFormGroup.markAllAsTouched();
+        // Prepare form data for fluent validation
+        const formData: CheckoutFormData = {
+            customer: this.checkoutFormGroup.controls['customer'].value,
+            shippingAddress: this.checkoutFormGroup.controls['shippingAddress'].value,
+            billingAddress: this.checkoutFormGroup.controls['billingAddress'].value
+        };
+
+        // Validate using fluent validation service
+        const hasValidationErrors = this.fluentValidationService.validateCheckoutForm(this.checkoutFormGroup, formData);
+
+        console.log('Form data being validated:', formData);
+        console.log('Has validation errors:', hasValidationErrors);
+
+        // Mark form as touched to show validation errors
+        this.checkoutFormGroup.markAllAsTouched();
+
+        if (hasValidationErrors) {
+            console.log('Form validation failed');
+            
+            // Additional debugging for dropdown fields
+            console.log('Country value:', this.checkoutFormGroup.get('shippingAddress.country')?.value);
+            console.log('State value:', this.checkoutFormGroup.get('shippingAddress.state')?.value);
+            console.log('Country control errors:', this.checkoutFormGroup.get('shippingAddress.country')?.errors);
+            console.log('State control errors:', this.checkoutFormGroup.get('shippingAddress.state')?.errors);
+            
             return;
         }
 
@@ -207,12 +251,12 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         this.paymentInfo.currency = 'USD';
         this.paymentInfo.receiptEmail = purchase.customer.email;
 
-        console.log('Validation check - Form valid:', !this.checkoutFormGroup.invalid);
+        console.log('Validation check - No validation errors:', !hasValidationErrors);
         console.log('Validation check - No display error:', !this.displayError);
         console.log('Payment info:', this.paymentInfo);
         console.log('Purchase object:', purchase);
 
-        if (!this.checkoutFormGroup.invalid && !this.displayError) {
+        if (!hasValidationErrors && !this.displayError) {
             console.log('Proceeding with payment...');
             this.isDisabled = true;
             this.checkoutService.createPaymentIntent(this.paymentInfo).subscribe({
@@ -287,7 +331,7 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
             });
         } else {
             console.log('Form validation failed or Stripe error present');
-            console.log('Form invalid:', this.checkoutFormGroup.invalid);
+            console.log('Has validation errors:', hasValidationErrors);
             console.log('Display error:', this.displayError);
             this.checkoutFormGroup.markAllAsTouched();
             return;
@@ -303,6 +347,20 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         this.checkoutFormGroup.reset();
 
         this.router.navigateByUrl('/products');
+    }
+
+    /**
+     * Delegate to service for template usage
+     */
+    hasFieldError(control: any): boolean {
+        return this.fluentValidationService.hasFieldError(control);
+    }
+
+    /**
+     * Delegate to service for template usage
+     */
+    getFieldErrorMessage(control: any): string {
+        return this.fluentValidationService.getFieldErrorMessage(control);
     }
 
     get firstName() {

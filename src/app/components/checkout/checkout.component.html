@@ -7,27 +7,15 @@
                     <div class="flex flex-wrap gap-2 w-full">
                         <label for="firstname2">Firstname</label>
                         <input pInputText id="firstname2" type="text" formControlName="firstName" />
-                        @if (firstName!.invalid && (firstName!.touched || firstName!.dirty)) {
-                        @if (firstName!.errors?.['required'] || firstName!.errors?.['notOnlyWhitespace']) {
-                        <p-message severity="error" size="small" variant="simple">Firstname is required.</p-message>
-                        }
-                        @if (firstName!.errors?.['minlength']) {
-                        <p-message severity="error" size="small" variant="simple">Firstname must be at least 2
-                            characters long.</p-message>
-                        }
+                        @if (hasFieldError(firstName)) {
+                        <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(firstName) }}</p-message>
                         }
                     </div>
                     <div class="flex flex-wrap gap-2 w-full">
                         <label for="lastname2">Lastname</label>
                         <input pInputText id="lastname2" type="text" formControlName="lastName" />
-                        @if (lastName!.invalid && (lastName!.touched || lastName!.dirty)) {
-                        @if (lastName!.errors?.['required'] || lastName!.errors?.['notOnlyWhitespace']) {
-                        <p-message severity="error" size="small" variant="simple">Lastname is required.</p-message>
-                        }
-                        @if (lastName!.errors?.['minlength']) {
-                        <p-message severity="error" size="small" variant="simple">Lastname must be at least 2
-                            characters long.</p-message>
-                        }
+                        @if (hasFieldError(lastName)) {
+                        <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(lastName) }}</p-message>
                         }
                     </div>
                 </div>
@@ -35,13 +23,8 @@
                 <div class="flex flex-wrap gap-2 ">
                     <label for="email">Email</label>
                     <input pInputText id="email" type="text" formControlName="email" />
-                    @if (email!.invalid && (email!.touched || email!.dirty)) {
-                    @if (email!.errors?.['required']) {
-                    <p-message severity="error" size="small" variant="simple">Email is required.</p-message>
-                    }
-                    @if (email!.errors?.['pattern']) {
-                    <p-message severity="error" size="small" variant="simple">Email is not valid.</p-message>
-                    }
+                    @if (hasFieldError(email)) {
+                    <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(email) }}</p-message>
                     }
                 </div>
             </div>
@@ -56,22 +39,16 @@
                             <p-select id="country" [options]="countries" optionLabel="name" placeholder="Select One"
                                 class="w-full" (onChange)="getStates('shippingAddress')"
                                 formControlName="country"></p-select>
-                            @if (shippingAddressCountry!.invalid && (shippingAddressCountry!.touched ||
-                            shippingAddressCountry!.dirty)) {
-                            @if (shippingAddressCountry!.errors?.['required'] ) {
-                            <p-message severity="error" size="small" variant="simple">Country is required.</p-message>
-                            }
+                            @if (hasFieldError(shippingAddressCountry)) {
+                            <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(shippingAddressCountry) }}</p-message>
                             }
                         </div>
                         <div class="flex flex-wrap gap-2 w-full">
                             <label for="state">State</label>
                             <p-select id="state" [options]="shippingAddressStates" optionLabel="name"
                                 placeholder="Select One" class="w-full" formControlName="state"></p-select>
-                            @if (shippingAddressState!.invalid && (shippingAddressState!.touched ||
-                            shippingAddressState!.dirty)) {
-                            @if (shippingAddressState!.errors?.['required'] ) {
-                            <p-message severity="error" size="small" variant="simple">State is required.</p-message>
-                            }
+                            @if (hasFieldError(shippingAddressState)) {
+                            <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(shippingAddressState) }}</p-message>
                             }
                         </div>
                     </div>
@@ -79,47 +56,23 @@
                         <div class="flex flex-wrap gap-2 w-full">
                             <label for="city">City</label>
                             <input pInputText id="city" type="text" formControlName="city" />
-                            @if (shippingAddressCity!.invalid && (shippingAddressCity!.touched ||
-                            shippingAddressCity!.dirty)) {
-                            @if (shippingAddressCity!.errors?.['required'] ||
-                            shippingAddressCity!.errors?.['notOnlyWhitespace']) {
-                            <p-message severity="error" size="small" variant="simple">City is required.</p-message>
-                            }
-                            @if (shippingAddressCity!.errors?.['minlength']) {
-                            <p-message severity="error" size="small" variant="simple">City must be at least 2
-                                characters long.</p-message>
-                            }
+                            @if (hasFieldError(shippingAddressCity)) {
+                            <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(shippingAddressCity) }}</p-message>
                             }
                         </div>
                         <div class="flex flex-wrap gap-2 w-full">
                             <label for="street">Street</label>
                             <input pInputText id="street" type="text" formControlName="street" />
-                            @if (shippingAddressStreet!.invalid && (shippingAddressStreet!.touched ||
-                            shippingAddressStreet!.dirty)) {
-                            @if (shippingAddressStreet!.errors?.['required'] ||
-                            shippingAddressStreet!.errors?.['notOnlyWhitespace']) {
-                            <p-message severity="error" size="small" variant="simple">Street is required.</p-message>
-                            }
-                            @if (shippingAddressStreet!.errors?.['minlength']) {
-                            <p-message severity="error" size="small" variant="simple">Street must be at least 2
-                                characters long.</p-message>
-                            }
+                            @if (hasFieldError(shippingAddressStreet)) {
+                            <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(shippingAddressStreet) }}</p-message>
                             }
                         </div>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         <label for="zipCode">Zip Code</label>
                         <input pInputText id="zipCode" type="text" formControlName="zipCode" />
-                        @if (shippingAddressZipCode!.invalid && (shippingAddressZipCode!.touched ||
-                        shippingAddressZipCode!.dirty)) {
-                        @if (shippingAddressZipCode!.errors?.['required'] ||
-                        shippingAddressZipCode!.errors?.['notOnlyWhitespace']) {
-                        <p-message severity="error" size="small" variant="simple">Zip Code is required.</p-message>
-                        }
-                        @if (shippingAddressZipCode!.errors?.['minlength']) {
-                        <p-message severity="error" size="small" variant="simple">Zip Code must be at least 2
-                            characters long.</p-message>
-                        }
+                        @if (hasFieldError(shippingAddressZipCode)) {
+                        <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(shippingAddressZipCode) }}</p-message>
                         }
                     </div>
                 </div>
@@ -138,22 +91,16 @@
                             <p-select id="country" [options]="countries" optionLabel="name" placeholder="Select One"
                                 class="w-full" (onChange)="getStates('billingAddress')"
                                 formControlName="country"></p-select>
-                            @if (billingAddressCountry!.invalid && (billingAddressCountry!.touched ||
-                            billingAddressCountry!.dirty)) {
-                            @if (billingAddressCountry!.errors?.['required'] ) {
-                            <p-message severity="error" size="small" variant="simple">Country is required.</p-message>
-                            }
+                            @if (hasFieldError(billingAddressCountry)) {
+                            <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(billingAddressCountry) }}</p-message>
                             }
                         </div>
                         <div class="flex flex-wrap gap-2 w-full">
                             <label for="state">State</label>
                             <p-select id="state" [options]="billingAddressStates" optionLabel="name"
                                 placeholder="Select One" class="w-full" formControlName="state"></p-select>
-                            @if (billingAddressState!.invalid && (billingAddressState!.touched ||
-                            billingAddressState!.dirty)) {
-                            @if (billingAddressState!.errors?.['required'] ) {
-                            <p-message severity="error" size="small" variant="simple">State is required.</p-message>
-                            }
+                            @if (hasFieldError(billingAddressState)) {
+                            <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(billingAddressState) }}</p-message>
                             }
                         </div>
                     </div>
@@ -161,47 +108,23 @@
                         <div class="flex flex-wrap gap-2 w-full">
                             <label for="city">City</label>
                             <input pInputText id="city" type="text" formControlName="city" />
-                            @if (billingAddressCity!.invalid && (billingAddressCity!.touched ||
-                            billingAddressCity!.dirty)) {
-                            @if (billingAddressCity!.errors?.['required'] ||
-                            billingAddressCity!.errors?.['notOnlyWhitespace']) {
-                            <p-message severity="error" size="small" variant="simple">City is required.</p-message>
-                            }
-                            @if (billingAddressCity!.errors?.['minlength']) {
-                            <p-message severity="error" size="small" variant="simple">City must be at least 2
-                                characters long.</p-message>
-                            }
+                            @if (hasFieldError(billingAddressCity)) {
+                            <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(billingAddressCity) }}</p-message>
                             }
                         </div>
                         <div class="flex flex-wrap gap-2 w-full">
                             <label for="street">Street</label>
                             <input pInputText id="street" type="text" formControlName="street" />
-                            @if (billingAddressStreet!.invalid && (billingAddressStreet!.touched ||
-                            billingAddressStreet!.dirty)) {
-                            @if (billingAddressStreet!.errors?.['required'] ||
-                            billingAddressStreet!.errors?.['notOnlyWhitespace']) {
-                            <p-message severity="error" size="small" variant="simple">Street is required.</p-message>
-                            }
-                            @if (billingAddressStreet!.errors?.['minlength']) {
-                            <p-message severity="error" size="small" variant="simple">Street must be at least 2
-                                characters long.</p-message>
-                            }
+                            @if (hasFieldError(billingAddressStreet)) {
+                            <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(billingAddressStreet) }}</p-message>
                             }
                         </div>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         <label for="billingZipCode">Zip Code</label>
                         <input pInputText id="billingZipCode" type="text" formControlName="zipCode" />
-                        @if (billingAddressZipCode!.invalid && (billingAddressZipCode!.touched ||
-                        billingAddressZipCode!.dirty)) {
-                        @if (billingAddressZipCode!.errors?.['required'] ||
-                        billingAddressZipCode!.errors?.['notOnlyWhitespace']) {
-                        <p-message severity="error" size="small" variant="simple">Zip Code is required.</p-message>
-                        }
-                        @if (billingAddressZipCode!.errors?.['minlength']) {
-                        <p-message severity="error" size="small" variant="simple">Zip Code must be at least 2
-                            characters long.</p-message>
-                        }
+                        @if (hasFieldError(billingAddressZipCode)) {
+                        <p-message severity="error" size="small" variant="simple">{{ getFieldErrorMessage(billingAddressZipCode) }}</p-message>
                         }
                     </div>
                 </div>
