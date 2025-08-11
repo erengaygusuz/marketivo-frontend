@@ -11,12 +11,12 @@
                 </tr>
             </ng-template>
             <ng-template #groupfooter let-product>
-                <tr class="sticky bottom-0 z-2" style="background: #fff;">
+                <tr class="sticky bottom-0 z-2 bg-surface-0 dark:bg-surface-900">
                     <td colspan="2"></td>
                     <td class="font-bold p-3 pb-0 text-right align-middle">
                         <div class="mb-2 font-bold text-lg">{{ 'Cart.TotalQuantity' | translate }}: {{ totalQuantity }}</div>
                         <div class="mb-2 font-bold text-lg">{{ 'Cart.Shipping' | translate }}: {{ 'Cart.Free' | translate }}</div>
-                        <div class="mb-2 font-bold text-lg" style="color:#1e3a8a;">{{ 'Cart.TotalPrice' | translate }}: {{ totalPrice | currency: 'USD' }}</div>
+                        <div class="mb-2 font-bold text-lg">{{ 'Cart.TotalPrice' | translate }}: {{ totalPrice | currency: 'USD' }}</div>
                         <div class="flex justify-content-end mt-2">
                             <p-button [label]="'Cart.Checkout' | translate" icon="pi pi-credit-card" [routerLink]="['/checkout']"
                                 class="w-full max-w-12rem text-base py-2" styleClass="p-button-success p-button-md"></p-button>
@@ -33,7 +33,7 @@
                     <td>
                         <div class="flex flex-col gap-2">
                             <span class="text-lg font-semibold">{{ product.name }}</span>
-                            <span class="text-black text-lg font-semibold">{{ product.unitPrice | currency: 'USD'
+                            <span class="text-surface-900 dark:text-surface-0 text-lg font-semibold">{{ product.unitPrice | currency: 'USD'
                                 }}</span>
                         </div>
                     </td>
@@ -63,7 +63,7 @@
                                     styleClass="p-button-sm p-button-danger"
                                 ></p-button>
                             </div>
-                            <div class="mt-4 text-base font-semibold text-black">
+                            <div class="mt-4 text-base font-semibold text-surface-900 dark:text-surface-0">
                                 {{ 'Cart.Subtotal' | translate }}: {{ product.quantity * product.unitPrice | currency: 'USD' }}
                             </div>
                         </div>
