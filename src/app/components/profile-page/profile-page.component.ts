@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { AuthService } from '@auth0/auth0-angular';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile-page',
@@ -14,24 +15,47 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss']
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit, OnDestroy {
   user: any = null;
+  private langChangeSubscription: Subscription | null = null;
 
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.auth.user$.subscribe(user => {
       if (user) {
-        this.user = {
-          name: user.name || user.nickname || 'Unknown User',
-          email: user.email || 'No email provided',
-          username: user.nickname || user.preferred_username || 'N/A',
-          phone: user.phone_number || 'No phone provided',
-          address: user.address || 'No address provided',
-          memberSince: user['created_at'] ? new Date(user['created_at']) : new Date(),
-          photoUrl: user.picture || 'assets/images/profile-placeholder.png'
-        };
+        this.updateUserData(user);
       }
     });
+
+    // Subscribe to language changes to update user data with new translations
+    this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
+      this.auth.user$.subscribe(user => {
+        if (user) {
+          this.updateUserData(user);
+        }
+      });
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.langChangeSubscription) {
+      this.langChangeSubscription.unsubscribe();
+    }
+  }
+
+  private updateUserData(user: any): void {
+    this.user = {
+      name: user.name || user.nickname || this.translate.instant('Profile.UnknownUser'),
+      email: user.email || this.translate.instant('Profile.NoEmailProvided'),
+      username: user.nickname || user.preferred_username || this.translate.instant('Profile.NotAvailable'),
+      phone: user.phone_number || this.translate.instant('Profile.NoPhoneProvided'),
+      address: user.address || this.translate.instant('Profile.NoAddressProvided'),
+      memberSince: user['created_at'] ? new Date(user['created_at']) : new Date(),
+      photoUrl: user.picture || 'assets/images/profile-placeholder.png'
+    };
   }
 }

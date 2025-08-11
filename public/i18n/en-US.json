@@ -45,7 +45,9 @@
     "Dashboard": "Dashboard",
     "Settings": "Settings",
     "Member": "Member",
-    "OrderHistory": "Order History"
+    "OrderHistory": "Order History",
+    "LoadingCategories": "Loading categories...",
+    "FailedToLoadCategories": "Failed to load categories. Please try again."
   },
   "ProductList": {
     "Title": "Products",
@@ -172,7 +174,12 @@
     "MemberSince": "Member Since",
     "Username": "Username",
     "Phone": "Phone",
-    "Address": "Address"
+    "Address": "Address",
+    "NoAddressProvided": "No address provided",
+    "NoEmailProvided": "No email provided",
+    "NoPhoneProvided": "No phone provided",
+    "UnknownUser": "Unknown User",
+    "NotAvailable": "N/A"
   },
   "Auth": {
     "Login": "Login",

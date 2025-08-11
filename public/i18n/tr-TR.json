@@ -45,7 +45,9 @@
     "Dashboard": "Ana Panel",
     "Settings": "Ayarlar",
     "Member": "Üye",
-    "OrderHistory": "Sipariş Geçmişi"
+    "OrderHistory": "Sipariş Geçmişi",
+    "LoadingCategories": "Kategoriler yükleniyor...",
+    "FailedToLoadCategories": "Kategoriler yüklenemedi. Lütfen tekrar deneyin."
   },
   "ProductList": {
     "Title": "Ürünler",
@@ -172,7 +174,12 @@
     "MemberSince": "Üyelik Tarihi",
     "Username": "Kullanıcı Adı",
     "Phone": "Telefon",
-    "Address": "Adres"
+    "Address": "Adres",
+    "NoAddressProvided": "Adres bilgisi yok",
+    "NoEmailProvided": "E-posta bilgisi yok",
+    "NoPhoneProvided": "Telefon bilgisi yok",
+    "UnknownUser": "Bilinmeyen Kullanıcı",
+    "NotAvailable": "Mevcut Değil"
   },
   "Auth": {
     "Login": "Giriş",
