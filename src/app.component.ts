@@ -3,10 +3,9 @@ import { RouterModule } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '@/services/language.service';
 import { CartService } from '@/services/cart.service';
 import { Subject, takeUntil } from 'rxjs';
-import myAppConfig from '@/config/my-app-config';
+import { LanguageFacade } from '@/services/language.facade';
 
 @Component({
     selector: 'app-root',
@@ -23,23 +22,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(
         private translate: TranslateService,
-        private languageService: LanguageService,
-        private cartService: CartService
-    ) {
-        // Initialize language service
-        if (!localStorage.getItem('language')) {
-            localStorage.setItem('language', myAppConfig.i18n.defaultLanguage);
-        }
-    }
+        private cartService: CartService,
+        private languageFacade: LanguageFacade
+    ) {}
 
     ngOnInit() {
         // Initialize cart from localStorage
         this.cartService.initializeCart();
         
-        this.languageService
-            .getLanguage()
+        // Load language from storage
+        this.languageFacade.loadLanguageFromStorage();
+        
+        // Subscribe to language changes
+        this.languageFacade.currentLanguage$
             .pipe(takeUntil(this.destroy$))
-            .subscribe(language => {
+            .subscribe((language: string) => {
                 this.translate.use(language);
             });
     }

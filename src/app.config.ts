@@ -15,6 +15,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { rootReducer } from './app/store/root.reducer';
 import { CartEffects } from './app/store/cart/cart.effects';
+import { LanguageEffects } from './app/store/language/language.effects';
 
 // Custom TranslateLoader implementation
 export class CustomTranslateLoader implements TranslateLoader {
@@ -43,7 +44,7 @@ export const appConfig: ApplicationConfig = {
             }
         }),
         provideStore(rootReducer),
-        provideEffects([CartEffects]),
+        provideEffects([CartEffects, LanguageEffects]),
         provideStoreDevtools({ 
             maxAge: 25, 
             logOnly: !isDevMode(),

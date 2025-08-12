@@ -2,16 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '@/services/language.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
-import myAppConfig from '@/config/my-app-config';
-
-interface Language {
-  name: string;
-  code: string;
-  countryCode: string;
-}
+import { Language } from '@/store/language/language.state';
+import { LanguageFacade } from '@/services/language.facade';
 
 @Component({
   selector: 'app-language-selector',
@@ -63,17 +57,24 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private translate: TranslateService,
-    private languageService: LanguageService
-  ) {
-    this.initializeLanguages();
-  }
+    private languageFacade: LanguageFacade
+  ) {}
 
   ngOnInit() {
-    this.languageService
-      .getLanguage()
+    // Load language from storage on component init
+    this.languageFacade.loadLanguageFromStorage();
+
+    // Subscribe to available languages
+    this.languageFacade.availableLanguages$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(language => {
+      .subscribe((languages: Language[]) => {
+        this.languages = languages;
+      });
+
+    // Subscribe to current language
+    this.languageFacade.currentLanguage$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((language: string) => {
         this.selectedLanguage = language;
       });
   }
@@ -83,25 +84,8 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initializeLanguages() {
-    this.languages = [
-      {
-        name: 'English',
-        code: 'en-US',
-        countryCode: 'us'
-      },
-      {
-        name: 'Türkçe',
-        code: 'tr-TR', 
-        countryCode: 'tr'
-      }
-    ];
-  }
-
   onLanguageChange(languageCode: string) {
-    this.translate.use(languageCode);
-    localStorage.setItem('language', languageCode);
-    this.languageService.setLanguage(languageCode);
+    this.languageFacade.setLanguage(languageCode);
   }
 
   getSelectedLanguageCountryCode(): string {
