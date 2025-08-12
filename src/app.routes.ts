@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AppLayout } from './app/layout/component/app.layout';
+import { AppLayout } from './app/components/app-layout';
 import { CheckoutComponent } from '@/components/checkout/checkout.component';
 import { CartDetailsComponent } from '@/components/cart-details/cart-details.component';
 import { ProductDetailsComponent } from '@/components/product-details/product-details.component';
