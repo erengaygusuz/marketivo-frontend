@@ -1,36 +1,36 @@
-import { Component, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MenuItem } from 'primeng/api';
-import { AppMenuitem } from '../app-menuitem/app-menuitem.component';
 import { ProductService } from '@/services/product.service';
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { AppMenuitem } from '../app-menuitem/app-menuitem.component';
 
 @Component({
     selector: 'app-menu',
     standalone: true,
     imports: [CommonModule, AppMenuitem, RouterModule, TranslateModule],
     templateUrl: './app-menu.component.html',
-    styleUrl: './app-menu.component.css'
+    styleUrl: './app-menu.component.css',
 })
 export class AppMenu implements OnDestroy {
     model: MenuItem[] = [
         {
             label: '',
             items: [
-                { 
-                    label: '', 
-                    icon: 'pi pi-fw pi-home', 
+                {
+                    label: '',
+                    icon: 'pi pi-fw pi-home',
                     routerLink: ['/'],
-                    styleClass: 'homepage-menu-item'
-                }
-            ]
+                    styleClass: 'homepage-menu-item',
+                },
+            ],
         },
         {
             label: '',
-            items: []
-        }
+            items: [],
+        },
     ];
     isLoading: boolean = true;
     errorMessage: string = '';
@@ -44,7 +44,7 @@ export class AppMenu implements OnDestroy {
     ngOnInit() {
         this.initializeMenu();
         this.listProductCategories();
-        
+
         // Subscribe to language changes to update the menu labels
         this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
             this.updateMenuLabels();
@@ -81,19 +81,19 @@ export class AppMenu implements OnDestroy {
         this.isLoading = true;
         this.errorMessage = '';
         this.productService.getProductCategories().subscribe({
-            next: (data) => {
+            next: data => {
                 this.model[1].label = this.translate.instant('Navigation.Categories');
-                this.model[1].items = data.map((category) => ({
+                this.model[1].items = data.map(category => ({
                     label: category.categoryName,
-                    routerLink: [`/category/${category.id}`]
+                    routerLink: [`/category/${category.id}`],
                 }));
                 this.isLoading = false;
             },
-            error: (error) => {
+            error: () => {
                 this.errorMessage = this.translate.instant('Navigation.FailedToLoadCategories');
                 this.model[1].items = [];
                 this.isLoading = false;
-            }
+            },
         });
     }
 }

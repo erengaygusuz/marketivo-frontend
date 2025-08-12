@@ -8,48 +8,46 @@ import { Country } from '../common/models/country';
 import { State } from '../common/models/state';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class CountryStateService {
-  private countriesUrl = `${environment.apiBaseUrl}/countries`;
-  private statesUrl = `${environment.apiBaseUrl}/states`;
+    private countriesUrl = `${environment.apiBaseUrl}/countries`;
+    private statesUrl = `${environment.apiBaseUrl}/states`;
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  getCountries(): Observable<Country[]> {
-    return this.http
-      .get<GetResponseCountries>(this.countriesUrl)
-      .pipe(map((response) => response._embedded.countries));
-  }
-
-  getStates(theCountryCode: string): Observable<State[]> {
-    const searchStatesUrl = `${this.statesUrl}/search/findByCountryCode?code=${theCountryCode}`;
-
-    return this.http
-      .get<GetResponseStates>(searchStatesUrl)
-      .pipe(map((response) => response._embedded.states));
-  }
-
-  getCreditCardMonths(startMonth: number): Observable<number[]> {
-    let months: number[] = [];
-
-    for (let month = startMonth; month <= 12; month++) {
-      months.push(month);
+    getCountries(): Observable<Country[]> {
+        return this.http
+            .get<GetResponseCountries>(this.countriesUrl)
+            .pipe(map(response => response._embedded.countries));
     }
 
-    return of(months);
-  }
+    getStates(theCountryCode: string): Observable<State[]> {
+        const searchStatesUrl = `${this.statesUrl}/search/findByCountryCode?code=${theCountryCode}`;
 
-  getCreditCardYears(): Observable<number[]> {
-    let data: number[] = [];
-
-    const startYear: number = new Date().getFullYear();
-    const endYear: number = startYear + 10;
-
-    for (let theYear = startYear; theYear <= endYear; theYear++) {
-      data.push(theYear);
+        return this.http.get<GetResponseStates>(searchStatesUrl).pipe(map(response => response._embedded.states));
     }
 
-    return of(data);
-  }
+    getCreditCardMonths(startMonth: number): Observable<number[]> {
+        const months: number[] = [];
+
+        for (let month = startMonth; month <= 12; month++) {
+            months.push(month);
+        }
+
+        return of(months);
+    }
+
+    getCreditCardYears(): Observable<number[]> {
+        const data: number[] = [];
+
+        const startYear: number = new Date().getFullYear();
+        const endYear: number = startYear + 10;
+
+        for (let theYear = startYear; theYear <= endYear; theYear++) {
+            data.push(theYear);
+        }
+
+        return of(data);
+    }
 }

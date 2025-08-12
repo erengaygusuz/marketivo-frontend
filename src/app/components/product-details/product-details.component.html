@@ -1,11 +1,12 @@
 <div class="flex flex-col">
     <div class="card">
-
         <!-- 🖼 Responsive Image -->
         <div class="flex justify-center">
-            <img src="{{ product.imageUrl }}" class="rounded mx-auto 
-               w-[70%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] 
-               max-w-[300px]" alt="{{ product.name }}">
+            <img
+                src="{{ product.imageUrl }}"
+                class="rounded mx-auto w-[70%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] max-w-[300px]"
+                alt="{{ product.name }}"
+            />
         </div>
 
         <!-- 📋 Product Info -->
@@ -14,26 +15,31 @@
         <div class="flex flex-col gap-6 mt-6">
             <span class="text-2xl font-semibold">$ {{ product.unitPrice }}</span>
             <div class="flex gap-2">
-                <p-button icon="pi pi-shopping-cart" [label]="'ProductDetails.AddToCart' | translate" class="flex-auto whitespace-nowrap"
-                    styleClass="w-full" severity="success" (click)="addToCart()"></p-button>
+                <p-button
+                    icon="pi pi-shopping-cart"
+                    [label]="'ProductDetails.AddToCart' | translate"
+                    class="flex-auto whitespace-nowrap"
+                    styleClass="w-full"
+                    severity="success"
+                    (click)="addToCart()"
+                ></p-button>
             </div>
         </div>
 
-        <hr>
+        <hr />
 
         <h4>{{ 'ProductDetails.Description' | translate }}</h4>
         <p>{{ product.description }}</p>
 
         <div class="flex gap-2 mt-5">
-            <p-button 
-                [label]="'ProductDetails.BackToProducts' | translate" 
-                icon="pi pi-arrow-left" 
+            <p-button
+                [label]="'ProductDetails.BackToProducts' | translate"
+                icon="pi pi-arrow-left"
                 severity="info"
                 [routerLink]="['/products']"
                 class="flex-auto whitespace-nowrap"
                 styleClass="w-full"
             ></p-button>
         </div>
-
     </div>
 </div>

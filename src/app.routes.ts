@@ -16,17 +16,17 @@ export const appRoutes: Routes = [
         children: [
             {
                 path: 'login/callback',
-                component: AuthCallbackComponent
+                component: AuthCallbackComponent,
             },
             {
                 path: 'profile',
                 component: ProfilePageComponent,
-                canActivate: [AuthGuard]
+                canActivate: [AuthGuard],
             },
             {
                 path: 'order-history',
                 component: OrderHistoryComponent,
-                canActivate: [AuthGuard]
+                canActivate: [AuthGuard],
             },
             { path: 'checkout', component: CheckoutComponent },
             { path: 'cart-details', component: CartDetailsComponent },
@@ -36,7 +36,7 @@ export const appRoutes: Routes = [
             { path: 'category', component: ProductListComponent },
             { path: 'products', component: ProductListComponent },
             { path: '', redirectTo: '/products', pathMatch: 'full' },
-            { path: '**', redirectTo: '/products', pathMatch: 'full' }
-        ]
-    }
+            { path: '**', redirectTo: '/products', pathMatch: 'full' },
+        ],
+    },
 ];

@@ -9,25 +9,41 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
-import { CartStatusComponent } from "@/components/cart-status/cart-status.component";
-import { LoginStatusComponent } from "@/components/login-status/login-status.component";
-import { LanguageSelectorComponent } from "@/components/language-selector/language-selector.component";
+import { CartStatusComponent } from '@/components/cart-status/cart-status.component';
+import { LoginStatusComponent } from '@/components/login-status/login-status.component';
+import { LanguageSelectorComponent } from '@/components/language-selector/language-selector.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, IconFieldModule, InputIconModule, InputTextModule, BadgeModule, OverlayBadgeModule, CartStatusComponent, LoginStatusComponent, LanguageSelectorComponent, TranslateModule],
+    imports: [
+        RouterModule,
+        CommonModule,
+        StyleClassModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        BadgeModule,
+        OverlayBadgeModule,
+        CartStatusComponent,
+        LoginStatusComponent,
+        LanguageSelectorComponent,
+        TranslateModule,
+    ],
     templateUrl: './app-topbar.component.html',
-    styleUrl: './app-topbar.component.css'
+    styleUrl: './app-topbar.component.css',
 })
 export class AppTopbar {
     items!: MenuItem[];
 
-    constructor(public layoutService: LayoutService, private router: Router) {}
+    constructor(
+        public layoutService: LayoutService,
+        private router: Router
+    ) {}
 
     toggleDarkMode() {
-        this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
+        this.layoutService.layoutConfig.update(state => ({ ...state, darkTheme: !state.darkTheme }));
     }
 
     doSearch(value: string): void {

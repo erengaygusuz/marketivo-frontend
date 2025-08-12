@@ -9,36 +9,37 @@ import { ButtonModule } from 'primeng/button';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-product-details',
-  templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css'],
-  imports: [CommonModule, ButtonModule, RouterModule, TranslateModule],
+    selector: 'app-product-details',
+    templateUrl: './product-details.component.html',
+    styleUrls: ['./product-details.component.css'],
+    imports: [CommonModule, ButtonModule, RouterModule, TranslateModule],
 })
 export class ProductDetailsComponent {
-  product!: Product;
+    product!: Product;
 
-  constructor(
-    private productService: ProductService,
-    private cartService: CartService,
-    private route: ActivatedRoute
-  ) {}
+    constructor(
+        private productService: ProductService,
+        private cartService: CartService,
+        private route: ActivatedRoute
+    ) {}
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(() => {
-      this.handleProductDetails();
-    });
-  }
+    ngOnInit(): void {
+        this.route.paramMap.subscribe(() => {
+            this.handleProductDetails();
+        });
+    }
 
-  handleProductDetails() {
-    const theProductId: number = +this.route.snapshot.paramMap.get('id')!;
+    handleProductDetails() {
+        const theProductId: number = +this.route.snapshot.paramMap.get('id')!;
 
-    this.productService.getProduct(theProductId).subscribe((data) => {
-      this.product = data;
-    });
-  }
+        this.productService.getProduct(theProductId).subscribe(data => {
+            this.product = data;
+        });
+    }
 
-  addToCart() {
-    const theCartItem = new CartItem(this.product);
-    this.cartService.addToCart(theCartItem);
-  }
+    addToCart() {
+        const theCartItem = new CartItem(this.product);
+
+        this.cartService.addToCart(theCartItem);
+    }
 }

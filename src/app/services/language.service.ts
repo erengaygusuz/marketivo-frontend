@@ -2,24 +2,24 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class LanguageService {
-  private languageSubject: ReplaySubject<string> = new ReplaySubject<string>(1);
+    private languageSubject: ReplaySubject<string> = new ReplaySubject<string>(1);
 
-  constructor() {
-    if (localStorage.getItem('language')) {
-      this.setLanguage(localStorage.getItem('language')!);
-    } else {
-      this.setLanguage('en-US');
+    constructor() {
+        if (localStorage.getItem('language')) {
+            this.setLanguage(localStorage.getItem('language')!);
+        } else {
+            this.setLanguage('en-US');
+        }
     }
-  }
 
-  setLanguage(data: string): void {
-    this.languageSubject.next(data);
-  }
+    setLanguage(data: string): void {
+        this.languageSubject.next(data);
+    }
 
-  getLanguage(): Observable<string> {
-    return this.languageSubject.asObservable();
-  }
+    getLanguage(): Observable<string> {
+        return this.languageSubject.asObservable();
+    }
 }

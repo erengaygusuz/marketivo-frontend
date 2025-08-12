@@ -1,4 +1,6 @@
 import { Validator } from 'fluentvalidation-ts';
+import { Country } from '../common/models/country';
+import { State } from '../common/models/state';
 
 export interface CheckoutFormData {
     customer: {
@@ -9,15 +11,15 @@ export interface CheckoutFormData {
     shippingAddress: {
         street: string;
         city: string;
-        state: any;
-        country: any;
+        state: State;
+        country: Country;
         zipCode: string;
     };
     billingAddress: {
         street: string;
         city: string;
-        state: any;
-        country: any;
+        state: State;
+        country: Country;
         zipCode: string;
     };
 }
@@ -31,8 +33,8 @@ export interface CustomerData {
 export interface AddressData {
     street: string;
     city: string;
-    state: any;
-    country: any;
+    state: State;
+    country: Country;
     zipCode: string;
 }
 
@@ -65,9 +67,7 @@ export class CustomerValidator extends Validator<CustomerData> {
             .withMessage('Validation.EmailWhitespace');
     }
 
-    private notOnlyWhitespace = (value: string): boolean => {
-        return !!value && value.trim().length > 0;
-    }
+    private notOnlyWhitespace = (value: string): boolean => !!value && value.trim().length > 0;
 }
 
 export class AddressValidator extends Validator<AddressData> {
@@ -90,13 +90,9 @@ export class AddressValidator extends Validator<AddressData> {
             .must(this.notOnlyWhitespace)
             .withMessage('Validation.CityWhitespace');
 
-        this.ruleFor('state')
-            .must(this.isValidSelection)
-            .withMessage('Validation.StateRequired');
+        this.ruleFor('state').must(this.isValidSelection).withMessage('Validation.StateRequired');
 
-        this.ruleFor('country')
-            .must(this.isValidSelection)
-            .withMessage('Validation.CountryRequired');
+        this.ruleFor('country').must(this.isValidSelection).withMessage('Validation.CountryRequired');
 
         this.ruleFor('zipCode')
             .notEmpty()
@@ -107,34 +103,30 @@ export class AddressValidator extends Validator<AddressData> {
             .withMessage('Validation.ZipCodeWhitespace');
     }
 
-    private notOnlyWhitespace = (value: string): boolean => {
-        return !!value && value.trim().length > 0;
-    }
+    private notOnlyWhitespace = (value: string): boolean => !!value && value.trim().length > 0;
 
-    private isValidSelection = (value: any): boolean => {
-        // Handle null, undefined, empty string, and empty objects
-        if (value === null || value === undefined || value === '') {
+    private isValidSelection = (value: State | Country | null | undefined): boolean => {
+        // Handle null, undefined, and empty objects
+        if (value === null || value === undefined) {
             return false;
         }
         // Check if it's an empty object
         if (typeof value === 'object' && Object.keys(value).length === 0) {
             return false;
         }
+
         return true;
-    }
+    };
 }
 
 export class CheckoutFormValidator extends Validator<CheckoutFormData> {
     constructor() {
         super();
 
-        this.ruleFor('customer')
-            .setValidator(() => new CustomerValidator());
+        this.ruleFor('customer').setValidator(() => new CustomerValidator());
 
-        this.ruleFor('shippingAddress')
-            .setValidator(() => new AddressValidator());
+        this.ruleFor('shippingAddress').setValidator(() => new AddressValidator());
 
-        this.ruleFor('billingAddress')
-            .setValidator(() => new AddressValidator());
+        this.ruleFor('billingAddress').setValidator(() => new AddressValidator());
     }
 }

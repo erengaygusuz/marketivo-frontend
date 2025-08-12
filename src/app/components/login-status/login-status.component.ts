@@ -1,57 +1,56 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthFacade } from '../../services/auth.facade';
 import { Subscription } from 'rxjs';
+import { AuthFacade } from '../../services/auth.facade';
 
 @Component({
-  selector: 'app-login-status',
-  templateUrl: './login-status.component.html',
-  styleUrls: ['./login-status.component.css'],
-  imports: [CommonModule, RouterModule, TranslateModule],
+    selector: 'app-login-status',
+    templateUrl: './login-status.component.html',
+    styleUrls: ['./login-status.component.css'],
+    imports: [CommonModule, RouterModule, TranslateModule],
 })
 export class LoginStatusComponent implements OnInit, OnDestroy {
-  isAuthenticated: boolean = false;
-  userDisplayName: string | undefined;
-  private subscriptions: Subscription = new Subscription();
+    isAuthenticated: boolean = false;
+    userDisplayName: string | undefined;
+    private subscriptions: Subscription = new Subscription();
 
-  constructor(
-    private auth: AuthService,
-    private authFacade: AuthFacade,
-    @Inject(DOCUMENT) private doc: Document
-  ) {}
+    constructor(
+        private auth: AuthService,
+        private authFacade: AuthFacade,
+        @Inject(DOCUMENT) private doc: Document
+    ) {}
 
-  ngOnInit(): void {
-    // Initialize auth state in NgRx store
-    this.authFacade.initializeAuth();
+    ngOnInit(): void {
+        // Initialize auth state in NgRx store
+        this.authFacade.initializeAuth();
 
-    // Subscribe to authentication state from NgRx store
-    this.subscriptions.add(
-      this.authFacade.isAuthenticated$.subscribe((authenticated: boolean) => {
-        this.isAuthenticated = authenticated;
-        console.log('User is authenticated: ', this.isAuthenticated);
-      })
-    );
+        // Subscribe to authentication state from NgRx store
+        this.subscriptions.add(
+            this.authFacade.isAuthenticated$.subscribe((authenticated: boolean) => {
+                this.isAuthenticated = authenticated;
+            })
+        );
 
-    // Subscribe to user display name from NgRx store
-    this.subscriptions.add(
-      this.authFacade.userName$.subscribe((displayName) => {
-        this.userDisplayName = displayName || undefined;
-      })
-    );
-  }
+        // Subscribe to user display name from NgRx store
+        this.subscriptions.add(
+            this.authFacade.userName$.subscribe(displayName => {
+                this.userDisplayName = displayName || undefined;
+            })
+        );
+    }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        this.subscriptions.unsubscribe();
+    }
 
-  login() {
-    this.authFacade.login();
-  }
+    login() {
+        this.authFacade.login();
+    }
 
-  logout(): void {
-    this.authFacade.logout();
-  }
+    logout(): void {
+        this.authFacade.logout();
+    }
 }

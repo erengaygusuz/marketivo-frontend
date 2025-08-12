@@ -1,36 +1,34 @@
 <div class="login-status-header flex-wrap align-items-center">
+    <!-- Login button -->
+    @if (!isAuthenticated) {
+        <button type="button" class="layout-topbar-action" (click)="login()">
+            <div class="flex items-center">
+                <i class="pi pi-sign-in"></i>
+                <span>{{ 'Auth.Login' | translate }}</span>
+            </div>
+        </button>
+    }
 
-  <!-- Login button -->
-  @if (!isAuthenticated) {
-    <button type="button" class="layout-topbar-action" (click)="login()">
-      <div class="flex items-center">
-        <i class="pi pi-sign-in"></i>
-        <span>{{ 'Auth.Login' | translate }}</span>
-      </div>
-    </button>
-  }
+    @if (isAuthenticated) {
+        <button type="button" class="layout-topbar-action">
+            <a routerLink="/order-history" class="flex items-center">
+                <i class="pi pi-box"></i>
+                <span>{{ 'Navigation.OrderHistory' | translate }}</span>
+            </a>
+        </button>
 
-  @if (isAuthenticated) {
-    <button type="button" class="layout-topbar-action">
-      <a routerLink="/order-history" class="flex items-center">
-        <i class="pi pi-box"></i>
-        <span>{{ 'Navigation.OrderHistory' | translate }}</span>
-      </a>
-    </button>
+        <button type="button" class="layout-topbar-action">
+            <a routerLink="/profile" class="flex items-center">
+                <i class="pi pi-user"></i>
+                <span>{{ 'Auth.WelcomeBack' | translate }} {{ userDisplayName }}!</span>
+            </a>
+        </button>
 
-    <button type="button" class="layout-topbar-action">
-      <a routerLink="/profile" class="flex items-center">
-        <i class="pi pi-user"></i>
-        <span>{{ 'Auth.WelcomeBack' | translate }} {{ userDisplayName }}!</span>
-      </a>
-    </button>
-
-    <button type="button" class="layout-topbar-action" (click)="logout()">
-      <div class="flex items-center">
-        <i class="pi pi-sign-out"></i>
-        <span>{{ 'Auth.Logout' | translate }}</span>
-      </div>
-    </button>
-  }
-
+        <button type="button" class="layout-topbar-action" (click)="logout()">
+            <div class="flex items-center">
+                <i class="pi pi-sign-out"></i>
+                <span>{{ 'Auth.Logout' | translate }}</span>
+            </div>
+        </button>
+    }
 </div>

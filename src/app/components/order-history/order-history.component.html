@@ -1,13 +1,26 @@
 <div class="card">
     <div class="flex justify-between items-center mb-4">
         <div class="font-semibold text-xl">{{ 'OrderHistory.Title' | translate }}</div>
-        <button class="btn btn-outline-primary" (click)="refreshOrders()" 
-                [disabled]="isLoading" style="padding: 0.5rem 1rem; border: 1px solid #007bff; background: transparent; color: #007bff; border-radius: 4px; cursor: pointer;">
+        <button
+            class="btn btn-outline-primary"
+            (click)="refreshOrders()"
+            [disabled]="isLoading"
+            style="
+                padding: 0.5rem 1rem;
+                border: 1px solid #007bff;
+                background: transparent;
+                color: #007bff;
+                border-radius: 4px;
+                cursor: pointer;
+            "
+        >
             <i class="pi pi-refresh" [class.pi-spin]="isLoading"></i>
-            <span class="ml-2">{{ isLoading ? ('Common.Loading' | translate) : ('OrderHistory.Refresh' | translate) }}</span>
+            <span class="ml-2">{{
+                isLoading ? ('Common.Loading' | translate) : ('OrderHistory.Refresh' | translate)
+            }}</span>
         </button>
     </div>
-    
+
     <!-- Loading State -->
     @if (isLoading) {
         <div class="text-center py-4">
@@ -15,7 +28,7 @@
             <p class="mt-2">{{ 'OrderHistory.LoadingOrders' | translate }}</p>
         </div>
     }
-    
+
     <!-- Error State -->
     @if (!isLoading && errorMessage) {
         <div>
@@ -24,12 +37,16 @@
             </p-message>
         </div>
     }
-    
+
     <!-- Orders Table -->
     @if (!isLoading && !errorMessage && orderHistoryList.length > 0) {
         <div>
-            <p-table [value]="orderHistoryList" [scrollable]="true" scrollHeight="680px"
-                [tableStyle]="{ 'min-width': '60rem' }">
+            <p-table
+                [value]="orderHistoryList"
+                [scrollable]="true"
+                scrollHeight="680px"
+                [tableStyle]="{ 'min-width': '60rem' }"
+            >
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 25%">{{ 'OrderHistory.TrackingNumber' | translate }}</th>
@@ -43,13 +60,13 @@
                         <td>{{ order.orderTrackingNumber }}</td>
                         <td>{{ order.totalPrice | currency: 'USD' }}</td>
                         <td>{{ order.totalQuantity }}</td>
-                        <td>{{ order.dateCreated | date:'medium' }}</td>
+                        <td>{{ order.dateCreated | date: 'medium' }}</td>
                     </tr>
                 </ng-template>
             </p-table>
         </div>
     }
-    
+
     <!-- No Orders Found -->
     @if (!isLoading && !errorMessage && orderHistoryList.length === 0) {
         <div>

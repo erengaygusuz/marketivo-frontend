@@ -1,89 +1,70 @@
-export default {
-    root: true,
-    ignorePatterns: ['**/dist/**'],
-    plugins: ['prettier'],
-    extends: ['prettier'],
-    rules: {
-        'padding-line-between-statements': [
-            'error',
-            { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
-            { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
-            { blankLine: 'any', prev: ['case', 'default'], next: 'break' },
-            { blankLine: 'any', prev: 'case', next: 'case' },
-            { blankLine: 'always', prev: '*', next: 'return' },
-            { blankLine: 'always', prev: 'block', next: '*' },
-            { blankLine: 'always', prev: '*', next: 'block' },
-            { blankLine: 'always', prev: 'block-like', next: '*' },
-            { blankLine: 'always', prev: '*', next: 'block-like' },
-            { blankLine: 'always', prev: ['import'], next: ['const', 'let', 'var'] }
-        ]
+import js from '@eslint/js';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import prettierConfig from 'eslint-config-prettier';
+import prettier from 'eslint-plugin-prettier';
+
+export default [
+    {
+        ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', '**/.angular/**'],
     },
-    overrides: [
-        {
-            files: ['*.ts'],
+    // JavaScript files
+    {
+        files: ['**/*.{js,mjs}'],
+        ...js.configs.recommended,
+        plugins: {
+            prettier,
+        },
+        rules: {
+            ...prettierConfig.rules,
+            'prettier/prettier': 'error',
+            'no-console': 'warn',
+            'prefer-const': 'error',
+        },
+    },
+    // TypeScript files
+    {
+        files: ['**/*.{ts,mts}'],
+        languageOptions: {
+            parser: tsParser,
             parserOptions: {
-                project: ['tsconfig.json', 'e2e/tsconfig.json'],
-                createDefaultProgram: true
+                ecmaVersion: 2022,
+                sourceType: 'module',
             },
-            extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:@angular-eslint/recommended', 'plugin:@angular-eslint/template/process-inline-templates', 'prettier'],
-            rules: {
-                '@angular-eslint/component-selector': [
-                    'error',
-                    {
-                        type: 'element',
-                        prefix: 'p',
-                        style: 'kebab-case'
-                    }
-                ],
-                '@angular-eslint/directive-selector': [
-                    'error',
-                    {
-                        type: 'attribute',
-                        prefix: 'p',
-                        style: 'camelCase'
-                    }
-                ],
-                '@angular-eslint/component-class-suffix': [
-                    'error',
-                    {
-                        suffixes: ['']
-                    }
-                ],
-                '@angular-eslint/template/eqeqeq': [
-                    'error',
-                    {
-                        allowNullOrUndefined: true
-                    }
-                ],
-                '@angular-eslint/no-host-metadata-property': 'off',
-                '@angular-eslint/no-output-on-prefix': 'off',
-                '@typescript-eslint/ban-types': 'off',
-                '@typescript-eslint/no-explicit-any': 'off',
-                '@typescript-eslint/no-inferrable-types': 'off',
-                'arrow-body-style': ['error', 'as-needed'],
-                curly: 0,
-                '@typescript-eslint/member-ordering': [
-                    'error',
-                    {
-                        default: ['public-static-field', 'static-field', 'instance-field', 'public-instance-method', 'public-static-field']
-                    }
-                ],
-                'no-console': 0,
-                'prefer-const': 0
-            }
         },
-        {
-            files: ['*.html'],
-            extends: ['plugin:@angular-eslint/template/recommended', 'prettier'],
-            rules: {}
+        plugins: {
+            '@typescript-eslint': tseslint,
+            prettier,
         },
-        {
-            files: ['*.js'],
-            rules: {
-                parserOptions: {
-                    allowImportExportEverywhere: true
-                }
-            }
-        }
-    ]
-};
+        rules: {
+            ...prettierConfig.rules,
+            'prettier/prettier': 'error',
+
+            // TypeScript-specific rules
+            '@typescript-eslint/no-explicit-any': 'warn',
+            '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+
+            // Code quality rules for better readability
+            'arrow-body-style': ['error', 'as-needed'],
+            curly: ['error', 'all'],
+            'no-console': 'warn',
+            'no-debugger': 'error',
+            'prefer-const': 'error',
+            quotes: ['error', 'single', { avoidEscape: true }],
+            semi: ['error', 'always'],
+            'no-var': 'error',
+            'no-duplicate-imports': 'error',
+
+            // Spacing rules for better readability
+            'padding-line-between-statements': [
+                'error',
+                { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
+                { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
+                { blankLine: 'always', prev: '*', next: 'return' },
+                { blankLine: 'always', prev: ['import'], next: ['const', 'let', 'var'] },
+                { blankLine: 'always', prev: ['function', 'class'], next: '*' },
+                { blankLine: 'always', prev: '*', next: ['function', 'class'] },
+            ],
+        },
+    },
+];

@@ -1,26 +1,47 @@
-import { Component } from '@angular/core';
-import { ProductService } from '../../services/product.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CartService } from '../../services/cart.service';
-import { Product } from '../../common/models/product';
-import { CartItem } from '../../common/models/cart-item';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from 'primeng/dataview';
+import { MessageModule } from 'primeng/message';
+import { OrderListModule } from 'primeng/orderlist';
+import { PaginatorModule } from 'primeng/paginator';
+import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
-import { ButtonModule } from 'primeng/button';
-import { PickListModule } from 'primeng/picklist';
-import { OrderListModule } from 'primeng/orderlist';
-import { MessageModule } from 'primeng/message';
-import { FormsModule } from '@angular/forms';
-import { PaginatorModule } from 'primeng/paginator';
-import { TranslateModule } from '@ngx-translate/core';
+import { GetResponseProduct } from '../../common/interfaces/GetResponseProduct';
+import { CartItem } from '../../common/models/cart-item';
+import { Product } from '../../common/models/product';
+import { CartService } from '../../services/cart.service';
+import { ProductService } from '../../services/product.service';
+
+interface PaginatorEvent {
+    first?: number;
+    rows?: number;
+    page?: number;
+    pageCount?: number;
+}
 
 @Component({
     selector: 'app-product-list',
     templateUrl: './product-list.component.html',
     styleUrl: './product-list.component.css',
-    imports: [CommonModule, RouterModule, FormsModule, DataViewModule, SelectButtonModule, TagModule, ButtonModule, PickListModule, OrderListModule, MessageModule, PaginatorModule, TranslateModule]
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        DataViewModule,
+        SelectButtonModule,
+        TagModule,
+        ButtonModule,
+        PickListModule,
+        OrderListModule,
+        MessageModule,
+        PaginatorModule,
+        TranslateModule,
+    ],
 })
 export class ProductListComponent {
     products: Product[] = [];
@@ -53,7 +74,6 @@ export class ProductListComponent {
     }
 
     listProducts() {
-        console.log('Loading products...');
         this.isLoading = true;
         this.errorMessage = '';
 
@@ -76,22 +96,21 @@ export class ProductListComponent {
         this.previousKeyword = keyword;
 
         this.productService.searchProductsPaginate(this.thePageNumber - 1, this.thePageSize, keyword).subscribe({
-            next: (data) => {
-                console.log('Search products response:', data);
+            next: data => {
                 this.processResult()(data);
                 this.isLoading = false;
             },
-            error: (error) => {
-                console.error('Error searching products:', error);
+            error: () => {
                 this.errorMessage = 'Failed to search products. Please try again.';
                 this.products = [];
                 this.isLoading = false;
-            }
+            },
         });
     }
 
     handleListProducts() {
         const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
+
         if (hasCategoryId) {
             this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
         } else {
@@ -104,19 +123,19 @@ export class ProductListComponent {
 
         this.previousCategoryId = this.currentCategoryId;
 
-        this.productService.getProductListPaginate(this.thePageNumber - 1, this.thePageSize, this.currentCategoryId).subscribe({
-            next: (data) => {
-                console.log('Products list response:', data);
-                this.processResult()(data);
-                this.isLoading = false;
-            },
-            error: (error) => {
-                console.error('Error loading products:', error);
-                this.errorMessage = 'Failed to load products. Please try again.';
-                this.products = [];
-                this.isLoading = false;
-            }
-        });
+        this.productService
+            .getProductListPaginate(this.thePageNumber - 1, this.thePageSize, this.currentCategoryId)
+            .subscribe({
+                next: data => {
+                    this.processResult()(data);
+                    this.isLoading = false;
+                },
+                error: () => {
+                    this.errorMessage = 'Failed to load products. Please try again.';
+                    this.products = [];
+                    this.isLoading = false;
+                },
+            });
     }
 
     updatePageSize(pageSize: string) {
@@ -126,7 +145,7 @@ export class ProductListComponent {
     }
 
     processResult() {
-        return (data: any) => {
+        return (data: GetResponseProduct) => {
             this.products = data._embedded.products;
             this.thePageNumber = data.page.number + 1;
             this.thePageSize = data.page.size;
@@ -136,12 +155,16 @@ export class ProductListComponent {
 
     addToCart(product: Product) {
         const cartItem = new CartItem(product);
+
         this.cartService.addToCart(cartItem);
     }
 
-    onPageChange(event: any) {
-        this.thePageNumber = Math.floor(event.first / event.rows) + 1;
-        this.thePageSize = event.rows;
+    onPageChange(event: PaginatorEvent) {
+        const first = event.first || 0;
+        const rows = event.rows || this.thePageSize;
+
+        this.thePageNumber = Math.floor(first / rows) + 1;
+        this.thePageSize = rows;
         this.listProducts();
     }
 }

@@ -1,8 +1,13 @@
 <div class="card">
     <div class="font-semibold text-xl mb-4">{{ 'Cart.Title' | translate }}</div>
     @if (cartItems.length > 0) {
-        <p-table [value]="cartItems" [scrollable]="true" scrollHeight="680px" rowGroupMode="subheader"
-            [tableStyle]="{ 'min-width': '60rem' }">
+        <p-table
+            [value]="cartItems"
+            [scrollable]="true"
+            scrollHeight="680px"
+            rowGroupMode="subheader"
+            [tableStyle]="{ 'min-width': '60rem' }"
+        >
             <ng-template #header>
                 <tr>
                     <th>{{ 'Cart.ProductImage' | translate }}</th>
@@ -14,12 +19,23 @@
                 <tr class="sticky bottom-0 z-2 bg-surface-0 dark:bg-surface-900">
                     <td colspan="2"></td>
                     <td class="font-bold p-3 pb-0 text-right align-middle">
-                        <div class="mb-2 font-bold text-lg">{{ 'Cart.TotalQuantity' | translate }}: {{ totalQuantity }}</div>
-                        <div class="mb-2 font-bold text-lg">{{ 'Cart.Shipping' | translate }}: {{ 'Cart.Free' | translate }}</div>
-                        <div class="mb-2 font-bold text-lg">{{ 'Cart.TotalPrice' | translate }}: {{ totalPrice | currency: 'USD' }}</div>
+                        <div class="mb-2 font-bold text-lg">
+                            {{ 'Cart.TotalQuantity' | translate }}: {{ totalQuantity }}
+                        </div>
+                        <div class="mb-2 font-bold text-lg">
+                            {{ 'Cart.Shipping' | translate }}: {{ 'Cart.Free' | translate }}
+                        </div>
+                        <div class="mb-2 font-bold text-lg">
+                            {{ 'Cart.TotalPrice' | translate }}: {{ totalPrice | currency: 'USD' }}
+                        </div>
                         <div class="flex justify-content-end mt-2">
-                            <p-button [label]="'Cart.Checkout' | translate" icon="pi pi-credit-card" [routerLink]="['/checkout']"
-                                class="w-full max-w-12rem text-base py-2" styleClass="p-button-success p-button-md"></p-button>
+                            <p-button
+                                [label]="'Cart.Checkout' | translate"
+                                icon="pi pi-credit-card"
+                                [routerLink]="['/checkout']"
+                                class="w-full max-w-12rem text-base py-2"
+                                styleClass="p-button-success p-button-md"
+                            ></p-button>
                         </div>
                     </td>
                 </tr>
@@ -27,44 +43,50 @@
             <ng-template #body let-product let-rowIndex="rowIndex">
                 <tr>
                     <td>
-                        <img [alt]="product.name" src="{{ product.imageUrl }}" width="150"
-                            style="vertical-align: middle" />
+                        <img
+                            [alt]="product.name"
+                            src="{{ product.imageUrl }}"
+                            width="150"
+                            style="vertical-align: middle"
+                        />
                     </td>
                     <td>
                         <div class="flex flex-col gap-2">
                             <span class="text-lg font-semibold">{{ product.name }}</span>
-                            <span class="text-surface-900 dark:text-surface-0 text-lg font-semibold">{{ product.unitPrice | currency: 'USD'
-                                }}</span>
+                            <span class="text-surface-900 dark:text-surface-0 text-lg font-semibold">{{
+                                product.unitPrice | currency: 'USD'
+                            }}</span>
                         </div>
                     </td>
                     <td>
                         <div class="items">
                             <label class="font-bold">{{ 'Cart.Quantity' | translate }}:</label>
                             <div class="flex items-center gap-2 justify-start mt-4">
-                                <p-button 
-                                    icon="pi pi-plus" 
+                                <p-button
+                                    icon="pi pi-plus"
                                     (onClick)="incrementQuantity(product)"
                                     styleClass="p-button-sm p-button-rounded"
-                                    [style]="{'background':'#1e3a8a','borderColor':'#1e3a8a','color':'#fff'}"
+                                    [style]="{ background: '#1e3a8a', borderColor: '#1e3a8a', color: '#fff' }"
                                 ></p-button>
                                 <span class="text-center font-semibold w-8">{{ product.quantity }}</span>
-                                <p-button 
-                                    icon="pi pi-minus" 
+                                <p-button
+                                    icon="pi pi-minus"
                                     (onClick)="decrementQuantity(product)"
                                     styleClass="p-button-sm p-button-rounded"
-                                    [style]="{'background':'#1e3a8a','borderColor':'#1e3a8a','color':'#fff'}"
+                                    [style]="{ background: '#1e3a8a', borderColor: '#1e3a8a', color: '#fff' }"
                                 ></p-button>
                             </div>
                             <div class="flex justify-start mt-4">
-                                <p-button 
-                                    icon="pi pi-trash" 
-                                    [label]="'Cart.Remove' | translate" 
+                                <p-button
+                                    icon="pi pi-trash"
+                                    [label]="'Cart.Remove' | translate"
                                     (onClick)="remove(product)"
                                     styleClass="p-button-sm p-button-danger"
                                 ></p-button>
                             </div>
                             <div class="mt-4 text-base font-semibold text-surface-900 dark:text-surface-0">
-                                {{ 'Cart.Subtotal' | translate }}: {{ product.quantity * product.unitPrice | currency: 'USD' }}
+                                {{ 'Cart.Subtotal' | translate }}:
+                                {{ product.quantity * product.unitPrice | currency: 'USD' }}
                             </div>
                         </div>
                     </td>

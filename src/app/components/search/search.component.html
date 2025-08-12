@@ -1,4 +1,11 @@
 <p-iconfield iconPosition="left">
-    <input #myInput pInputText type="text" [placeholder]="'Search.Placeholder' | translate" class="w-full" (keyup.enter)="doSearch(myInput.value)" />
+    <input
+        #myInput
+        pInputText
+        type="text"
+        [placeholder]="'Search.Placeholder' | translate"
+        class="w-full"
+        (keyup.enter)="doSearch(myInput.value)"
+    />
     <p-inputicon class="pi pi-search" (click)="doSearch(myInput.value)" />
 </p-iconfield>

@@ -1,15 +1,14 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import { Component, HostBinding, Input } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MenuItem } from 'primeng/api';
+import { RippleModule } from 'primeng/ripple';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
-import { RippleModule } from 'primeng/ripple';
-import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../services/layout.service';
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
     selector: '[app-menuitem]',
     imports: [CommonModule, RouterModule, RippleModule],
     templateUrl: './app-menuitem.component.html',
@@ -19,19 +18,19 @@ import { LayoutService } from '../../services/layout.service';
             state(
                 'collapsed',
                 style({
-                    height: '0'
+                    height: '0',
                 })
             ),
             state(
                 'expanded',
                 style({
-                    height: '*'
+                    height: '*',
                 })
             ),
-            transition('collapsed <=> expanded', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
-        ])
+            transition('collapsed <=> expanded', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
+        ]),
     ],
-    providers: [LayoutService]
+    providers: [LayoutService],
 })
 export class AppMenuitem {
     @Input() item!: MenuItem;
@@ -54,7 +53,7 @@ export class AppMenuitem {
         public router: Router,
         private layoutService: LayoutService
     ) {
-        this.menuSourceSubscription = this.layoutService.menuSource$.subscribe((value) => {
+        this.menuSourceSubscription = this.layoutService.menuSource$.subscribe(value => {
             Promise.resolve(null).then(() => {
                 if (value.routeEvent) {
                     this.active = value.key === this.key || value.key.startsWith(this.key + '-') ? true : false;
@@ -70,7 +69,7 @@ export class AppMenuitem {
             this.active = false;
         });
 
-        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((params) => {
+        this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(_params => {
             if (this.item.routerLink) {
                 this.updateActiveStateFromRoute();
             }
@@ -86,7 +85,12 @@ export class AppMenuitem {
     }
 
     updateActiveStateFromRoute() {
-        let activeRoute = this.router.isActive(this.item.routerLink[0], { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' });
+        const activeRoute = this.router.isActive(this.item.routerLink[0], {
+            paths: 'exact',
+            queryParams: 'ignored',
+            matrixParams: 'ignored',
+            fragment: 'ignored',
+        });
 
         if (activeRoute) {
             this.layoutService.onMenuStateChange({ key: this.key, routeEvent: true });
@@ -97,6 +101,7 @@ export class AppMenuitem {
         // avoid processing disabled items
         if (this.item.disabled) {
             event.preventDefault();
+
             return;
         }
 

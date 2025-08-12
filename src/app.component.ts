@@ -16,7 +16,7 @@ import { AuthFacade } from '@/services/auth.facade';
     template: `
         <p-toast position="top-right"></p-toast>
         <router-outlet></router-outlet>
-    `
+    `,
 })
 export class AppComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>();
@@ -31,19 +31,17 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnInit() {
         // Initialize authentication state
         this.authFacade.initializeAuth();
-        
+
         // Initialize cart from localStorage
         this.cartService.initializeCart();
-        
+
         // Load language from storage
         this.languageFacade.loadLanguageFromStorage();
-        
+
         // Subscribe to language changes
-        this.languageFacade.currentLanguage$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((language: string) => {
-                this.translate.use(language);
-            });
+        this.languageFacade.currentLanguage$.pipe(takeUntil(this.destroy$)).subscribe((language: string) => {
+            this.translate.use(language);
+        });
     }
 
     ngOnDestroy() {

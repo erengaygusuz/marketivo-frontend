@@ -1,13 +1,17 @@
 <div class="flex flex-col">
     <div class="card">
         <div class="font-semibold text-xl mb-4">{{ 'Profile.Title' | translate }}</div>
-        
+
         <div class="flex flex-col lg:flex-row items-center lg:items-start p-6 gap-6">
             <!-- User Photo -->
             <div class="flex-shrink-0">
-                <img [src]="user?.photoUrl" [alt]="'Profile.UserPhoto' | translate" class="rounded-full w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 border-4 border-primary" />
+                <img
+                    [src]="user?.photoUrl"
+                    [alt]="'Profile.UserPhoto' | translate"
+                    class="rounded-full w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 border-4 border-primary"
+                />
             </div>
-            
+
             <!-- User Details -->
             <div class="flex-1 w-full overflow-x-auto">
                 <div class="flex flex-col gap-4">
@@ -16,17 +20,25 @@
                             <tr>
                                 <th class="text-sm md:text-base">{{ 'Profile.Name' | translate }}</th>
                                 <th class="text-sm md:text-base">{{ 'Profile.Email' | translate }}</th>
-                                <th class="text-sm md:text-base hidden sm:table-cell">{{ 'Profile.MemberSince' | translate }}</th>
+                                <th class="text-sm md:text-base hidden sm:table-cell">
+                                    {{ 'Profile.MemberSince' | translate }}
+                                </th>
                                 <th class="text-sm md:text-base">{{ 'Profile.Username' | translate }}</th>
-                                <th class="text-sm md:text-base hidden md:table-cell">{{ 'Profile.Phone' | translate }}</th>
-                                <th class="text-sm md:text-base hidden lg:table-cell">{{ 'Profile.Address' | translate }}</th>
+                                <th class="text-sm md:text-base hidden md:table-cell">
+                                    {{ 'Profile.Phone' | translate }}
+                                </th>
+                                <th class="text-sm md:text-base hidden lg:table-cell">
+                                    {{ 'Profile.Address' | translate }}
+                                </th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-userInfo>
                             <tr>
                                 <td class="text-sm md:text-base">{{ userInfo?.name }}</td>
                                 <td class="text-sm md:text-base">{{ userInfo?.email }}</td>
-                                <td class="text-sm md:text-base hidden sm:table-cell">{{ userInfo?.memberSince | date:'shortDate' }}</td>
+                                <td class="text-sm md:text-base hidden sm:table-cell">
+                                    {{ userInfo?.memberSince | date: 'shortDate' }}
+                                </td>
                                 <td class="text-sm md:text-base">{{ userInfo?.username }}</td>
                                 <td class="text-sm md:text-base hidden md:table-cell">{{ userInfo?.phone }}</td>
                                 <td class="text-sm md:text-base hidden lg:table-cell">{{ userInfo?.address }}</td>

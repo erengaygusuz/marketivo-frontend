@@ -1,7 +1,7 @@
-import { State } from "../models/state";
+import { State } from '../models/state';
 
 export interface GetResponseStates {
-  _embedded: {
-    states: State[];
-  };
+    _embedded: {
+        states: State[];
+    };
 }
