@@ -1,83 +1,105 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { CartItem } from '../common/models/cart-item';
+import { AppState } from '../store/app.state';
+import * as CartActions from '../store/cart/cart.actions';
+import * as CartSelectors from '../store/cart/cart.selectors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  cartItems: CartItem[] = [];
-  totalPrice: Subject<number> = new BehaviorSubject<number>(0);
-  totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
+  // Private store reference
+  private store: Store<AppState>;
 
-  storage: Storage = localStorage;
-
-  constructor() {
-    let data = JSON.parse(this.storage.getItem('cartItems')!);
-
-    if (data !== null) {
-      this.cartItems = data;
-      this.computeCartTotals();
-    }
+  constructor(store: Store<AppState>) {
+    this.store = store;
   }
 
-  addToCart(theCartItem: CartItem) {
-    let alreadyExistsInCart: boolean = false;
-    let existingCartItem: CartItem | undefined;
+  // Getter methods for observables to ensure they're created when accessed
+  get cartItems$(): Observable<CartItem[]> {
+    return this.store.select(CartSelectors.selectCartItems);
+  }
 
-    if (this.cartItems.length > 0) {
-      existingCartItem = this.cartItems.find(
-        (tempCartItem) => tempCartItem.id === theCartItem.id
-      );
-      alreadyExistsInCart = existingCartItem !== undefined;
-    }
+  get totalPrice$(): Observable<number> {
+    return this.store.select(CartSelectors.selectCartTotalPrice);
+  }
 
-    if (alreadyExistsInCart) {
-      existingCartItem!.quantity++;
+  get totalQuantity$(): Observable<number> {
+    return this.store.select(CartSelectors.selectCartTotalQuantity);
+  }
+
+  get loading$(): Observable<boolean> {
+    return this.store.select(CartSelectors.selectCartLoading);
+  }
+
+  get error$(): Observable<string | null> {
+    return this.store.select(CartSelectors.selectCartError);
+  }
+
+  // Initialize cart (load from localStorage)
+  initializeCart(): void {
+    this.store.dispatch(CartActions.loadCart());
+  }
+
+  // Add item to cart
+  addToCart(cartItem: CartItem): void {
+    this.store.dispatch(CartActions.addToCart({ cartItem }));
+  }
+
+  // Update cart item quantity
+  updateCartItemQuantity(cartItemId: string, quantity: number): void {
+    this.store.dispatch(CartActions.updateCartItemQuantity({ cartItemId, quantity }));
+  }
+
+  // Increment quantity
+  incrementQuantity(cartItem: CartItem): void {
+    this.updateCartItemQuantity(cartItem.id, cartItem.quantity + 1);
+  }
+
+  // Decrement quantity
+  decrementQuantity(cartItem: CartItem): void {
+    const newQuantity = cartItem.quantity - 1;
+    if (newQuantity <= 0) {
+      this.removeFromCart(cartItem.id);
     } else {
-      this.cartItems.push(theCartItem);
-    }
-
-    this.computeCartTotals();
-  }
-
-  computeCartTotals() {
-    let totalPriceValue: number = 0;
-    let totalQuantityValue: number = 0;
-
-    for (let currentCartItem of this.cartItems) {
-      totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
-      totalQuantityValue += currentCartItem.quantity;
-    }
-
-    this.totalPrice.next(totalPriceValue);
-    this.totalQuantity.next(totalQuantityValue);
-
-    this.persistCartItems();
-  }
-
-  decrementQuantity(cartItem: CartItem) {
-    cartItem.quantity--;
-
-    if (cartItem.quantity === 0) {
-      this.remove(cartItem);
-    } else {
-      this.computeCartTotals();
+      this.updateCartItemQuantity(cartItem.id, newQuantity);
     }
   }
 
-  remove(cartItem: CartItem) {
-    const itemIndex = this.cartItems.findIndex(
-      (item) => item.id === cartItem.id
-    );
-
-    if (itemIndex > -1) {
-      this.cartItems.splice(itemIndex, 1);
-      this.computeCartTotals();
-    }
+  // Remove item from cart
+  removeFromCart(cartItemId: string): void {
+    this.store.dispatch(CartActions.removeFromCart({ cartItemId }));
   }
 
-  persistCartItems() {
-    this.storage.setItem('cartItems', JSON.stringify(this.cartItems));
+  // Clear entire cart
+  clearCart(): void {
+    this.store.dispatch(CartActions.clearCart());
+  }
+
+  // Compute cart totals (usually called automatically by reducers)
+  computeCartTotals(): void {
+    this.store.dispatch(CartActions.computeCartTotals());
+  }
+
+  // Persist cart to localStorage
+  persistCart(): void {
+    this.store.dispatch(CartActions.persistCart());
+  }
+
+  // Legacy compatibility methods for existing components
+  get cartItems(): CartItem[] {
+    let items: CartItem[] = [];
+    this.cartItems$.subscribe(cartItems => items = cartItems).unsubscribe();
+    return items;
+  }
+
+  get totalPrice(): Observable<number> {
+    return this.totalPrice$;
+  }
+
+  get totalQuantity(): Observable<number> {
+    return this.totalQuantity$;
   }
 }

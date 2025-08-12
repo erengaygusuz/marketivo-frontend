@@ -4,6 +4,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '@/services/language.service';
+import { CartService } from '@/services/cart.service';
 import { Subject, takeUntil } from 'rxjs';
 import myAppConfig from '@/config/my-app-config';
 
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(
         private translate: TranslateService,
-        private languageService: LanguageService
+        private languageService: LanguageService,
+        private cartService: CartService
     ) {
         // Initialize language service
         if (!localStorage.getItem('language')) {
@@ -31,6 +33,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        // Initialize cart from localStorage
+        this.cartService.initializeCart();
+        
         this.languageService
             .getLanguage()
             .pipe(takeUntil(this.destroy$))

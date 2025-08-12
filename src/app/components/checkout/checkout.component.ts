@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
@@ -25,7 +25,8 @@ import { MessageService } from 'primeng/api';
 import { FluentValidationService } from '../../services/fluent-validation.service';
 import { CheckoutFormData } from '../../validators/checkout-form.validator';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subject, takeUntil } from 'rxjs';
+import { CartItem } from '../../common/models/cart-item';
 
 @Component({
     selector: 'app-checkout',
@@ -33,10 +34,12 @@ import { firstValueFrom } from 'rxjs';
     styleUrls: ['./checkout.component.css'],
     imports: [CommonModule, ReactiveFormsModule, FluidModule, SelectModule, FormsModule, InputTextModule, TextareaModule, MessageModule, CheckboxModule, CardModule, ButtonModule, TranslateModule]
 })
-export class CheckoutComponent implements AfterViewInit, OnInit {
+export class CheckoutComponent implements AfterViewInit, OnInit, OnDestroy {
     isBillingSameAsShipping = false;
     totalPrice: number = 0;
     totalQuantity = 0;
+    cartItems: CartItem[] = [];
+    private destroy$ = new Subject<void>();
 
     creditCardYears: number[] = [];
     creditCardMonths: number[] = [];
@@ -250,15 +253,25 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
     }
 
     reviewCartDetails() {
-        this.cartService.totalPrice.subscribe((data) => {
-            this.totalPrice = data;
-            console.log('Total Price updated:', this.totalPrice);
-        });
+        this.cartService.totalPrice$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((data) => {
+                this.totalPrice = data;
+                console.log('Total Price updated:', this.totalPrice);
+            });
 
-        this.cartService.totalQuantity.subscribe((data) => {
-            this.totalQuantity = data;
-            console.log('Total Quantity updated:', this.totalQuantity);
-        });
+        this.cartService.totalQuantity$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((data) => {
+                this.totalQuantity = data;
+                console.log('Total Quantity updated:', this.totalQuantity);
+            });
+
+        this.cartService.cartItems$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(cartItems => {
+                this.cartItems = cartItems;
+            });
     }
 
     onSubmit() {
@@ -296,7 +309,7 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
             return;
         }
 
-        if (this.cartService.cartItems.length === 0) {
+        if (this.cartItems.length === 0) {
             this.messageService.add({
                 severity: 'warn',
                 summary: 'Empty Cart',
@@ -320,7 +333,7 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         order.totalPrice = this.totalPrice;
         order.totalQuantity = this.totalQuantity;
 
-        const cartItems = this.cartService.cartItems;
+        const cartItems = this.cartItems;
 
         let orderItems: OrderItem[] = cartItems.map((tempCartItem) => new OrderItem(tempCartItem));
 
@@ -441,13 +454,8 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
     }
 
     resetCart() {
-        this.cartService.cartItems = [];
-        this.cartService.totalPrice.next(0);
-        this.cartService.totalQuantity.next(0);
-
-        this.cartService.persistCartItems();
+        this.cartService.clearCart();
         this.checkoutFormGroup.reset();
-
         this.router.navigateByUrl('/products');
     }
 
@@ -576,5 +584,10 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
 
             formGroup?.get('state')?.setValue(data[0]);
         });
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

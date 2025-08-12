@@ -1,5 +1,5 @@
 import { provideHttpClient, withFetch, withInterceptors, HttpClient } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import Aura from '@primeuix/themes/aura';
@@ -10,6 +10,11 @@ import myAppConfig from '@/config/my-app-config';
 import { provideAuth0 } from '@auth0/auth0-angular';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { rootReducer } from './app/store/root.reducer';
+import { CartEffects } from './app/store/cart/cart.effects';
 
 // Custom TranslateLoader implementation
 export class CustomTranslateLoader implements TranslateLoader {
@@ -36,6 +41,15 @@ export const appConfig: ApplicationConfig = {
             httpInterceptor: {
                 ...myAppConfig.httpInterceptor
             }
+        }),
+        provideStore(rootReducer),
+        provideEffects([CartEffects]),
+        provideStoreDevtools({ 
+            maxAge: 25, 
+            logOnly: !isDevMode(),
+            autoPause: true,
+            trace: false,
+            traceLimit: 75
         }),
         importProvidersFrom(
             TranslateModule.forRoot({
