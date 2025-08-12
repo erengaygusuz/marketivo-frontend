@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { AppMenuitem } from '../app-menuitem';
+import { AppMenuitem } from '../app-menuitem/app-menuitem.component';
 import { ProductService } from '@/services/product.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,18 @@ import { Subscription } from 'rxjs';
 export class AppMenu implements OnDestroy {
     model: MenuItem[] = [
         {
+            label: '',
+            items: [
+                { 
+                    label: '', 
+                    icon: 'pi pi-fw pi-home', 
+                    routerLink: ['/'],
+                    styleClass: 'homepage-menu-item'
+                }
+            ]
+        },
+        {
+            label: '',
             items: []
         }
     ];
@@ -30,11 +42,12 @@ export class AppMenu implements OnDestroy {
     ) {}
 
     ngOnInit() {
+        this.initializeMenu();
         this.listProductCategories();
         
-        // Subscribe to language changes to update the Categories label
+        // Subscribe to language changes to update the menu labels
         this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
-            this.updateCategoriesLabel();
+            this.updateMenuLabels();
         });
     }
 
@@ -45,9 +58,23 @@ export class AppMenu implements OnDestroy {
     }
 
     private updateCategoriesLabel(): void {
-        if (this.model[0]) {
-            this.model[0].label = this.translate.instant('Navigation.Categories');
+        if (this.model[1]) {
+            this.model[1].label = this.translate.instant('Navigation.Categories');
         }
+    }
+
+    private initializeMenu(): void {
+        // Leave the first section label empty so it doesn't show a header
+        this.model[0].label = '';
+        this.model[0].items![0].label = this.translate.instant('Navigation.Homepage');
+        this.model[1].label = this.translate.instant('Navigation.Categories');
+    }
+
+    private updateMenuLabels(): void {
+        // Leave the first section label empty so it doesn't show a header
+        this.model[0].label = '';
+        this.model[0].items![0].label = this.translate.instant('Navigation.Homepage');
+        this.updateCategoriesLabel();
     }
 
     listProductCategories(): void {
@@ -55,8 +82,8 @@ export class AppMenu implements OnDestroy {
         this.errorMessage = '';
         this.productService.getProductCategories().subscribe({
             next: (data) => {
-                this.model[0].label = this.translate.instant('Navigation.Categories');
-                this.model[0].items = data.map((category) => ({
+                this.model[1].label = this.translate.instant('Navigation.Categories');
+                this.model[1].items = data.map((category) => ({
                     label: category.categoryName,
                     routerLink: [`/category/${category.id}`]
                 }));
@@ -64,7 +91,7 @@ export class AppMenu implements OnDestroy {
             },
             error: (error) => {
                 this.errorMessage = this.translate.instant('Navigation.FailedToLoadCategories');
-                this.model[0].items = [];
+                this.model[1].items = [];
                 this.isLoading = false;
             }
         });

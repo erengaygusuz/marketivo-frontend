@@ -1,1 +1,13 @@
 /* Add any specific styles for app-menu component here */
+
+/* Align homepage menu item with category headers */
+:host ::ng-deep .homepage-menu-item {
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+}
+
+/* Ensure the homepage item container doesn't add extra spacing */
+:host ::ng-deep .layout-menu > li:first-child ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}

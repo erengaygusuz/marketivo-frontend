@@ -2,9 +2,9 @@ import { Component, Renderer2, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { AppTopbar } from '../app-topbar';
-import { AppSidebar } from '../app-sidebar';
-import { AppFooter } from '../app-footer';
+import { AppTopbar } from '../app-topbar/app-topbar.component';
+import { AppSidebar } from '../app-sidebar/app-sidebar.component';
+import { AppFooter } from '../app-footer/app-footer.component';
 import { LayoutService } from '../../services/layout.service';
 
 @Component({

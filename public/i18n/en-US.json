@@ -3,6 +3,7 @@
     "Loading": "Loading..."
   },
   "Navigation": {
+    "Homepage": "Homepage",
     "Categories": "Categories",
     "OrderHistory": "Order History",
     "LoadingCategories": "Loading categories...",

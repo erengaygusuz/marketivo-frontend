@@ -1,5 +1,5 @@
 <ng-container>
-    @if (root && item.visible !== false) {
+    @if (root && item.visible !== false && item.label && item.label.trim()) {
         <div class="layout-menuitem-root-text">{{ item.label }}</div>
     }
     @if ((!item.routerLink || item.items) && item.visible !== false) {
