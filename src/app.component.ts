@@ -6,6 +6,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CartService } from '@/services/cart.service';
 import { Subject, takeUntil } from 'rxjs';
 import { LanguageFacade } from '@/services/language.facade';
+import { AuthFacade } from '@/services/auth.facade';
 
 @Component({
     selector: 'app-root',
@@ -23,10 +24,14 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(
         private translate: TranslateService,
         private cartService: CartService,
-        private languageFacade: LanguageFacade
+        private languageFacade: LanguageFacade,
+        private authFacade: AuthFacade
     ) {}
 
     ngOnInit() {
+        // Initialize authentication state
+        this.authFacade.initializeAuth();
+        
         // Initialize cart from localStorage
         this.cartService.initializeCart();
         

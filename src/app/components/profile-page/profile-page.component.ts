@@ -7,6 +7,7 @@ import { TableModule } from 'primeng/table';
 import { AuthService } from '@auth0/auth0-angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { AuthFacade } from '../../services/auth.facade';
 
 @Component({
   selector: 'app-profile-page',
@@ -17,34 +18,38 @@ import { Subscription } from 'rxjs';
 })
 export class ProfilePageComponent implements OnInit, OnDestroy {
   user: any = null;
-  private langChangeSubscription: Subscription | null = null;
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private auth: AuthService,
+    private authFacade: AuthFacade,
     private translate: TranslateService
   ) {}
 
   ngOnInit() {
-    this.auth.user$.subscribe(user => {
-      if (user) {
-        this.updateUserData(user);
-      }
-    });
-
-    // Subscribe to language changes to update user data with new translations
-    this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
-      this.auth.user$.subscribe(user => {
+    // Subscribe to user data from NgRx store
+    this.subscriptions.add(
+      this.authFacade.user$.subscribe(user => {
         if (user) {
           this.updateUserData(user);
         }
-      });
-    });
+      })
+    );
+
+    // Subscribe to language changes to update user data with new translations
+    this.subscriptions.add(
+      this.translate.onLangChange.subscribe(() => {
+        this.authFacade.user$.subscribe(user => {
+          if (user) {
+            this.updateUserData(user);
+          }
+        });
+      })
+    );
   }
 
   ngOnDestroy() {
-    if (this.langChangeSubscription) {
-      this.langChangeSubscription.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 
   private updateUserData(user: any): void {

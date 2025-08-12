@@ -1,11 +1,17 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { Store } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import { from, lastValueFrom } from 'rxjs';
+import { take, switchMap } from 'rxjs/operators';
+import { AuthFacade } from '../services/auth.facade';
+import * as AuthActions from '../store/auth/auth.actions';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
+  const authFacade = inject(AuthFacade);
+  const store = inject(Store);
 
   const theEndpoint = environment.apiBaseUrl + '/orders';
   const securedEndpoints = [theEndpoint];
@@ -13,21 +19,47 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   if (securedEndpoints.some(url => req.urlWithParams.includes(url))) {
     return from(
       (async () => {
-        // Get access token
-        let token = '';
-        await auth.getAccessTokenSilently().forEach((t) => (token = t));
+        try {
+          // Try to get access token from NgRx store first
+          const tokenFromStore = await authFacade.accessToken$.pipe(take(1)).toPromise();
+          
+          let token = '';
+          
+          if (tokenFromStore) {
+            // Check if token is expired
+            const isExpired = await authFacade.isTokenExpired$.pipe(take(1)).toPromise();
+            if (!isExpired) {
+              token = tokenFromStore;
+            } else {
+              // Token is expired, refresh it
+              authFacade.refreshToken();
+              token = await authFacade.accessToken$.pipe(take(1)).toPromise() || '';
+            }
+          } else {
+            // Get fresh token from Auth0 and update store
+            await auth.getAccessTokenSilently().forEach((t) => {
+              token = t;
+              // Update the store with the new token
+              store.dispatch(AuthActions.setTokens({ accessToken: t }));
+            });
+          }
 
-        console.log('Access Token:', token);
+          console.log('Access Token:', token);
 
-        // Clone request with token
-        const authReq = req.clone({
-          setHeaders: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+          // Clone request with token
+          const authReq = req.clone({
+            setHeaders: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-        // Continue request
-        return await lastValueFrom(next(authReq));
+          // Continue request
+          return await lastValueFrom(next(authReq));
+        } catch (error) {
+          console.error('Error getting access token:', error);
+          store.dispatch(AuthActions.setError({ error: 'Failed to get access token' }));
+          return await lastValueFrom(next(req));
+        }
       })()
     );
   }

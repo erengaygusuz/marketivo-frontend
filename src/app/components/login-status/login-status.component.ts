@@ -1,8 +1,10 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthFacade } from '../../services/auth.facade';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login-status',
@@ -10,47 +12,46 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrls: ['./login-status.component.css'],
   imports: [CommonModule, RouterModule, TranslateModule],
 })
-export class LoginStatusComponent {
+export class LoginStatusComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean = false;
-  profileJson: string | undefined;
   userDisplayName: string | undefined;
-  storage: Storage = sessionStorage;
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private auth: AuthService,
+    private authFacade: AuthFacade,
     @Inject(DOCUMENT) private doc: Document
   ) {}
 
   ngOnInit(): void {
-    this.auth.isAuthenticated$.subscribe((authenticated: boolean) => {
-      this.isAuthenticated = authenticated;
-      console.log('User is authenticated: ', this.isAuthenticated);
-    });
-    this.auth.user$.subscribe((user) => {
-      // Prefer 'name', fallback to 'nickname', fallback to email
-      this.userDisplayName = user?.name || user?.nickname || user?.email;
-      this.storage.setItem('userDisplayName', JSON.stringify(this.userDisplayName));
-      
-      // Store user email for order history and checkout
-      if (user?.email) {
-        this.storage.setItem('userEmail', JSON.stringify(user.email));
-      }
-    });
+    // Initialize auth state in NgRx store
+    this.authFacade.initializeAuth();
+
+    // Subscribe to authentication state from NgRx store
+    this.subscriptions.add(
+      this.authFacade.isAuthenticated$.subscribe((authenticated: boolean) => {
+        this.isAuthenticated = authenticated;
+        console.log('User is authenticated: ', this.isAuthenticated);
+      })
+    );
+
+    // Subscribe to user display name from NgRx store
+    this.subscriptions.add(
+      this.authFacade.userName$.subscribe((displayName) => {
+        this.userDisplayName = displayName || undefined;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   login() {
-    this.auth.loginWithRedirect();
+    this.authFacade.login();
   }
 
   logout(): void {
-    // Clear stored user data
-    this.storage.removeItem('userEmail');
-    this.storage.removeItem('userDisplayName');
-    
-    this.auth.logout({
-      logoutParams: {
-        returnTo: this.doc.location.origin,
-      },
-    });
+    this.authFacade.logout();
   }
 }
