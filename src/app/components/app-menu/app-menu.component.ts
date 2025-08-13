@@ -21,7 +21,7 @@ export class AppMenu implements OnDestroy {
             items: [
                 {
                     label: '',
-                    icon: 'pi pi-fw pi-home',
+                    icon: 'fas fa-home',
                     routerLink: ['/'],
                     styleClass: 'homepage-menu-item',
                 },
@@ -85,6 +85,7 @@ export class AppMenu implements OnDestroy {
                 this.model[1].label = this.translate.instant('Navigation.Categories');
                 this.model[1].items = data.map(category => ({
                     label: category.categoryName,
+                    icon: category.categoryIcon ? `fas fa-${category.categoryIcon}` : 'fas fa-tag',
                     routerLink: [`/category/${category.id}`],
                 }));
                 this.isLoading = false;
