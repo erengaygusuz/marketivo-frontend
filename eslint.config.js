@@ -18,7 +18,7 @@ export default [
         rules: {
             ...prettierConfig.rules,
             'prettier/prettier': 'error',
-            'no-console': 'warn',
+            'no-console': 'error', // Changed from 'warn' to 'error'
             'prefer-const': 'error',
         },
     },
@@ -41,13 +41,13 @@ export default [
             'prettier/prettier': 'error',
 
             // TypeScript-specific rules
-            '@typescript-eslint/no-explicit-any': 'warn',
+            '@typescript-eslint/no-explicit-any': 'error', // Changed from 'warn' to 'error'
             '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
 
             // Code quality rules for better readability
             'arrow-body-style': ['error', 'as-needed'],
             curly: ['error', 'all'],
-            'no-console': 'warn',
+            'no-console': 'error', // Changed from 'warn' to 'error'
             'no-debugger': 'error',
             'prefer-const': 'error',
             quotes: ['error', 'single', { avoidEscape: true }],

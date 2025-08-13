@@ -1,20 +1,19 @@
+import { environment } from '../../environments/environment';
+
 export default {
     auth: {
-        domain: 'dev-p2akft8jby3faqa5.us.auth0.com',
-        clientId: '4Bt3FnArUUElthacdpLdxSszDTczN1VI',
+        domain: environment.auth.domain,
+        clientId: environment.auth.clientId,
         authorizationParams: {
             redirect_uri: window.location.origin + '/login/callback',
-            audience: 'https://marketivo.erengaygusuz.com.tr/api',
+            audience: environment.auth.audience,
         },
     },
     httpInterceptor: {
-        allowedList: [
-            'https://marketivo.erengaygusuz.com.tr/api/orders/**',
-            'https://marketivo.erengaygusuz.com.tr/api/checkout/purchase',
-        ],
+        allowedList: [`${environment.apiBaseUrl}/orders/**`, `${environment.apiBaseUrl}/checkout/purchase`],
     },
     i18n: {
-        defaultLanguage: 'en-US',
-        supportedLanguages: ['en-US', 'tr-TR'],
+        defaultLanguage: environment.i18n.defaultLanguage,
+        supportedLanguages: environment.i18n.supportedLanguages,
     },
 };

@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CartService } from '@/services/cart.service';
-import { Subject, takeUntil } from 'rxjs';
-import { LanguageFacade } from '@/services/language.facade';
 import { AuthFacade } from '@/services/auth.facade';
+import { CartService } from '@/services/cart.service';
+import { LanguageFacade } from '@/services/language.facade';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-root',
