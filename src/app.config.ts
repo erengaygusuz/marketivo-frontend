@@ -1,5 +1,6 @@
 import myAppConfig from '@/config/my-app-config';
 import { AuthInterceptor } from '@/interceptors/auth-interceptor';
+import { LanguageInterceptor } from '@/interceptors/language-interceptor';
 import { HttpClient, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -16,6 +17,7 @@ import { appRoutes } from './app.routes';
 import { AuthEffects } from './app/store/auth/auth.effects';
 import { CartEffects } from './app/store/cart/cart.effects';
 import { LanguageEffects } from './app/store/language/language.effects';
+import { ProductEffects } from './app/store/product/product.effects';
 import { rootReducer } from './app/store/root.reducer';
 
 // Custom TranslateLoader implementation
@@ -39,7 +41,7 @@ export const appConfig: ApplicationConfig = {
             withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
             withEnabledBlockingInitialNavigation()
         ),
-        provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
+        provideHttpClient(withFetch(), withInterceptors([LanguageInterceptor, AuthInterceptor])),
         provideAnimationsAsync(),
         providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
         provideAuth0({
@@ -49,7 +51,7 @@ export const appConfig: ApplicationConfig = {
             },
         }),
         provideStore(rootReducer),
-        provideEffects([CartEffects, LanguageEffects, AuthEffects]),
+        provideEffects([CartEffects, LanguageEffects, AuthEffects, ProductEffects]),
         provideStoreDevtools({
             maxAge: 25,
             logOnly: !isDevMode(),

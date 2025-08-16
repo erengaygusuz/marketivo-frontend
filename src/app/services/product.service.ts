@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Product } from '../common/models/product';
 import { GetResponseProduct } from '../common/interfaces/GetResponseProduct';
-import { ProductCategory } from '../common/models/product-category';
 import { GetResponseProductCategory } from '../common/interfaces/GetResponseProductCategory';
+import { Product } from '../common/models/product';
+import { ProductCategory } from '../common/models/product-category';
 
 @Injectable({
     providedIn: 'root',
@@ -17,8 +17,11 @@ export class ProductService {
 
     constructor(private httpClient: HttpClient) {}
 
-    getProductList(theCategoryId: number): Observable<Product[]> {
-        const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
+    getProductList(theCategoryId: number, language?: string): Observable<Product[]> {
+        let searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
+        if (language) {
+            searchUrl += `&lang=${language}`;
+        }
 
         return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(map(response => response._embedded.products));
     }
@@ -26,29 +29,49 @@ export class ProductService {
     getProductListPaginate(
         thePage: number,
         thePageSize: number,
-        theCategoryId: number
+        theCategoryId: number,
+        language?: string
     ): Observable<GetResponseProduct> {
-        const searchUrl =
+        let searchUrl =
             `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}` + `&page=${thePage}&size=${thePageSize}`;
+        if (language) {
+            searchUrl += `&lang=${language}`;
+        }
 
         return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(map(response => response));
     }
 
-    getProductCategories(): Observable<ProductCategory[]> {
+    getProductCategories(language?: string): Observable<ProductCategory[]> {
+        let categoryUrl = this.categoryUrl;
+        if (language) {
+            categoryUrl += `?lang=${language}`;
+        }
+
         return this.httpClient
-            .get<GetResponseProductCategory>(this.categoryUrl)
+            .get<GetResponseProductCategory>(categoryUrl)
             .pipe(map(response => response._embedded.productCategory));
     }
 
-    searchProducts(keyword: string): Observable<Product[]> {
-        const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}`;
+    searchProducts(keyword: string, language?: string): Observable<Product[]> {
+        let searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}`;
+        if (language) {
+            searchUrl += `&lang=${language}`;
+        }
 
         return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(map(response => response._embedded.products));
     }
 
-    searchProductsPaginate(thePage: number, thePageSize: number, keyword: string): Observable<GetResponseProduct> {
-        const searchUrl =
+    searchProductsPaginate(
+        thePage: number,
+        thePageSize: number,
+        keyword: string,
+        language?: string
+    ): Observable<GetResponseProduct> {
+        let searchUrl =
             `${this.baseUrl}/search/findByNameContaining?name=${keyword}` + `&page=${thePage}&size=${thePageSize}`;
+        if (language) {
+            searchUrl += `&lang=${language}`;
+        }
 
         return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(map(response => response));
     }

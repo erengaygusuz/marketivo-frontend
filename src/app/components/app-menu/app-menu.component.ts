@@ -2,9 +2,15 @@ import { ProductService } from '@/services/product.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { ProductCategory } from '../../common/models/product-category';
+import { AppState } from '../../store/app.state';
+import { selectCurrentLanguage } from '../../store/language/language.selectors';
+import * as ProductActions from '../../store/product/product.actions';
+import { selectCategories, selectCategoriesLoading, selectProductError } from '../../store/product/product.selectors';
 import { AppMenuitem } from '../app-menuitem/app-menuitem.component';
 
 @Component({
@@ -32,22 +38,38 @@ export class AppMenu implements OnDestroy {
             items: [],
         },
     ];
-    isLoading: boolean = true;
-    errorMessage: string = '';
+
+    categories$: Observable<ProductCategory[]>;
+    categoriesLoading$: Observable<boolean>;
+    error$: Observable<string | null>;
+    currentLanguage$: Observable<string>;
+
     private langChangeSubscription: Subscription | null = null;
+    private categoriesSubscription: Subscription | null = null;
 
     constructor(
         private productService: ProductService,
-        private translate: TranslateService
-    ) {}
+        private translate: TranslateService,
+        private store: Store<AppState>
+    ) {
+        this.categories$ = this.store.select(selectCategories);
+        this.categoriesLoading$ = this.store.select(selectCategoriesLoading);
+        this.error$ = this.store.select(selectProductError);
+        this.currentLanguage$ = this.store.select(selectCurrentLanguage);
+    }
 
     ngOnInit() {
         this.initializeMenu();
-        this.listProductCategories();
+        this.loadCategories();
 
         // Subscribe to language changes to update the menu labels
         this.langChangeSubscription = this.translate.onLangChange.subscribe(() => {
             this.updateMenuLabels();
+        });
+
+        // Subscribe to categories changes
+        this.categoriesSubscription = this.categories$.subscribe(categories => {
+            this.updateCategoriesMenu(categories);
         });
     }
 
@@ -55,6 +77,24 @@ export class AppMenu implements OnDestroy {
         if (this.langChangeSubscription) {
             this.langChangeSubscription.unsubscribe();
         }
+        if (this.categoriesSubscription) {
+            this.categoriesSubscription.unsubscribe();
+        }
+    }
+
+    private loadCategories(): void {
+        this.currentLanguage$.subscribe(language => {
+            this.store.dispatch(ProductActions.loadCategories({ language }));
+        });
+    }
+
+    private updateCategoriesMenu(categories: ProductCategory[]): void {
+        this.model[1].label = this.translate.instant('Navigation.Categories');
+        this.model[1].items = categories.map(category => ({
+            label: category.categoryName,
+            icon: category.categoryIcon ? `fas fa-${category.categoryIcon}` : 'fas fa-tag',
+            routerLink: [`/category/${category.id}`],
+        }));
     }
 
     private updateCategoriesLabel(): void {
@@ -75,26 +115,5 @@ export class AppMenu implements OnDestroy {
         this.model[0].label = '';
         this.model[0].items![0].label = this.translate.instant('Navigation.Homepage');
         this.updateCategoriesLabel();
-    }
-
-    listProductCategories(): void {
-        this.isLoading = true;
-        this.errorMessage = '';
-        this.productService.getProductCategories().subscribe({
-            next: data => {
-                this.model[1].label = this.translate.instant('Navigation.Categories');
-                this.model[1].items = data.map(category => ({
-                    label: category.categoryName,
-                    icon: category.categoryIcon ? `fas fa-${category.categoryIcon}` : 'fas fa-tag',
-                    routerLink: [`/category/${category.id}`],
-                }));
-                this.isLoading = false;
-            },
-            error: () => {
-                this.errorMessage = this.translate.instant('Navigation.FailedToLoadCategories');
-                this.model[1].items = [];
-                this.isLoading = false;
-            },
-        });
     }
 }

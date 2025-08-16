@@ -2,25 +2,25 @@
     <div class="card">
         <div class="font-semibold text-xl mb-4">{{ 'ProductList.Title' | translate }}</div>
 
-        @if (isLoading) {
+        @if (loading$ | async) {
             <div class="text-center py-8">
                 <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
                 <p class="mt-2">{{ 'Common.Loading' | translate }}</p>
             </div>
         }
 
-        @if (!isLoading && errorMessage) {
+        @if (!(loading$ | async) && (error$ | async)) {
             <div>
                 <p-message severity="error" [closable]="false">
                     <ng-template pTemplate>
-                        <span>{{ errorMessage }}</span>
+                        <span>{{ error$ | async }}</span>
                     </ng-template>
                 </p-message>
             </div>
         }
 
-        @if (!isLoading && !errorMessage && products.length > 0) {
-            <p-dataview [value]="products" [layout]="layout">
+        @if (!(loading$ | async) && !(error$ | async) && ((products$ | async)?.length || 0) > 0) {
+            <p-dataview [value]="(products$ | async) || []" [layout]="layout">
                 <ng-template #header>
                     <div class="flex justify-end">
                         <p-select-button [(ngModel)]="layout" [options]="options" [allowEmpty]="false">
@@ -126,9 +126,9 @@
 
             <div class="flex flex-col items-center mt-4">
                 <p-paginator
-                    [rows]="thePageSize"
-                    [totalRecords]="theTotalElements"
-                    [first]="(thePageNumber - 1) * thePageSize"
+                    [rows]="(pagination$ | async)?.pageSize || 5"
+                    [totalRecords]="(pagination$ | async)?.totalElements || 0"
+                    [first]="((pagination$ | async)?.pageNumber || 1 - 1) * ((pagination$ | async)?.pageSize || 5)"
                     [rowsPerPageOptions]="[5, 10, 20, 50]"
                     (onPageChange)="onPageChange($event)"
                     styleClass="w-full"
@@ -136,7 +136,7 @@
             </div>
         }
 
-        @if (!isLoading && !errorMessage && products.length === 0) {
+        @if (!(loading$ | async) && !(error$ | async) && ((products$ | async)?.length || 0) === 0) {
             <div>
                 <p-message severity="info" [closable]="false">
                     <ng-template pTemplate>

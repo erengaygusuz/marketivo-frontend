@@ -1,16 +1,16 @@
 <ul class="layout-menu">
-    @if (isLoading) {
+    @if (categoriesLoading$ | async) {
         <li class="text-center py-4">
             <i class="pi pi-spin pi-spinner" style="font-size: 1.5rem"></i>
             <div>{{ 'Navigation.LoadingCategories' | translate }}</div>
         </li>
     }
-    @if (!isLoading && errorMessage) {
+    @if (!(categoriesLoading$ | async) && (error$ | async)) {
         <li class="text-center py-4 text-red-500">
-            {{ errorMessage }}
+            {{ error$ | async }}
         </li>
     }
-    @if (!isLoading && !errorMessage) {
+    @if (!(categoriesLoading$ | async) && !(error$ | async)) {
         @for (item of model; track item.label; let i = $index) {
             @if (!item.separator) {
                 <li app-menuitem [item]="item" [index]="i" [root]="true"></li>

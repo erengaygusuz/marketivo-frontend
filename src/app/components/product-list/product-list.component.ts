@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from 'primeng/dataview';
@@ -11,11 +12,20 @@ import { PaginatorModule } from 'primeng/paginator';
 import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
-import { GetResponseProduct } from '../../common/interfaces/GetResponseProduct';
+import { Observable, Subscription } from 'rxjs';
 import { CartItem } from '../../common/models/cart-item';
 import { Product } from '../../common/models/product';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../services/product.service';
+import { AppState } from '../../store/app.state';
+import { selectCurrentLanguage } from '../../store/language/language.selectors';
+import * as ProductActions from '../../store/product/product.actions';
+import {
+    selectPagination,
+    selectProductError,
+    selectProducts,
+    selectProductsLoading,
+} from '../../store/product/product.selectors';
 
 interface PaginatorEvent {
     first?: number;
@@ -43,13 +53,16 @@ interface PaginatorEvent {
         TranslateModule,
     ],
 })
-export class ProductListComponent {
-    products: Product[] = [];
+export class ProductListComponent implements OnDestroy {
+    products$: Observable<Product[]>;
+    loading$: Observable<boolean>;
+    error$: Observable<string | null>;
+    pagination$: Observable<any>;
+    currentLanguage$: Observable<string>;
+
     currentCategoryId: number = 1;
     previousCategoryId: number = 1;
     searchMode: boolean = false;
-    isLoading: boolean = true;
-    errorMessage: string = '';
 
     thePageNumber: number = 1;
     thePageSize: number = 5;
@@ -58,25 +71,43 @@ export class ProductListComponent {
     previousKeyword: string = '';
 
     layout: 'list' | 'grid' = 'list';
-
     options = ['list', 'grid'];
+
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private productService: ProductService,
         private cartService: CartService,
-        private route: ActivatedRoute
-    ) {}
+        private route: ActivatedRoute,
+        private store: Store<AppState>
+    ) {
+        this.products$ = this.store.select(selectProducts);
+        this.loading$ = this.store.select(selectProductsLoading);
+        this.error$ = this.store.select(selectProductError);
+        this.pagination$ = this.store.select(selectPagination);
+        this.currentLanguage$ = this.store.select(selectCurrentLanguage);
+    }
 
     ngOnInit(): void {
         this.route.paramMap.subscribe(() => {
             this.listProducts();
         });
+
+        // Subscribe to pagination changes
+        const paginationSub = this.pagination$.subscribe(pagination => {
+            this.thePageNumber = pagination.pageNumber;
+            this.thePageSize = pagination.pageSize;
+            this.theTotalElements = pagination.totalElements;
+        });
+
+        this.subscriptions.push(paginationSub);
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 
     listProducts() {
-        this.isLoading = true;
-        this.errorMessage = '';
-
         this.searchMode = this.route.snapshot.paramMap.has('keyword');
 
         if (this.searchMode) {
@@ -95,16 +126,15 @@ export class ProductListComponent {
 
         this.previousKeyword = keyword;
 
-        this.productService.searchProductsPaginate(this.thePageNumber - 1, this.thePageSize, keyword).subscribe({
-            next: data => {
-                this.processResult()(data);
-                this.isLoading = false;
-            },
-            error: () => {
-                this.errorMessage = 'Failed to search products. Please try again.';
-                this.products = [];
-                this.isLoading = false;
-            },
+        this.currentLanguage$.subscribe(language => {
+            this.store.dispatch(
+                ProductActions.searchProducts({
+                    keyword,
+                    page: this.thePageNumber - 1,
+                    size: this.thePageSize,
+                    language,
+                })
+            );
         });
     }
 
@@ -123,39 +153,31 @@ export class ProductListComponent {
 
         this.previousCategoryId = this.currentCategoryId;
 
-        this.productService
-            .getProductListPaginate(this.thePageNumber - 1, this.thePageSize, this.currentCategoryId)
-            .subscribe({
-                next: data => {
-                    this.processResult()(data);
-                    this.isLoading = false;
-                },
-                error: () => {
-                    this.errorMessage = 'Failed to load products. Please try again.';
-                    this.products = [];
-                    this.isLoading = false;
-                },
-            });
+        this.store.dispatch(ProductActions.setCurrentCategory({ categoryId: this.currentCategoryId }));
+
+        this.currentLanguage$.subscribe(language => {
+            this.store.dispatch(
+                ProductActions.loadProductsByCategory({
+                    categoryId: this.currentCategoryId,
+                    page: this.thePageNumber - 1,
+                    size: this.thePageSize,
+                    language,
+                })
+            );
+        });
     }
 
     updatePageSize(pageSize: string) {
         this.thePageSize = +pageSize;
         this.thePageNumber = 1;
+        this.store.dispatch(
+            ProductActions.setPagination({ pageNumber: this.thePageNumber, pageSize: this.thePageSize })
+        );
         this.listProducts();
-    }
-
-    processResult() {
-        return (data: GetResponseProduct) => {
-            this.products = data._embedded.products;
-            this.thePageNumber = data.page.number + 1;
-            this.thePageSize = data.page.size;
-            this.theTotalElements = data.page.totalElements;
-        };
     }
 
     addToCart(product: Product) {
         const cartItem = new CartItem(product);
-
         this.cartService.addToCart(cartItem);
     }
 
@@ -165,6 +187,9 @@ export class ProductListComponent {
 
         this.thePageNumber = Math.floor(first / rows) + 1;
         this.thePageSize = rows;
+        this.store.dispatch(
+            ProductActions.setPagination({ pageNumber: this.thePageNumber, pageSize: this.thePageSize })
+        );
         this.listProducts();
     }
 }
