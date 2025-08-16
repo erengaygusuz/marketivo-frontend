@@ -91,6 +91,7 @@ export class ProductEffects {
             ),
             map(([action, currentLanguage, categoryId, searchKeyword, pagination]) => {
                 const language = 'language' in action ? action.language : currentLanguage;
+
                 return ProductActions.reloadDataOnLanguageChange({
                     language,
                     currentCategoryId: categoryId || undefined,
@@ -121,9 +122,11 @@ export class ProductEffects {
             withLatestFrom(this.store.select(selectCurrentLanguage), this.store.select(selectCurrentProduct)),
             switchMap(([action, currentLanguage, currentProduct]) => {
                 const language = 'language' in action ? action.language : currentLanguage;
+
                 if (currentProduct && currentProduct.id) {
                     return [ProductActions.loadProductDetails({ productId: currentProduct.id, language })];
                 }
+
                 return [];
             })
         )

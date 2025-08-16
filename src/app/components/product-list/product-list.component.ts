@@ -35,6 +35,13 @@ interface PaginatorEvent {
     pageCount?: number;
 }
 
+interface Pagination {
+    pageNumber: number;
+    pageSize: number;
+    totalElements: number;
+    totalPages: number;
+}
+
 @Component({
     selector: 'app-product-list',
     templateUrl: './product-list.component.html',
@@ -58,7 +65,7 @@ export class ProductListComponent implements OnDestroy {
     products$: Observable<Product[]>;
     loading$: Observable<boolean>;
     error$: Observable<string | null>;
-    pagination$: Observable<any>;
+    pagination$: Observable<Pagination>;
     currentLanguage$: Observable<string>;
 
     currentCategoryId: number = 1;
@@ -95,7 +102,7 @@ export class ProductListComponent implements OnDestroy {
         });
 
         // Subscribe to pagination changes
-        const paginationSub = this.pagination$.subscribe(pagination => {
+        const paginationSub = this.pagination$.subscribe((pagination: Pagination) => {
             this.thePageNumber = pagination.pageNumber;
             this.thePageSize = pagination.pageSize;
             this.theTotalElements = pagination.totalElements;

@@ -1,12 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { TableModule } from 'primeng/table';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { OrderHistory } from '../../common/models/order-history';
-import { OrderHistoryService } from '../../services/order-history.service';
+import { AppState } from '../../store/app.state';
+import * as OrderHistoryActions from '../../store/order-history/order-history.actions';
+import {
+    selectOrderHistory,
+    selectOrderHistoryError,
+    selectOrderHistoryLoading,
+} from '../../store/order-history/order-history.selectors';
 
 @Component({
     selector: 'app-order-history-component',
@@ -17,14 +24,18 @@ import { OrderHistoryService } from '../../services/order-history.service';
 export class OrderHistoryComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>();
 
-    orderHistoryList: OrderHistory[] = [];
-    isLoading: boolean = true;
-    errorMessage: string = '';
+    orderHistoryList$: Observable<OrderHistory[]>;
+    isLoading$: Observable<boolean>;
+    errorMessage$: Observable<string | null>;
 
     constructor(
-        private orderHistoryService: OrderHistoryService,
+        private store: Store<AppState>,
         private translate: TranslateService
-    ) {}
+    ) {
+        this.orderHistoryList$ = this.store.select(selectOrderHistory);
+        this.isLoading$ = this.store.select(selectOrderHistoryLoading);
+        this.errorMessage$ = this.store.select(selectOrderHistoryError);
+    }
 
     ngOnInit() {
         this.handleOrderHistory();
@@ -36,44 +47,23 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     }
 
     handleOrderHistory() {
-        this.isLoading = true;
-        this.errorMessage = '';
+        // Clear any previous errors
+        this.store.dispatch(OrderHistoryActions.clearOrderHistoryError());
 
         // Get user email from sessionStorage
         const userEmailFromStorage = sessionStorage.getItem('userEmail');
-        const userEmail = userEmailFromStorage ? JSON.parse(userEmailFromStorage) : null;
+        const userEmail: string | null = userEmailFromStorage ? (JSON.parse(userEmailFromStorage) as string) : null;
 
         if (!userEmail) {
-            this.errorMessage = this.translate.instant('OrderHistory.Errors.NoUserEmail');
-            this.isLoading = false;
+            const errorMessage = this.translate.instant('OrderHistory.Errors.NoUserEmail');
+
+            this.store.dispatch(OrderHistoryActions.loadOrderHistoryFailure({ error: errorMessage }));
 
             return;
         }
 
-        this.orderHistoryService.getOrderHistory(userEmail).subscribe({
-            next: data => {
-                // Check if response has the expected structure
-                if (data && data._embedded && data._embedded.orders) {
-                    this.orderHistoryList = data._embedded.orders;
-                } else {
-                    this.orderHistoryList = [];
-                }
-                this.isLoading = false;
-            },
-            error: error => {
-                this.errorMessage = this.translate.instant('OrderHistory.Errors.LoadFailed');
-                this.orderHistoryList = [];
-                this.isLoading = false;
-
-                if (error.status === 401) {
-                    this.errorMessage = this.translate.instant('OrderHistory.Errors.AuthenticationFailed');
-                } else if (error.status === 403) {
-                    this.errorMessage = this.translate.instant('OrderHistory.Errors.AccessDenied');
-                } else if (error.status === 404) {
-                    this.errorMessage = this.translate.instant('OrderHistory.Errors.ServiceNotFound');
-                }
-            },
-        });
+        // Dispatch action to load order history
+        this.store.dispatch(OrderHistoryActions.loadOrderHistory({ email: userEmail }));
     }
 
     // Method to refresh order history

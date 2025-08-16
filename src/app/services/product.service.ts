@@ -19,6 +19,7 @@ export class ProductService {
 
     getProductList(theCategoryId: number, language?: string): Observable<Product[]> {
         let searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
+
         if (language) {
             searchUrl += `&lang=${language}`;
         }
@@ -34,6 +35,7 @@ export class ProductService {
     ): Observable<GetResponseProduct> {
         let searchUrl =
             `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}` + `&page=${thePage}&size=${thePageSize}`;
+
         if (language) {
             searchUrl += `&lang=${language}`;
         }
@@ -43,6 +45,7 @@ export class ProductService {
 
     getProductCategories(language?: string): Observable<ProductCategory[]> {
         let categoryUrl = this.categoryUrl;
+
         if (language) {
             categoryUrl += `?lang=${language}`;
         }
@@ -54,6 +57,7 @@ export class ProductService {
 
     searchProducts(keyword: string, language?: string): Observable<Product[]> {
         let searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}`;
+
         if (language) {
             searchUrl += `&lang=${language}`;
         }
@@ -69,6 +73,7 @@ export class ProductService {
     ): Observable<GetResponseProduct> {
         let searchUrl =
             `${this.baseUrl}/search/findByNameContaining?name=${keyword}` + `&page=${thePage}&size=${thePageSize}`;
+
         if (language) {
             searchUrl += `&lang=${language}`;
         }
@@ -78,6 +83,7 @@ export class ProductService {
 
     getProduct(theProductId: number, language?: string): Observable<Product> {
         let productUrl = `${this.baseUrl}/${theProductId}`;
+
         if (language) {
             productUrl += `?lang=${language}`;
         }

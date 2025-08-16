@@ -17,6 +17,7 @@ import { appRoutes } from './app.routes';
 import { AuthEffects } from './app/store/auth/auth.effects';
 import { CartEffects } from './app/store/cart/cart.effects';
 import { LanguageEffects } from './app/store/language/language.effects';
+import { OrderHistoryEffects } from './app/store/order-history/order-history.effects';
 import { ProductEffects } from './app/store/product/product.effects';
 import { rootReducer } from './app/store/root.reducer';
 
@@ -51,7 +52,7 @@ export const appConfig: ApplicationConfig = {
             },
         }),
         provideStore(rootReducer),
-        provideEffects([CartEffects, LanguageEffects, AuthEffects, ProductEffects]),
+        provideEffects([CartEffects, LanguageEffects, AuthEffects, ProductEffects, OrderHistoryEffects]),
         provideStoreDevtools({
             maxAge: 25,
             logOnly: !isDevMode(),
