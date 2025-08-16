@@ -4,6 +4,7 @@ import { ProductCategory } from '../../common/models/product-category';
 export interface ProductState {
     products: Product[];
     categories: ProductCategory[];
+    currentProduct: Product | null;
     currentCategoryId: number | null;
     searchKeyword: string | null;
     pagination: {
@@ -14,12 +15,15 @@ export interface ProductState {
     };
     loading: boolean;
     categoriesLoading: boolean;
+    productDetailsLoading: boolean;
     error: string | null;
+    productDetailsError: string | null;
 }
 
 export const initialProductState: ProductState = {
     products: [],
     categories: [],
+    currentProduct: null,
     currentCategoryId: null,
     searchKeyword: null,
     pagination: {
@@ -30,5 +34,7 @@ export const initialProductState: ProductState = {
     },
     loading: false,
     categoriesLoading: false,
+    productDetailsLoading: false,
     error: null,
+    productDetailsError: null,
 };

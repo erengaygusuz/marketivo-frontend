@@ -1,12 +1,23 @@
-import { Component } from '@angular/core';
-import { ProductService } from '../../services/product.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CartService } from '../../services/cart.service';
-import { Product } from '../../common/models/product';
-import { CartItem } from '../../common/models/cart-item';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { ButtonModule } from 'primeng/button';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { CartItem } from '../../common/models/cart-item';
+import { Product } from '../../common/models/product';
+import { AppState } from '../../store/app.state';
+import * as CartActions from '../../store/cart/cart.actions';
+import { selectCurrentLanguage } from '../../store/language/language.selectors';
+import * as ProductActions from '../../store/product/product.actions';
+import {
+    selectCurrentProduct,
+    selectProductDetailsError,
+    selectProductDetailsLoading,
+} from '../../store/product/product.selectors';
 
 @Component({
     selector: 'app-product-details',
@@ -14,32 +25,47 @@ import { TranslateModule } from '@ngx-translate/core';
     styleUrls: ['./product-details.component.css'],
     imports: [CommonModule, ButtonModule, RouterModule, TranslateModule],
 })
-export class ProductDetailsComponent {
-    product!: Product;
+export class ProductDetailsComponent implements OnInit, OnDestroy {
+    product$: Observable<Product | null>;
+    loading$: Observable<boolean>;
+    error$: Observable<string | null>;
+    language$: Observable<string>;
+
+    private destroy$ = new Subject<void>();
 
     constructor(
-        private productService: ProductService,
-        private cartService: CartService,
+        private store: Store<AppState>,
         private route: ActivatedRoute
-    ) {}
+    ) {
+        this.product$ = this.store.select(selectCurrentProduct);
+        this.loading$ = this.store.select(selectProductDetailsLoading);
+        this.error$ = this.store.select(selectProductDetailsError);
+        this.language$ = this.store.select(selectCurrentLanguage);
+    }
 
     ngOnInit(): void {
-        this.route.paramMap.subscribe(() => {
+        this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.handleProductDetails();
         });
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+        this.store.dispatch(ProductActions.clearCurrentProduct());
     }
 
     handleProductDetails() {
         const theProductId: number = +this.route.snapshot.paramMap.get('id')!;
 
-        this.productService.getProduct(theProductId).subscribe(data => {
-            this.product = data;
+        this.language$.pipe(takeUntil(this.destroy$)).subscribe(language => {
+            this.store.dispatch(ProductActions.loadProductDetails({ productId: theProductId, language }));
         });
     }
 
-    addToCart() {
-        const theCartItem = new CartItem(this.product);
+    addToCart(product: Product) {
+        const theCartItem = new CartItem(product);
 
-        this.cartService.addToCart(theCartItem);
+        this.store.dispatch(CartActions.addToCart({ cartItem: theCartItem }));
     }
 }

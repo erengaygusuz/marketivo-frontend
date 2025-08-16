@@ -104,5 +104,32 @@ export const productReducer = createReducer(
             totalElements: 0,
             totalPages: 0,
         },
+    })),
+
+    // Load product details
+    on(ProductActions.loadProductDetails, state => ({
+        ...state,
+        productDetailsLoading: true,
+        productDetailsError: null,
+    })),
+
+    on(ProductActions.loadProductDetailsSuccess, (state, { product }) => ({
+        ...state,
+        currentProduct: product,
+        productDetailsLoading: false,
+        productDetailsError: null,
+    })),
+
+    on(ProductActions.loadProductDetailsFailure, (state, { error }) => ({
+        ...state,
+        productDetailsLoading: false,
+        productDetailsError: error,
+    })),
+
+    // Clear current product
+    on(ProductActions.clearCurrentProduct, state => ({
+        ...state,
+        currentProduct: null,
+        productDetailsError: null,
     }))
 );

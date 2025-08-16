@@ -7,7 +7,12 @@ import { ProductService } from '../../services/product.service';
 import * as LanguageActions from '../language/language.actions';
 import { selectCurrentLanguage } from '../language/language.selectors';
 import * as ProductActions from './product.actions';
-import { selectCurrentCategoryId, selectPagination, selectSearchKeyword } from './product.selectors';
+import {
+    selectCurrentCategoryId,
+    selectCurrentProduct,
+    selectPagination,
+    selectSearchKeyword,
+} from './product.selectors';
 
 @Injectable()
 export class ProductEffects {
@@ -93,6 +98,33 @@ export class ProductEffects {
                     page: pagination?.pageNumber ? pagination.pageNumber - 1 : 0,
                     size: pagination?.pageSize || 5,
                 });
+            })
+        )
+    );
+
+    loadProductDetails$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ProductActions.loadProductDetails),
+            switchMap(({ productId, language }) =>
+                this.productService.getProduct(productId, language).pipe(
+                    map(product => ProductActions.loadProductDetailsSuccess({ product })),
+                    catchError(error => of(ProductActions.loadProductDetailsFailure({ error: error.message })))
+                )
+            )
+        )
+    );
+
+    // Listen to language changes and reload current product if exists
+    reloadProductOnLanguageChange$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(LanguageActions.setLanguage, LanguageActions.languageLoaded),
+            withLatestFrom(this.store.select(selectCurrentLanguage), this.store.select(selectCurrentProduct)),
+            switchMap(([action, currentLanguage, currentProduct]) => {
+                const language = 'language' in action ? action.language : currentLanguage;
+                if (currentProduct && currentProduct.id) {
+                    return [ProductActions.loadProductDetails({ productId: currentProduct.id, language })];
+                }
+                return [];
             })
         )
     );

@@ -1,45 +1,59 @@
 <div class="flex flex-col">
     <div class="card">
-        <!-- 🖼 Responsive Image -->
-        <div class="flex justify-center">
-            <img
-                src="{{ product.imageUrl }}"
-                class="rounded mx-auto w-[70%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] max-w-[300px]"
-                alt="{{ product.name }}"
-            />
+        <!-- Loading State -->
+        <div *ngIf="loading$ | async" class="flex justify-center p-4">
+            <i class="pi pi-spinner pi-spin text-2xl"></i>
         </div>
 
-        <!-- 📋 Product Info -->
-        <h3>{{ product.name }}</h3>
+        <!-- Error State -->
+        <div *ngIf="error$ | async as error" class="p-4 text-center text-red-600">
+            <p>{{ error }}</p>
+        </div>
 
-        <div class="flex flex-col gap-6 mt-6">
-            <span class="text-2xl font-semibold">$ {{ product.unitPrice }}</span>
-            <div class="flex gap-2">
+        <!-- Product Content -->
+        <div *ngIf="product$ | async as product">
+            <!-- 🖼 Responsive Image -->
+            <div class="flex justify-center">
+                <img
+                    src="{{ product.imageUrl }}"
+                    class="rounded mx-auto w-[70%] sm:w-[60%] md:w-[50%] lg:w-[40%] xl:w-[30%] max-w-[300px]"
+                    alt="{{ product.name }}"
+                />
+            </div>
+
+            <!-- 📋 Product Info -->
+            <h3>{{ product.name }}</h3>
+
+            <div class="flex flex-col gap-6 mt-6">
+                <span class="text-2xl font-semibold">$ {{ product.unitPrice }}</span>
+                <div class="flex gap-2">
+                    <p-button
+                        icon="pi pi-shopping-cart"
+                        [label]="'ProductDetails.AddToCart' | translate"
+                        class="flex-auto whitespace-nowrap"
+                        styleClass="w-full"
+                        severity="success"
+                        [disabled]="loading$ | async"
+                        (click)="addToCart(product)"
+                    ></p-button>
+                </div>
+            </div>
+
+            <hr />
+
+            <h4>{{ 'ProductDetails.Description' | translate }}</h4>
+            <p>{{ product.description }}</p>
+
+            <div class="flex gap-2 mt-5">
                 <p-button
-                    icon="pi pi-shopping-cart"
-                    [label]="'ProductDetails.AddToCart' | translate"
+                    [label]="'ProductDetails.BackToProducts' | translate"
+                    icon="pi pi-arrow-left"
+                    severity="info"
+                    [routerLink]="['/products']"
                     class="flex-auto whitespace-nowrap"
                     styleClass="w-full"
-                    severity="success"
-                    (click)="addToCart()"
                 ></p-button>
             </div>
-        </div>
-
-        <hr />
-
-        <h4>{{ 'ProductDetails.Description' | translate }}</h4>
-        <p>{{ product.description }}</p>
-
-        <div class="flex gap-2 mt-5">
-            <p-button
-                [label]="'ProductDetails.BackToProducts' | translate"
-                icon="pi pi-arrow-left"
-                severity="info"
-                [routerLink]="['/products']"
-                class="flex-auto whitespace-nowrap"
-                styleClass="w-full"
-            ></p-button>
         </div>
     </div>
 </div>

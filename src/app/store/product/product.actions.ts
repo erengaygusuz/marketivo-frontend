@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { GetResponseProduct } from '../../common/interfaces/GetResponseProduct';
+import { Product } from '../../common/models/product';
 import { ProductCategory } from '../../common/models/product-category';
 
 // Load categories
@@ -52,3 +53,20 @@ export const reloadDataOnLanguageChange = createAction(
     '[Product] Reload Data On Language Change',
     props<{ language: string; currentCategoryId?: number; searchKeyword?: string; page?: number; size?: number }>()
 );
+
+// Load product details
+export const loadProductDetails = createAction(
+    '[Product] Load Product Details',
+    props<{ productId: number; language: string }>()
+);
+export const loadProductDetailsSuccess = createAction(
+    '[Product] Load Product Details Success',
+    props<{ product: Product }>()
+);
+export const loadProductDetailsFailure = createAction(
+    '[Product] Load Product Details Failure',
+    props<{ error: string }>()
+);
+
+// Clear current product
+export const clearCurrentProduct = createAction('[Product] Clear Current Product');

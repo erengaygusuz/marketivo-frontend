@@ -42,3 +42,15 @@ export const selectProductById = (id: number) =>
 
 export const selectCategoryById = (id: number) =>
     createSelector(selectCategories, categories => categories.find(category => category.id === id));
+
+export const selectCurrentProduct = createSelector(selectProductState, (state: ProductState) => state?.currentProduct);
+
+export const selectProductDetailsLoading = createSelector(
+    selectProductState,
+    (state: ProductState) => state?.productDetailsLoading || false
+);
+
+export const selectProductDetailsError = createSelector(
+    selectProductState,
+    (state: ProductState) => state?.productDetailsError || null
+);

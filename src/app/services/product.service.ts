@@ -76,8 +76,11 @@ export class ProductService {
         return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(map(response => response));
     }
 
-    getProduct(theProductId: number): Observable<Product> {
-        const productUrl = `${this.baseUrl}/${theProductId}`;
+    getProduct(theProductId: number, language?: string): Observable<Product> {
+        let productUrl = `${this.baseUrl}/${theProductId}`;
+        if (language) {
+            productUrl += `?lang=${language}`;
+        }
 
         return this.httpClient.get<Product>(productUrl);
     }
