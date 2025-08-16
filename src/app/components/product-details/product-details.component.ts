@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
-import { CartItem } from '../../common/models/cart-item';
+import { createCartItem } from '../../common/models/cart-item';
 import { Product } from '../../common/models/product';
 import { AppState } from '../../store/app.state';
 import * as CartActions from '../../store/cart/cart.actions';
@@ -64,8 +64,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     }
 
     addToCart(product: Product) {
-        const theCartItem = new CartItem(product);
+        this.language$.pipe(take(1)).subscribe((language: string) => {
+            const theCartItem = createCartItem(product, language);
 
-        this.store.dispatch(CartActions.addToCart({ cartItem: theCartItem }));
+            this.store.dispatch(CartActions.addToCart({ cartItem: theCartItem }));
+        });
     }
 }

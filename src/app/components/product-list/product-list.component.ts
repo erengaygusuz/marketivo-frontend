@@ -13,7 +13,8 @@ import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
 import { Observable, Subscription } from 'rxjs';
-import { CartItem } from '../../common/models/cart-item';
+import { take } from 'rxjs/operators';
+import { createCartItem } from '../../common/models/cart-item';
 import { Product } from '../../common/models/product';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../services/product.service';
@@ -177,8 +178,11 @@ export class ProductListComponent implements OnDestroy {
     }
 
     addToCart(product: Product) {
-        const cartItem = new CartItem(product);
-        this.cartService.addToCart(cartItem);
+        this.currentLanguage$.pipe(take(1)).subscribe((language: string) => {
+            const cartItem = createCartItem(product, language);
+
+            this.cartService.addToCart(cartItem);
+        });
     }
 
     onPageChange(event: PaginatorEvent) {

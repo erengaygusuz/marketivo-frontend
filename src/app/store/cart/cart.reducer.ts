@@ -14,11 +14,17 @@ export const cartReducer = createReducer(
     })),
 
     on(CartActions.loadCartSuccess, (state, { cartItems }) => {
-        const { totalPrice, totalQuantity } = computeTotals(cartItems);
+        // Ensure all cart items have localizedNames property
+        const migratedCartItems = cartItems.map(item => ({
+            ...item,
+            localizedNames: item.localizedNames || { 'en-US': item.name },
+        }));
+
+        const { totalPrice, totalQuantity } = computeTotals(migratedCartItems);
 
         return {
             ...state,
-            cartItems,
+            cartItems: migratedCartItems,
             totalPrice,
             totalQuantity,
             loading: false,
@@ -44,8 +50,14 @@ export const cartReducer = createReducer(
                 index === existingItemIndex ? { ...item, quantity: item.quantity + 1 } : item
             );
         } else {
-            // New item, add to cart
-            updatedCartItems = [...state.cartItems, { ...cartItem, quantity: 1 }];
+            // New item, add to cart and ensure it has localizedNames
+            const newCartItem = {
+                ...cartItem,
+                quantity: 1,
+                localizedNames: cartItem.localizedNames || { 'en-US': cartItem.name },
+            };
+
+            updatedCartItems = [...state.cartItems, newCartItem];
         }
 
         const { totalPrice, totalQuantity } = computeTotals(updatedCartItems);
@@ -114,6 +126,42 @@ export const cartReducer = createReducer(
             ...state,
             totalPrice,
             totalQuantity,
+        };
+    }),
+
+    // Update cart items language
+    on(CartActions.updateCartItemsLanguage, (state, { language }) => {
+        const updatedCartItems = state.cartItems.map(item => ({
+            ...item,
+            name: item.localizedNames?.[language] || item.name,
+        }));
+
+        return {
+            ...state,
+            cartItems: updatedCartItems,
+        };
+    }),
+
+    // Add localized name to cart item
+    on(CartActions.addLocalizedNameToCartItem, (state, { cartItemId, language, name }) => {
+        const updatedCartItems = state.cartItems.map(item => {
+            if (item.id === cartItemId) {
+                return {
+                    ...item,
+                    localizedNames: {
+                        ...item.localizedNames,
+                        [language]: name,
+                    },
+                    name: name, // Update current name
+                };
+            }
+
+            return item;
+        });
+
+        return {
+            ...state,
+            cartItems: updatedCartItems,
         };
     })
 );
