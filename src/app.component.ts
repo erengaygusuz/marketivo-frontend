@@ -4,7 +4,6 @@ import { LanguageFacade } from '@/services/language.facade';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -12,7 +11,6 @@ import { Subject, takeUntil } from 'rxjs';
     selector: 'app-root',
     standalone: true,
     imports: [RouterModule, ToastModule, TranslateModule],
-    providers: [MessageService],
     template: `
         <p-toast position="top-right"></p-toast>
         <router-outlet></router-outlet>

@@ -1,5 +1,6 @@
 import { AuthState } from './auth/auth.state';
 import { CartState } from './cart/cart.state';
+import { CheckoutState } from './checkout/checkout.state';
 import { LanguageState } from './language/language.state';
 import { OrderHistoryState } from './order-history/order-history.state';
 import { ProductState } from './product/product.state';
@@ -10,4 +11,5 @@ export interface AppState {
     auth: AuthState;
     product: ProductState;
     orderHistory: OrderHistoryState;
+    checkout: CheckoutState;
 }

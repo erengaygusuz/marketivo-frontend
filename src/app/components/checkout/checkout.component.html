@@ -194,8 +194,8 @@
                             style="padding: 12px; border: 1px solid #ccc; border-radius: 4px"
                             class="mb-2"
                         ></div>
-                        @if (displayError) {
-                            <p-message severity="error" size="small" variant="simple">{{ displayError }}</p-message>
+                        @if (stripeError$ | async; as stripeError) {
+                            <p-message severity="error" size="small" variant="simple">{{ stripeError }}</p-message>
                         }
                     </div>
                 </div>

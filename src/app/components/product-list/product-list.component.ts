@@ -17,7 +17,6 @@ import { take } from 'rxjs/operators';
 import { createCartItem } from '../../common/models/cart-item';
 import { Product } from '../../common/models/product';
 import { CartService } from '../../services/cart.service';
-import { ProductService } from '../../services/product.service';
 import { AppState } from '../../store/app.state';
 import { selectCurrentLanguage } from '../../store/language/language.selectors';
 import * as ProductActions from '../../store/product/product.actions';
@@ -84,7 +83,6 @@ export class ProductListComponent implements OnDestroy {
     private subscriptions: Subscription[] = [];
 
     constructor(
-        private productService: ProductService,
         private cartService: CartService,
         private route: ActivatedRoute,
         private store: Store<AppState>

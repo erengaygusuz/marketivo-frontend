@@ -2,7 +2,7 @@ import { Environment } from './environment.interface';
 
 export const environment: Environment = {
     production: true,
-    apiBaseUrl: 'http://localhost:8080/api',
+    apiBaseUrl: '/api',
     stripePublishableKey:
         'pk_test_51Nvx1SAkCHzlYhgHDLntydENy3WLqtcWq4Rb9LrQbASWWg5BbLdHxAYmRKbvMCzNZEtr7LbRenLgfY6OEcZr6DDS00QFfBKoAk',
     auth: {

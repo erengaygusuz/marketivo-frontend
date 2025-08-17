@@ -96,7 +96,8 @@ export class FluentValidationService {
             control !== null &&
             control.invalid &&
             control.errors !== null &&
-            control.errors['fluentValidation'] !== undefined
+            control.errors['fluentValidation'] !== undefined &&
+            (control.touched || control.dirty)
         );
     }
 

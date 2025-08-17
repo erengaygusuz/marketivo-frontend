@@ -11,11 +11,13 @@ import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { TranslateLoader, TranslateModule, TranslationObject } from '@ngx-translate/core';
 import Aura from '@primeuix/themes/aura';
+import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { Observable } from 'rxjs';
 import { appRoutes } from './app.routes';
 import { AuthEffects } from './app/store/auth/auth.effects';
 import { CartEffects } from './app/store/cart/cart.effects';
+import { CheckoutEffects } from './app/store/checkout/checkout.effects';
 import { LanguageEffects } from './app/store/language/language.effects';
 import { OrderHistoryEffects } from './app/store/order-history/order-history.effects';
 import { ProductEffects } from './app/store/product/product.effects';
@@ -51,8 +53,16 @@ export const appConfig: ApplicationConfig = {
                 ...myAppConfig.httpInterceptor,
             },
         }),
+        MessageService,
         provideStore(rootReducer),
-        provideEffects([CartEffects, LanguageEffects, AuthEffects, ProductEffects, OrderHistoryEffects]),
+        provideEffects([
+            CartEffects,
+            LanguageEffects,
+            AuthEffects,
+            ProductEffects,
+            OrderHistoryEffects,
+            CheckoutEffects,
+        ]),
         provideStoreDevtools({
             maxAge: 25,
             logOnly: !isDevMode(),

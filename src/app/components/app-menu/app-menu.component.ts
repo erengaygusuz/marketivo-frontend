@@ -1,4 +1,3 @@
-import { ProductService } from '@/services/product.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -48,7 +47,6 @@ export class AppMenu implements OnDestroy {
     private categoriesSubscription: Subscription | null = null;
 
     constructor(
-        private productService: ProductService,
         private translate: TranslateService,
         private store: Store<AppState>
     ) {
