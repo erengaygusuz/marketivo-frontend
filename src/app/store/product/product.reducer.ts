@@ -28,6 +28,7 @@ export const productReducer = createReducer(
     // Load products by category
     on(ProductActions.loadProductsByCategory, state => ({
         ...state,
+        searchKeyword: null, // Clear search keyword when loading by category
         loading: true,
         error: null,
     })),
@@ -54,6 +55,7 @@ export const productReducer = createReducer(
     // Search products
     on(ProductActions.searchProducts, (state, { keyword }) => ({
         ...state,
+        currentCategoryId: null, // Clear current category when searching
         searchKeyword: keyword,
         loading: true,
         error: null,

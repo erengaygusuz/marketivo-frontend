@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -12,8 +12,8 @@ import { PaginatorModule } from 'primeng/paginator';
 import { PickListModule } from 'primeng/picklist';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
-import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { createCartItem } from '../../common/models/cart-item';
 import { Product } from '../../common/models/product';
 import { CartService } from '../../services/cart.service';
@@ -60,7 +60,7 @@ interface Pagination {
         TranslateModule,
     ],
 })
-export class ProductListComponent implements OnDestroy {
+export class ProductListComponent implements OnInit, OnDestroy {
     products$: Observable<Product[]>;
     loading$: Observable<boolean>;
     error$: Observable<string | null>;
@@ -71,16 +71,12 @@ export class ProductListComponent implements OnDestroy {
     previousCategoryId: number = 1;
     searchMode: boolean = false;
 
-    thePageNumber: number = 1;
-    thePageSize: number = 5;
-    theTotalElements: number = 0;
-
     previousKeyword: string = '';
 
     layout: 'list' | 'grid' = 'list';
     options = ['list', 'grid'];
 
-    private subscriptions: Subscription[] = [];
+    private destroy$ = new Subject<void>();
 
     constructor(
         private cartService: CartService,
@@ -95,22 +91,14 @@ export class ProductListComponent implements OnDestroy {
     }
 
     ngOnInit(): void {
-        this.route.paramMap.subscribe(() => {
+        this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.listProducts();
         });
-
-        // Subscribe to pagination changes
-        const paginationSub = this.pagination$.subscribe((pagination: Pagination) => {
-            this.thePageNumber = pagination.pageNumber;
-            this.thePageSize = pagination.pageSize;
-            this.theTotalElements = pagination.totalElements;
-        });
-
-        this.subscriptions.push(paginationSub);
     }
 
     ngOnDestroy(): void {
-        this.subscriptions.forEach(sub => sub.unsubscribe());
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     listProducts() {
@@ -127,20 +115,24 @@ export class ProductListComponent implements OnDestroy {
         const keyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
         if (this.previousKeyword !== keyword) {
-            this.thePageNumber = 1;
+            // Reset to page 1 when keyword changes
+            this.store.dispatch(ProductActions.setPagination({ pageNumber: 1, pageSize: 5 }));
         }
 
         this.previousKeyword = keyword;
 
-        this.currentLanguage$.subscribe(language => {
-            this.store.dispatch(
-                ProductActions.searchProducts({
-                    keyword,
-                    page: this.thePageNumber - 1,
-                    size: this.thePageSize,
-                    language,
-                })
-            );
+        // Get current pagination and language from store
+        this.currentLanguage$.pipe(take(1), takeUntil(this.destroy$)).subscribe(language => {
+            this.pagination$.pipe(take(1), takeUntil(this.destroy$)).subscribe(pagination => {
+                this.store.dispatch(
+                    ProductActions.searchProducts({
+                        keyword,
+                        page: pagination.pageNumber - 1,
+                        size: pagination.pageSize,
+                        language,
+                    })
+                );
+            });
         });
     }
 
@@ -154,31 +146,33 @@ export class ProductListComponent implements OnDestroy {
         }
 
         if (this.previousCategoryId != this.currentCategoryId) {
-            this.thePageNumber = 1;
+            // Reset to page 1 when category changes
+            this.store.dispatch(ProductActions.setPagination({ pageNumber: 1, pageSize: 5 }));
         }
 
         this.previousCategoryId = this.currentCategoryId;
 
         this.store.dispatch(ProductActions.setCurrentCategory({ categoryId: this.currentCategoryId }));
 
-        this.currentLanguage$.subscribe(language => {
-            this.store.dispatch(
-                ProductActions.loadProductsByCategory({
-                    categoryId: this.currentCategoryId,
-                    page: this.thePageNumber - 1,
-                    size: this.thePageSize,
-                    language,
-                })
-            );
+        // Get current pagination and language from store
+        this.currentLanguage$.pipe(take(1), takeUntil(this.destroy$)).subscribe(language => {
+            this.pagination$.pipe(take(1), takeUntil(this.destroy$)).subscribe(pagination => {
+                this.store.dispatch(
+                    ProductActions.loadProductsByCategory({
+                        categoryId: this.currentCategoryId,
+                        page: pagination.pageNumber - 1,
+                        size: pagination.pageSize,
+                        language,
+                    })
+                );
+            });
         });
     }
 
     updatePageSize(pageSize: string) {
-        this.thePageSize = +pageSize;
-        this.thePageNumber = 1;
-        this.store.dispatch(
-            ProductActions.setPagination({ pageNumber: this.thePageNumber, pageSize: this.thePageSize })
-        );
+        const newPageSize = +pageSize;
+
+        this.store.dispatch(ProductActions.setPagination({ pageNumber: 1, pageSize: newPageSize }));
         this.listProducts();
     }
 
@@ -192,13 +186,11 @@ export class ProductListComponent implements OnDestroy {
 
     onPageChange(event: PaginatorEvent) {
         const first = event.first || 0;
-        const rows = event.rows || this.thePageSize;
+        const rows = event.rows || 5;
 
-        this.thePageNumber = Math.floor(first / rows) + 1;
-        this.thePageSize = rows;
-        this.store.dispatch(
-            ProductActions.setPagination({ pageNumber: this.thePageNumber, pageSize: this.thePageSize })
-        );
+        const pageNumber = Math.floor(first / rows) + 1;
+
+        this.store.dispatch(ProductActions.setPagination({ pageNumber, pageSize: rows }));
         this.listProducts();
     }
 }

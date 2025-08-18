@@ -128,7 +128,7 @@
                 <p-paginator
                     [rows]="(pagination$ | async)?.pageSize || 5"
                     [totalRecords]="(pagination$ | async)?.totalElements || 0"
-                    [first]="((pagination$ | async)?.pageNumber || 1 - 1) * ((pagination$ | async)?.pageSize || 5)"
+                    [first]="(((pagination$ | async)?.pageNumber || 1) - 1) * ((pagination$ | async)?.pageSize || 5)"
                     [rowsPerPageOptions]="[5, 10, 20, 50]"
                     (onPageChange)="onPageChange($event)"
                     styleClass="w-full"
