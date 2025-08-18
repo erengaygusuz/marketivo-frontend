@@ -14,6 +14,36 @@
             "sourceRoot": "src",
             "prefix": "app",
             "architect": {
+                "ngsscbuild": {
+                    "builder": "angular-server-side-configuration:ngsscbuild",
+                    "options": {
+                        "buildTarget": "marketivo-frontend:build",
+                        "filePattern": "index.html",
+                        "searchPattern": "src/environments/environment.ts",
+                        "additionalEnvironmentVariables": [
+                        "PROD",
+                        "API_ADDRESS",
+                        "STRIPE_PK",
+                        "AUTH_DOMAIN",
+                        "AUTH_CLIENT_ID",
+                        "AUTH_AUDIENCE",
+                        "DEFAULT_LANG",
+                        "SUPPORTED_LANGS"
+                        ]
+                    },
+                    "configurations": {
+                        "production": {
+                        "buildTarget": "marketivo-frontend:build:production"
+                        },
+                        "staging": {
+                        "buildTarget": "marketivo-frontend:build:staging"
+                        },
+                        "development": {
+                        "buildTarget": "marketivo-frontend:build:development"
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                    },
                 "build": {
                     "builder": "@angular-devkit/build-angular:application",
                     "options": {

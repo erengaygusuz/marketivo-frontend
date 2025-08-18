@@ -49,6 +49,7 @@
         "@primeuix/themes": "^1.2.1",
         "@stripe/stripe-js": "^7.8.0",
         "@tailwindcss/postcss": "^4.1.11",
+        "angular-server-side-configuration": "^20.0.0",
         "chart.js": "4.4.2",
         "flag-icons": "^7.5.0",
         "fluentvalidation-ts": "^5.0.0",
