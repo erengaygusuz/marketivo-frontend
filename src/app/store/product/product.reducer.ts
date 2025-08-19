@@ -35,7 +35,7 @@ export const productReducer = createReducer(
 
     on(ProductActions.loadProductsByCategorySuccess, (state, { response }) => ({
         ...state,
-        products: response._embedded.products,
+        products: response._embedded?.products || [],
         pagination: {
             pageNumber: response.page.number + 1,
             pageSize: response.page.size,
@@ -63,7 +63,7 @@ export const productReducer = createReducer(
 
     on(ProductActions.searchProductsSuccess, (state, { response }) => ({
         ...state,
-        products: response._embedded.products,
+        products: response._embedded?.products || [],
         pagination: {
             pageNumber: response.page.number + 1,
             pageSize: response.page.size,

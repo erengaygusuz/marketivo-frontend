@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
@@ -81,6 +81,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     constructor(
         private cartService: CartService,
         private route: ActivatedRoute,
+        private router: Router,
         private store: Store<AppState>
     ) {
         this.products$ = this.store.select(selectProducts);
@@ -107,12 +108,26 @@ export class ProductListComponent implements OnInit, OnDestroy {
         if (this.searchMode) {
             this.handleSearchProducts();
         } else {
+            // Clear any previous search state when not in search mode
+            this.previousKeyword = '';
             this.handleListProducts();
         }
     }
 
     handleSearchProducts() {
         const keyword: string = this.route.snapshot.paramMap.get('keyword')!;
+        const trimmedKeyword = keyword?.trim();
+
+        // If keyword is empty or whitespace, treat it as a regular product listing
+        if (!trimmedKeyword || trimmedKeyword.length === 0) {
+            // Clear search state and switch to list mode
+            this.searchMode = false;
+            this.previousKeyword = '';
+            this.store.dispatch(ProductActions.clearProducts());
+            this.handleListProducts();
+
+            return;
+        }
 
         if (this.previousKeyword !== keyword) {
             // Reset to page 1 when keyword changes
@@ -126,7 +141,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
             this.pagination$.pipe(take(1), takeUntil(this.destroy$)).subscribe(pagination => {
                 this.store.dispatch(
                     ProductActions.searchProducts({
-                        keyword,
+                        keyword: trimmedKeyword,
                         page: pagination.pageNumber - 1,
                         size: pagination.pageSize,
                         language,

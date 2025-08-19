@@ -139,9 +139,7 @@
         @if (!(loading$ | async) && !(error$ | async) && ((products$ | async)?.length || 0) === 0) {
             <div>
                 <p-message severity="info" [closable]="false">
-                    <ng-template pTemplate>
-                        <span>{{ 'ProductList.NoProductsFound' | translate }}</span>
-                    </ng-template>
+                    <span>{{ 'ProductList.NoProductsFound' | translate }}</span>
                 </p-message>
             </div>
         }

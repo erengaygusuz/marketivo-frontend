@@ -1,7 +1,7 @@
 import { Product } from '../models/product';
 
 export interface GetResponseProduct {
-    _embedded: {
+    _embedded?: {
         products: Product[];
     };
     page: {

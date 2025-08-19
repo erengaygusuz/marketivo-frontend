@@ -24,7 +24,9 @@ export class ProductService {
             searchUrl += `&lang=${language}`;
         }
 
-        return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(map(response => response._embedded.products));
+        return this.httpClient
+            .get<GetResponseProduct>(searchUrl)
+            .pipe(map(response => response._embedded?.products || []));
     }
 
     getProductListPaginate(
@@ -62,7 +64,9 @@ export class ProductService {
             searchUrl += `&lang=${language}`;
         }
 
-        return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(map(response => response._embedded.products));
+        return this.httpClient
+            .get<GetResponseProduct>(searchUrl)
+            .pipe(map(response => response._embedded?.products || []));
     }
 
     searchProductsPaginate(
