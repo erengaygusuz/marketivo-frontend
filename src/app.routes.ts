@@ -1,13 +1,13 @@
+import { AppAuthCallbackComponent } from '@/components/app-auth-callback/app-auth-callback.component';
+import { AppCartDetailsComponent } from '@/components/app-cart-details/app-cart-details.component';
+import { AppCheckoutComponent } from '@/components/app-checkout/app-checkout.component';
+import { AppOrderHistoryComponent } from '@/components/app-order-history/app-order-history.component';
+import { AppProductDetailsComponent } from '@/components/app-product-details/app-product-details.component';
+import { AppProductListComponent } from '@/components/app-product-list/app-product-list.component';
+import { AppProfilePageComponent } from '@/components/app-profile-page/app-profile-page.component';
 import { Routes } from '@angular/router';
-import { AppLayout } from './app/components/app-layout/app-layout.component';
-import { CheckoutComponent } from '@/components/checkout/checkout.component';
-import { CartDetailsComponent } from '@/components/cart-details/cart-details.component';
-import { ProductDetailsComponent } from '@/components/product-details/product-details.component';
-import { ProductListComponent } from '@/components/product-list/product-list.component';
-import { OrderHistoryComponent } from '@/components/order-history/order-history.component';
 import { AuthGuard } from '@auth0/auth0-angular';
-import { ProfilePageComponent } from '@/components/profile-page/profile-page.component';
-import { AuthCallbackComponent } from '@/components/auth-callback/auth-callback.component';
+import { AppLayout } from './app/components/app-layout/app-layout.component';
 
 export const appRoutes: Routes = [
     {
@@ -16,25 +16,24 @@ export const appRoutes: Routes = [
         children: [
             {
                 path: 'login/callback',
-                component: AuthCallbackComponent,
+                component: AppAuthCallbackComponent,
             },
             {
                 path: 'profile',
-                component: ProfilePageComponent,
+                component: AppProfilePageComponent,
                 canActivate: [AuthGuard],
             },
             {
                 path: 'order-history',
-                component: OrderHistoryComponent,
-                canActivate: [AuthGuard],
+                component: AppOrderHistoryComponent,
             },
-            { path: 'checkout', component: CheckoutComponent },
-            { path: 'cart-details', component: CartDetailsComponent },
-            { path: 'products/:id', component: ProductDetailsComponent },
-            { path: 'search/:keyword', component: ProductListComponent },
-            { path: 'category/:id', component: ProductListComponent },
-            { path: 'category', component: ProductListComponent },
-            { path: 'products', component: ProductListComponent },
+            { path: 'checkout', component: AppCheckoutComponent },
+            { path: 'cart-details', component: AppCartDetailsComponent },
+            { path: 'products/:id', component: AppProductDetailsComponent },
+            { path: 'search/:keyword', component: AppProductListComponent },
+            { path: 'category/:id', component: AppProductListComponent },
+            { path: 'category', component: AppProductListComponent },
+            { path: 'products', component: AppProductListComponent },
             { path: '', redirectTo: '/products', pathMatch: 'full' },
             { path: '**', redirectTo: '/products', pathMatch: 'full' },
         ],

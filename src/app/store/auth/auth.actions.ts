@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { User } from './auth.state';
+import { User } from '../../models/user';
 
 // Initialize auth state from Auth0
 export const initializeAuth = createAction('[Auth] Initialize Auth');

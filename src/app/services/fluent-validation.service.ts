@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Validator } from 'fluentvalidation-ts';
-import { CheckoutFormData, CheckoutFormValidator } from '../validators/checkout-form.validator';
+import { CheckoutFormData } from '../models/checkout-form-data';
+import { CheckoutFormValidator } from '../validators/checkout-form.validator';
 
 // Type definitions for validation
 type MockObject = Record<string, unknown>;

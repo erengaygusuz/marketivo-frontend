@@ -1,42 +1,9 @@
 import { Validator } from 'fluentvalidation-ts';
-import { Country } from '../common/models/country';
-import { State } from '../common/models/state';
-
-export interface CheckoutFormData {
-    customer: {
-        firstName: string;
-        lastName: string;
-        email: string;
-    };
-    shippingAddress: {
-        street: string;
-        city: string;
-        state: State;
-        country: Country;
-        zipCode: string;
-    };
-    billingAddress: {
-        street: string;
-        city: string;
-        state: State;
-        country: Country;
-        zipCode: string;
-    };
-}
-
-export interface CustomerData {
-    firstName: string;
-    lastName: string;
-    email: string;
-}
-
-export interface AddressData {
-    street: string;
-    city: string;
-    state: State;
-    country: Country;
-    zipCode: string;
-}
+import { AddressData } from '../models/address-data';
+import { CheckoutFormData } from '../models/checkout-form-data';
+import { Country } from '../models/country';
+import { CustomerData } from '../models/customer-data';
+import { State } from '../models/state';
 
 export class CustomerValidator extends Validator<CustomerData> {
     constructor() {

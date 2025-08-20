@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { CartItem } from '../common/models/cart-item';
+import { CartItem } from '../models/cart-item';
 import { AppState } from '../store/app.state';
 import * as CartActions from '../store/cart/cart.actions';
 import * as CartSelectors from '../store/cart/cart.selectors';

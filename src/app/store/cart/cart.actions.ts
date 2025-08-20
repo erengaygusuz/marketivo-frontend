@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { CartItem } from '../../common/models/cart-item';
+import { CartItem } from '../../models/cart-item';
 
 // Load cart from localStorage
 export const loadCart = createAction('[Cart] Load Cart');

@@ -1,5 +1,5 @@
-import { Country } from '../../common/models/country';
-import { State } from '../../common/models/state';
+import { Country } from '../../models/country';
+import { State } from '../../models/state';
 
 export interface CheckoutState {
     // Form data

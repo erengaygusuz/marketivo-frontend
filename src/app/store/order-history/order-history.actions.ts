@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { GetResponseOrderHistory } from '../../common/interfaces/GetResponseOrderHistory';
+import { GetResponseOrderHistory } from '../../models/get-response-order-history';
 
 // Load order history
 export const loadOrderHistory = createAction('[Order History] Load Order History', props<{ email: string }>());

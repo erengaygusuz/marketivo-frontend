@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { Router, RouterModule } from '@angular/router';
+import { AppCartStatusComponent } from '@/components/app-cart-status/app-cart-status.component';
+import { AppLanguageSelectorComponent } from '@/components/app-language-selector/app-language-selector.component';
+import { AppLoginStatusComponent } from '@/components/app-login-status/app-login-status.component';
 import { CommonModule } from '@angular/common';
-import { StyleClassModule } from 'primeng/styleclass';
-import { LayoutService } from '../../services/layout.service';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { MenuItem } from 'primeng/api';
+import { BadgeModule } from 'primeng/badge';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
-import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
-import { CartStatusComponent } from '@/components/cart-status/cart-status.component';
-import { LoginStatusComponent } from '@/components/login-status/login-status.component';
-import { LanguageSelectorComponent } from '@/components/language-selector/language-selector.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { StyleClassModule } from 'primeng/styleclass';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
     selector: 'app-topbar',
@@ -26,9 +26,9 @@ import { TranslateModule } from '@ngx-translate/core';
         InputTextModule,
         BadgeModule,
         OverlayBadgeModule,
-        CartStatusComponent,
-        LoginStatusComponent,
-        LanguageSelectorComponent,
+        AppCartStatusComponent,
+        AppLoginStatusComponent,
+        AppLanguageSelectorComponent,
         TranslateModule,
     ],
     templateUrl: './app-topbar.component.html',
@@ -36,6 +36,8 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class AppTopbar {
     items!: MenuItem[];
+
+    @ViewChild('myInput') searchInput!: ElementRef<HTMLInputElement>;
 
     constructor(
         public layoutService: LayoutService,
@@ -47,8 +49,17 @@ export class AppTopbar {
     }
 
     doSearch(value: string): void {
-        if (value && value.trim()) {
-            this.router.navigateByUrl(`/search/${value.trim()}`);
+        // Trim whitespace and check if the search term is not empty
+        const trimmedValue = value?.trim();
+
+        if (trimmedValue && trimmedValue.length > 0) {
+            this.router.navigateByUrl(`/search/${encodeURIComponent(trimmedValue)}`);
+        } else {
+            // If search is empty, navigate to all products and clear the input
+            this.router.navigateByUrl('/products');
+            if (this.searchInput) {
+                this.searchInput.nativeElement.value = '';
+            }
         }
     }
 }

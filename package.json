@@ -22,12 +22,12 @@
         "code:check": "npm run format:check && npm run lint:check",
         "code:check:strict": "npm run format:check && npm run lint:check --max-warnings 0",
         "test": "ng test",
-        "dev": "npm run pre-start && ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=development",
-        "dev:no-check": "ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=development",
-        "stage": "npm run pre-start && ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=staging",
-        "stage:no-check": "ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=staging",
-        "prod": "npm run pre-start && ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=production",
-        "prod:no-check": "ng serve --ssl --ssl-cert D:\\Programs\\OpenSSL-Win64\\bin\\localhost.crt --ssl-key D:\\Programs\\OpenSSL-Win64\\bin\\localhost.key --configuration=production"
+        "dev": "npm run pre-start && ng serve --ssl --ssl-cert certs\\localhost.crt --ssl-key certs\\localhost.key --configuration=development",
+        "dev:no-check": "ng serve --ssl --ssl-cert certs\\localhost.crt --ssl-key certs\\localhost.key --configuration=development",
+        "stage": "npm run pre-start && ng serve --ssl --ssl-cert certs\\localhost.crt --ssl-key certs\\localhost.key --configuration=staging",
+        "stage:no-check": "ng serve --ssl --ssl-cert certs\\localhost.crt --ssl-key certs\\localhost.key --configuration=staging",
+        "prod": "npm run pre-start && ng serve --ssl --ssl-cert certs\\localhost.crt --ssl-key certs\\localhost.key --configuration=production",
+        "prod:no-check": "ng serve --ssl --ssl-cert certs\\localhost.crt --ssl-key certs\\localhost.key --configuration=production"
     },
     "private": true,
     "dependencies": {
@@ -50,7 +50,6 @@
         "@stripe/stripe-js": "^7.8.0",
         "@tailwindcss/postcss": "^4.1.11",
         "angular-server-side-configuration": "^20.0.0",
-        "chart.js": "4.4.2",
         "flag-icons": "^7.5.0",
         "fluentvalidation-ts": "^5.0.0",
         "npm-check-updates": "^18.0.1",
@@ -58,7 +57,6 @@
         "primeicons": "^7.0.0",
         "primeng": "^20",
         "rxjs": "~7.8.2",
-        "stripe": "^18.3.0",
         "tailwindcss-primeui": "^0.6.1",
         "tslib": "^2.8.1",
         "zone.js": "~0.15.1"

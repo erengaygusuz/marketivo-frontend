@@ -1,8 +1,4 @@
-export interface Language {
-    name: string;
-    code: string;
-    countryCode: string;
-}
+import { Language } from '../../models/language';
 
 export interface LanguageState {
     currentLanguage: string;

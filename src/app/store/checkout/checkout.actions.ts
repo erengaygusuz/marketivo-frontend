@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { Country } from '../../common/models/country';
-import { PaymentInfo } from '../../common/models/payment-info';
-import { Purchase } from '../../common/models/purchase';
-import { State } from '../../common/models/state';
+import { Country } from '../../models/country';
+import { PaymentInfo } from '../../models/payment-info';
+import { Purchase } from '../../models/purchase';
+import { State } from '../../models/state';
 
 // Load countries
 export const loadCountries = createAction('[Checkout] Load Countries');
@@ -22,13 +22,6 @@ export const loadStatesSuccess = createAction(
     props<{ states: State[]; addressType: 'shipping' | 'billing' }>()
 );
 export const loadStatesFailure = createAction('[Checkout] Load States Failure', props<{ error: string }>());
-
-// Load credit card months
-export const loadCreditCardMonths = createAction('[Checkout] Load Credit Card Months', props<{ startMonth: number }>());
-export const loadCreditCardMonthsSuccess = createAction(
-    '[Checkout] Load Credit Card Months Success',
-    props<{ months: number[] }>()
-);
 
 // Create payment intent
 export const createPaymentIntent = createAction(
@@ -64,11 +57,3 @@ export const setPaymentProcessing = createAction(
 // Clear errors
 export const clearCheckoutError = createAction('[Checkout] Clear Error');
 export const clearPaymentError = createAction('[Checkout] Clear Payment Error');
-
-// Stripe actions
-export const initializeStripe = createAction('[Checkout] Initialize Stripe');
-export const initializeStripeSuccess = createAction('[Checkout] Initialize Stripe Success');
-export const initializeStripeFailure = createAction('[Checkout] Initialize Stripe Failure', props<{ error: string }>());
-
-export const setStripeError = createAction('[Checkout] Set Stripe Error', props<{ error: string }>());
-export const clearStripeError = createAction('[Checkout] Clear Stripe Error');

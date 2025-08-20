@@ -1,6 +1,6 @@
-import { AuthFacade } from '@/services/auth.facade';
+import { AuthFacade } from '@/facades/auth.facade';
+import { LanguageFacade } from '@/facades/language.facade';
 import { CartService } from '@/services/cart.service';
-import { LanguageFacade } from '@/services/language.facade';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';

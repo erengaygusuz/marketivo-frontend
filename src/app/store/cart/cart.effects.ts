@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { forkJoin, of } from 'rxjs';
 import { catchError, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { CartItem } from '../../common/models/cart-item';
+import { CartItem } from '../../models/cart-item';
 import { ProductService } from '../../services/product.service';
 import * as LanguageActions from '../language/language.actions';
 import * as CartActions from './cart.actions';

@@ -1,5 +1,5 @@
-import { Product } from '../../common/models/product';
-import { ProductCategory } from '../../common/models/product-category';
+import { Product } from '../../models/product';
+import { ProductCategory } from '../../models/product-category';
 
 export interface ProductState {
     products: Product[];

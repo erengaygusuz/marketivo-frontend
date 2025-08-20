@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { from, lastValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { AuthFacade } from '../services/auth.facade';
+import { AuthFacade } from '../facades/auth.facade';
 import * as AuthActions from '../store/auth/auth.actions';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {

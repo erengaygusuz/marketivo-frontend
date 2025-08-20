@@ -46,18 +46,6 @@ export class CheckoutEffects {
         )
     );
 
-    loadCreditCardMonths$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(CheckoutActions.loadCreditCardMonths),
-            switchMap(({ startMonth }) =>
-                this.countryStateService.getCreditCardMonths(startMonth).pipe(
-                    map(months => CheckoutActions.loadCreditCardMonthsSuccess({ months })),
-                    catchError(() => of(CheckoutActions.clearCheckoutError()))
-                )
-            )
-        )
-    );
-
     createPaymentIntent$ = createEffect(() =>
         this.actions$.pipe(
             ofType(CheckoutActions.createPaymentIntent),
@@ -108,15 +96,6 @@ export class CheckoutEffects {
                 })
             ),
         { dispatch: false }
-    );
-
-    // Stripe initialization effect - this is just for state management
-    // Actual Stripe loading happens in the component's ngAfterViewInit
-    initializeStripe$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(CheckoutActions.initializeStripe),
-            map(() => CheckoutActions.initializeStripeSuccess())
-        )
     );
 
     handleErrors$ = createEffect(

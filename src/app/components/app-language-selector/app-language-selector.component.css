@@ -1,0 +1,9 @@
+.fi {
+    width: 20px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 8px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;
+}

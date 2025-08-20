@@ -41,12 +41,6 @@ export const checkoutReducer = createReducer(
         error,
     })),
 
-    // Load credit card months
-    on(CheckoutActions.loadCreditCardMonthsSuccess, (state, { months }) => ({
-        ...state,
-        creditCardMonths: months,
-    })),
-
     // Payment intent
     on(CheckoutActions.createPaymentIntent, state => ({
         ...state,
@@ -106,36 +100,5 @@ export const checkoutReducer = createReducer(
     on(CheckoutActions.clearPaymentError, state => ({
         ...state,
         paymentError: null,
-    })),
-
-    // Stripe actions
-    on(CheckoutActions.initializeStripe, state => ({
-        ...state,
-        loading: true,
-        stripeError: null,
-    })),
-
-    on(CheckoutActions.initializeStripeSuccess, state => ({
-        ...state,
-        loading: false,
-        isStripeInitialized: true,
-        stripeError: null,
-    })),
-
-    on(CheckoutActions.initializeStripeFailure, (state, { error }) => ({
-        ...state,
-        loading: false,
-        isStripeInitialized: false,
-        stripeError: error,
-    })),
-
-    on(CheckoutActions.setStripeError, (state, { error }) => ({
-        ...state,
-        stripeError: error,
-    })),
-
-    on(CheckoutActions.clearStripeError, state => ({
-        ...state,
-        stripeError: null,
     }))
 );

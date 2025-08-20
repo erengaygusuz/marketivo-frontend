@@ -35,7 +35,7 @@ export const selectCategoriesLoading = createSelector(
     (state: ProductState) => state?.categoriesLoading || false
 );
 
-export const selectProductError = createSelector(selectProductState, (state: ProductState) => state?.error || null);
+export const selectProductsError = createSelector(selectProductState, (state: ProductState) => state?.error || null);
 
 export const selectProductById = (id: number) =>
     createSelector(selectProducts, products => products.find(product => product.id === id));

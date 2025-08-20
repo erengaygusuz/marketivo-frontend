@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { GetResponseOrderHistory } from '../common/interfaces/GetResponseOrderHistory';
+import { GetResponseOrderHistory } from '../models/get-response-order-history';
 
 @Injectable({
     providedIn: 'root',

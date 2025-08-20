@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { GetResponseProduct } from '../common/interfaces/GetResponseProduct';
-import { GetResponseProductCategory } from '../common/interfaces/GetResponseProductCategory';
-import { Product } from '../common/models/product';
-import { ProductCategory } from '../common/models/product-category';
+import { GetResponseProduct } from '../models/get-response-product';
+import { GetResponseProductCategory } from '../models/get-response-product-category';
+import { Product } from '../models/product';
+import { ProductCategory } from '../models/product-category';
 
 @Injectable({
     providedIn: 'root',

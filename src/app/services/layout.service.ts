@@ -1,32 +1,14 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 import { Subject } from 'rxjs';
-
-export interface layoutConfig {
-    preset?: string;
-    primary?: string;
-    surface?: string | undefined | null;
-    darkTheme?: boolean;
-    menuMode?: string;
-}
-
-interface LayoutState {
-    staticMenuDesktopInactive?: boolean;
-    overlayMenuActive?: boolean;
-    configSidebarVisible?: boolean;
-    staticMenuMobileActive?: boolean;
-    menuHoverActive?: boolean;
-}
-
-interface MenuChangeEvent {
-    key: string;
-    routeEvent?: boolean;
-}
+import { LayoutConfig } from '../models/layout-config';
+import { LayoutState } from '../models/layout-state';
+import { MenuChangeEvent } from '../models/menu-change-event';
 
 @Injectable({
     providedIn: 'root',
 })
 export class LayoutService {
-    _config: layoutConfig = {
+    _config: LayoutConfig = {
         preset: 'Aura',
         primary: 'emerald',
         surface: null,
@@ -42,11 +24,11 @@ export class LayoutService {
         menuHoverActive: false,
     };
 
-    layoutConfig = signal<layoutConfig>(this._config);
+    layoutConfig = signal<LayoutConfig>(this._config);
 
     layoutState = signal<LayoutState>(this._state);
 
-    private configUpdate = new Subject<layoutConfig>();
+    private configUpdate = new Subject<LayoutConfig>();
 
     private overlayOpen = new Subject<null>();
 
@@ -100,7 +82,7 @@ export class LayoutService {
         });
     }
 
-    private handleDarkModeTransition(config: layoutConfig): void {
+    private handleDarkModeTransition(config: LayoutConfig): void {
         if (
             'startViewTransition' in document &&
             typeof (document as Document & { startViewTransition?: Function }).startViewTransition === 'function'
@@ -112,7 +94,7 @@ export class LayoutService {
         }
     }
 
-    private startViewTransition(config: layoutConfig): void {
+    private startViewTransition(config: LayoutConfig): void {
         const transition = (document as Document & { startViewTransition: Function }).startViewTransition(() => {
             this.toggleDarkMode(config);
         });
@@ -124,7 +106,7 @@ export class LayoutService {
             .catch(() => {});
     }
 
-    toggleDarkMode(config?: layoutConfig): void {
+    toggleDarkMode(config?: LayoutConfig): void {
         const _config = config || this.layoutConfig();
 
         if (_config.darkTheme) {

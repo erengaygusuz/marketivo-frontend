@@ -1,4 +1,4 @@
-import { OrderHistory } from '../../common/models/order-history';
+import { OrderHistory } from '../../models/order-history';
 
 export interface OrderHistoryState {
     orders: OrderHistory[];

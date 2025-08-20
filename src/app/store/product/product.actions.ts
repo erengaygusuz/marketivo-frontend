@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { GetResponseProduct } from '../../common/interfaces/GetResponseProduct';
-import { Product } from '../../common/models/product';
-import { ProductCategory } from '../../common/models/product-category';
+import { GetResponseProduct } from '../../models/get-response-product';
+import { Product } from '../../models/product';
+import { ProductCategory } from '../../models/product-category';
 
 // Load categories
 export const loadCategories = createAction('[Product] Load Categories', props<{ language: string }>());

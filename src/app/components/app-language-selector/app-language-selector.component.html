@@ -1,0 +1,27 @@
+<p-select
+    [options]="languages"
+    [(ngModel)]="selectedLanguage"
+    optionLabel="name"
+    optionValue="code"
+    [placeholder]="'Components.LanguageSelector.SelectLanguage' | translate"
+    (onChange)="onLanguageChange($event.value)"
+    styleClass="w-full"
+    [style]="{ 'min-width': '200px' }"
+>
+    <ng-template pTemplate="selectedItem">
+        <div class="flex align-items-center gap-2" *ngIf="selectedLanguage">
+            <span
+                [class]="'fi fi-' + getSelectedLanguageCountryCode()"
+                [title]="'Flag: ' + getSelectedLanguageCountryCode()"
+            ></span>
+            <span>{{ getSelectedLanguageName() }}</span>
+        </div>
+    </ng-template>
+
+    <ng-template let-language pTemplate="item">
+        <div class="flex align-items-center gap-2">
+            <span [class]="'fi fi-' + language.countryCode" [title]="'Flag: ' + language.countryCode"></span>
+            <span>{{ language.name }}</span>
+        </div>
+    </ng-template>
+</p-select>
