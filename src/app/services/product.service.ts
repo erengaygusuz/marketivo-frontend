@@ -21,7 +21,7 @@ export class ProductService {
         let searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
 
         if (language) {
-            searchUrl += `&lang=${language}`;
+            searchUrl += `&lang=${encodeURIComponent(language)}`;
         }
 
         return this.httpClient
@@ -39,7 +39,7 @@ export class ProductService {
             `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}` + `&page=${thePage}&size=${thePageSize}`;
 
         if (language) {
-            searchUrl += `&lang=${language}`;
+            searchUrl += `&lang=${encodeURIComponent(language)}`;
         }
 
         return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(map(response => response));
@@ -49,7 +49,7 @@ export class ProductService {
         let categoryUrl = this.categoryUrl;
 
         if (language) {
-            categoryUrl += `?lang=${language}`;
+            categoryUrl += `?lang=${encodeURIComponent(language)}`;
         }
 
         return this.httpClient
@@ -58,10 +58,10 @@ export class ProductService {
     }
 
     searchProducts(keyword: string, language?: string): Observable<Product[]> {
-        let searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}`;
+        let searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${encodeURIComponent(keyword)}`;
 
         if (language) {
-            searchUrl += `&lang=${language}`;
+            searchUrl += `&lang=${encodeURIComponent(language)}`;
         }
 
         return this.httpClient
@@ -76,10 +76,11 @@ export class ProductService {
         language?: string
     ): Observable<GetResponseProduct> {
         let searchUrl =
-            `${this.baseUrl}/search/findByNameContaining?name=${keyword}` + `&page=${thePage}&size=${thePageSize}`;
+            `${this.baseUrl}/search/findByNameContaining?name=${encodeURIComponent(keyword)}` +
+            `&page=${thePage}&size=${thePageSize}`;
 
         if (language) {
-            searchUrl += `&lang=${language}`;
+            searchUrl += `&lang=${encodeURIComponent(language)}`;
         }
 
         return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(map(response => response));
@@ -89,7 +90,7 @@ export class ProductService {
         let productUrl = `${this.baseUrl}/${theProductId}`;
 
         if (language) {
-            productUrl += `?lang=${language}`;
+            productUrl += `?lang=${encodeURIComponent(language)}`;
         }
 
         return this.httpClient.get<Product>(productUrl);

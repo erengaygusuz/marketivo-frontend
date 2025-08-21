@@ -52,6 +52,7 @@ export class AppProductListComponent implements OnInit, OnDestroy {
     searchMode: boolean = false;
 
     previousKeyword: string = '';
+    isInitialized: boolean = false;
 
     layout: 'list' | 'grid' = 'list';
     options = ['list', 'grid'];
@@ -72,8 +73,18 @@ export class AppProductListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        // Listen to route changes
         this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.listProducts();
+            this.isInitialized = true;
+        });
+
+        // Listen to language changes and reload current view
+        this.currentLanguage$.pipe(takeUntil(this.destroy$)).subscribe(_language => {
+            // Only reload if we have been initialized (avoid initial load duplication)
+            if (this.isInitialized) {
+                this.listProducts();
+            }
         });
     }
 
@@ -114,7 +125,8 @@ export class AppProductListComponent implements OnInit, OnDestroy {
 
         this.currentLanguage$.pipe(take(1), takeUntil(this.destroy$)).subscribe(language => {
             this.pagination$.pipe(take(1), takeUntil(this.destroy$)).subscribe(pagination => {
-                this.productFacade.searchProducts(keyword, pagination.pageNumber, pagination.pageSize, language);
+                // Fix: Use pageNumber - 1 to match API expectation (0-based pagination)
+                this.productFacade.searchProducts(keyword, pagination.pageNumber - 1, pagination.pageSize, language);
             });
         });
     }
