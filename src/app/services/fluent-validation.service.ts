@@ -5,7 +5,6 @@ import { Validator } from 'fluentvalidation-ts';
 import { CheckoutFormData } from '../models/checkout-form-data';
 import { CheckoutFormValidator } from '../validators/checkout-form.validator';
 
-// Type definitions for validation
 type MockObject = Record<string, unknown>;
 
 @Injectable({
@@ -19,14 +18,12 @@ export class FluentValidationService {
     createValidatorFn<T>(validatorInstance: Validator<T>, propertyPath: string): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             if (control.value === null || control.value === undefined) {
-                // Let the fluent validator handle null/undefined values
                 const mockObject = this.createMockObjectFromPath(propertyPath, control.value) as T;
                 const result = validatorInstance.validate(mockObject);
 
                 return this.extractErrorForProperty(result, propertyPath);
             }
 
-            // Create a mock object with the control's value at the correct property path
             const mockObject = this.createMockObjectFromPath(propertyPath, control.value) as T;
             const result = validatorInstance.validate(mockObject);
 

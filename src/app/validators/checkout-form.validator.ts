@@ -73,11 +73,9 @@ export class AddressValidator extends Validator<AddressData> {
     private notOnlyWhitespace = (value: string): boolean => !!value && value.trim().length > 0;
 
     private isValidSelection = (value: State | Country | null | undefined): boolean => {
-        // Handle null, undefined, and empty objects
         if (value === null || value === undefined) {
             return false;
         }
-        // Check if it's an empty object
         if (typeof value === 'object' && Object.keys(value).length === 0) {
             return false;
         }

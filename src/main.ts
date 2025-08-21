@@ -3,6 +3,5 @@ import { AppComponent } from './app.component';
 import { appConfig } from './app.config';
 
 bootstrapApplication(AppComponent, appConfig).catch(err => {
-    // Bootstrap error handling
     throw err;
 });
