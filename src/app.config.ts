@@ -1,4 +1,4 @@
-import myAppConfig from '@/config/my-app-config';
+import customConfig from '@/config/custom-config';
 import { AuthInterceptor } from '@/interceptors/auth-interceptor';
 import { LanguageInterceptor } from '@/interceptors/language-interceptor';
 import { HttpClient, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
@@ -23,7 +23,6 @@ import { OrderHistoryEffects } from './app/store/order-history/order-history.eff
 import { ProductEffects } from './app/store/product/product.effects';
 import { rootReducer } from './app/store/root.reducer';
 
-// Custom TranslateLoader implementation
 export class CustomTranslateLoader implements TranslateLoader {
     constructor(private http: HttpClient) {}
 
@@ -32,7 +31,6 @@ export class CustomTranslateLoader implements TranslateLoader {
     }
 }
 
-// Factory function for CustomTranslateLoader
 export function HttpLoaderFactory(http: HttpClient) {
     return new CustomTranslateLoader(http);
 }
@@ -48,9 +46,9 @@ export const appConfig: ApplicationConfig = {
         provideAnimationsAsync(),
         providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
         provideAuth0({
-            ...myAppConfig.auth,
+            ...customConfig.auth,
             httpInterceptor: {
-                ...myAppConfig.httpInterceptor,
+                ...customConfig.httpInterceptor,
             },
         }),
         MessageService,
@@ -77,7 +75,7 @@ export const appConfig: ApplicationConfig = {
                     useFactory: HttpLoaderFactory,
                     deps: [HttpClient],
                 },
-                defaultLanguage: myAppConfig.i18n.defaultLanguage,
+                defaultLanguage: customConfig.i18n.defaultLanguage,
             })
         ),
     ],

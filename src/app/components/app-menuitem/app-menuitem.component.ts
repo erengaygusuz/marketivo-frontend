@@ -12,7 +12,7 @@ import { LayoutService } from '../../services/layout.service';
     selector: '[app-menuitem]',
     imports: [CommonModule, RouterModule, RippleModule],
     templateUrl: './app-menuitem.component.html',
-    styleUrl: './app-menuitem.component.css',
+    styleUrl: './app-menuitem.component.scss',
     animations: [
         trigger('children', [
             state(

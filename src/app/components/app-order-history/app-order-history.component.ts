@@ -1,17 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { TableModule } from 'primeng/table';
 import { Subject, takeUntil } from 'rxjs';
+import { AuthFacade } from '../../facades/auth.facade';
+import { LanguageFacade } from '../../facades/language.facade';
 import { OrderHistoryFacade } from '../../facades/order-history.facade';
 import { OrderHistory } from '../../models/order-history';
 
 @Component({
     selector: 'app-order-history-component',
     templateUrl: './app-order-history.component.html',
-    styleUrl: './app-order-history.component.css',
+    styleUrl: './app-order-history.component.scss',
     imports: [CommonModule, TableModule, MessageModule, ButtonModule, TranslateModule],
 })
 export class AppOrderHistoryComponent implements OnInit, OnDestroy {
@@ -22,8 +24,9 @@ export class AppOrderHistoryComponent implements OnInit, OnDestroy {
     errorMessage: string | null = null;
 
     constructor(
-        private translate: TranslateService,
-        private orderHistoryFacade: OrderHistoryFacade
+        private orderHistoryFacade: OrderHistoryFacade,
+        private authFacade: AuthFacade,
+        private languageFacade: LanguageFacade
     ) {
         this.orderHistoryFacade.orderHistoryList$.pipe(takeUntil(this.destroy$)).subscribe(orderHistory => {
             this.orderHistoryList = orderHistory;
@@ -37,7 +40,7 @@ export class AppOrderHistoryComponent implements OnInit, OnDestroy {
             this.errorMessage = error;
         });
 
-        this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+        this.languageFacade.currentLanguage$.pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.handleOrderHistory();
         });
     }
@@ -54,21 +57,19 @@ export class AppOrderHistoryComponent implements OnInit, OnDestroy {
     handleOrderHistory() {
         this.orderHistoryFacade.clearOrderHistoryError();
 
-        const userEmailFromStorage = sessionStorage.getItem('userEmail');
-        const userEmail: string | null = userEmailFromStorage ? (JSON.parse(userEmailFromStorage) as string) : null;
+        this.authFacade.userEmail$.pipe(takeUntil(this.destroy$)).subscribe(userEmail => {
+            if (!userEmail) {
+                const errorMessage = this.languageFacade.translateInstant('OrderHistory.Errors.NoUserEmail');
 
-        if (!userEmail) {
-            const errorMessage = this.translate.instant('OrderHistory.Errors.NoUserEmail');
+                this.orderHistoryFacade.loadOrderHistoryFailure(errorMessage);
 
-            this.orderHistoryFacade.loadOrderHistoryFailure(errorMessage);
+                return;
+            }
 
-            return;
-        }
-
-        this.orderHistoryFacade.loadOrderHistory(userEmail);
+            this.orderHistoryFacade.loadOrderHistory(userEmail);
+        });
     }
 
-    // Method to refresh order history
     refreshOrders() {
         this.handleOrderHistory();
     }

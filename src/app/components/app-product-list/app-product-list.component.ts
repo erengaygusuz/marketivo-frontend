@@ -24,7 +24,7 @@ import { CartService } from '../../services/cart.service';
 @Component({
     selector: 'app-product-list',
     templateUrl: './app-product-list.component.html',
-    styleUrl: './app-product-list.component.css',
+    styleUrl: './app-product-list.component.scss',
     imports: [
         CommonModule,
         RouterModule,

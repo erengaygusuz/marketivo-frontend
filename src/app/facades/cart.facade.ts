@@ -12,7 +12,6 @@ import * as CartSelectors from '../store/cart/cart.selectors';
 export class CartFacade {
     constructor(private store: Store<AppState>) {}
 
-    // Cart Data (from cart store)
     get cartItems$(): Observable<CartItem[]> {
         return this.store.select(CartSelectors.selectCartItems);
     }
@@ -25,7 +24,6 @@ export class CartFacade {
         return this.store.select(CartSelectors.selectCartTotalQuantity);
     }
 
-    // Helper methods
     getCurrentCartData(): Observable<{ cartItems: CartItem[]; totalPrice: number; totalQuantity: number }> {
         return this.store.select(state => ({
             cartItems: CartSelectors.selectCartItems(state),

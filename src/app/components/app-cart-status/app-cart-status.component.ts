@@ -8,7 +8,7 @@ import { CartService } from '../../services/cart.service';
 @Component({
     selector: 'app-cart-status',
     templateUrl: './app-cart-status.component.html',
-    styleUrls: ['./app-cart-status.component.css'],
+    styleUrls: ['./app-cart-status.component.scss'],
     imports: [CommonModule, OverlayBadgeModule, TranslateModule],
 })
 export class AppCartStatusComponent implements OnInit, OnDestroy {

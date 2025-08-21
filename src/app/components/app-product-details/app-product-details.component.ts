@@ -14,7 +14,7 @@ import { Product } from '../../models/product';
 @Component({
     selector: 'app-product-details',
     templateUrl: './app-product-details.component.html',
-    styleUrls: ['./app-product-details.component.css'],
+    styleUrls: ['./app-product-details.component.scss'],
     imports: [CommonModule, ButtonModule, RouterModule, TranslateModule],
 })
 export class AppProductDetailsComponent implements OnInit, OnDestroy {

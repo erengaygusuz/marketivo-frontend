@@ -12,6 +12,7 @@ import { CartService } from '../../services/cart.service';
 @Component({
     selector: 'app-cart-details',
     templateUrl: './app-cart-details.component.html',
+    styleUrls: ['./app-cart-details.component.scss'],
     imports: [CommonModule, TableModule, ButtonModule, RouterModule, MessageModule, TranslateModule],
 })
 export class AppCartDetailsComponent implements OnInit, OnDestroy {

@@ -32,7 +32,7 @@ import { LayoutService } from '../../services/layout.service';
         TranslateModule,
     ],
     templateUrl: './app-topbar.component.html',
-    styleUrl: './app-topbar.component.css',
+    styleUrl: './app-topbar.component.scss',
 })
 export class AppTopbar {
     items!: MenuItem[];
@@ -49,13 +49,11 @@ export class AppTopbar {
     }
 
     doSearch(value: string): void {
-        // Trim whitespace and check if the search term is not empty
         const trimmedValue = value?.trim();
 
         if (trimmedValue && trimmedValue.length > 0) {
             this.router.navigateByUrl(`/search/${encodeURIComponent(trimmedValue)}`);
         } else {
-            // If search is empty, navigate to all products and clear the input
             this.router.navigateByUrl('/products');
             if (this.searchInput) {
                 this.searchInput.nativeElement.value = '';

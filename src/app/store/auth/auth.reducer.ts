@@ -5,27 +5,23 @@ import { initialAuthState } from './auth.state';
 export const authReducer = createReducer(
     initialAuthState,
 
-    // Initialize auth
     on(AuthActions.initializeAuth, state => ({
         ...state,
         isLoading: true,
         error: null,
     })),
 
-    // Loading state
     on(AuthActions.setLoading, (state, { isLoading }) => ({
         ...state,
         isLoading,
     })),
 
-    // Authentication status
     on(AuthActions.setAuthenticationStatus, (state, { isAuthenticated }) => ({
         ...state,
         isAuthenticated,
         isLoading: false,
     })),
 
-    // User management
     on(AuthActions.setUser, (state, { user }) => ({
         ...state,
         user,
@@ -39,7 +35,6 @@ export const authReducer = createReducer(
         isAuthenticated: false,
     })),
 
-    // Token management
     on(AuthActions.setTokens, (state, { accessToken, idToken }) => ({
         ...state,
         accessToken,
@@ -60,7 +55,6 @@ export const authReducer = createReducer(
         isTokenExpired: isExpired,
     })),
 
-    // Login flow
     on(AuthActions.login, state => ({
         ...state,
         isLoading: true,
@@ -88,7 +82,6 @@ export const authReducer = createReducer(
         error,
     })),
 
-    // Logout flow
     on(AuthActions.logout, state => ({
         ...state,
         isLoading: true,
@@ -106,7 +99,6 @@ export const authReducer = createReducer(
         error,
     })),
 
-    // Token refresh
     on(AuthActions.refreshToken, state => ({
         ...state,
         isLoading: true,
@@ -128,7 +120,6 @@ export const authReducer = createReducer(
         isTokenExpired: true,
     })),
 
-    // Error handling
     on(AuthActions.setError, (state, { error }) => ({
         ...state,
         error,

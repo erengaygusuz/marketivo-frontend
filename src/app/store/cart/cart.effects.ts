@@ -15,7 +15,6 @@ export class CartEffects {
     private store = inject(Store);
     private productService = inject(ProductService);
 
-    // Load cart from localStorage on app initialization
     loadCart$ = createEffect(() =>
         this.actions$.pipe(
             ofType(CartActions.loadCart),
@@ -36,7 +35,6 @@ export class CartEffects {
         )
     );
 
-    // Persist cart to localStorage after any cart modification
     persistCart$ = createEffect(
         () =>
             this.actions$.pipe(
@@ -51,43 +49,36 @@ export class CartEffects {
                 tap(([_action, cartItems]) => {
                     try {
                         localStorage.setItem('cartItems', JSON.stringify(cartItems));
-                    } catch {
-                        // Silently handle localStorage errors
-                    }
+                    } catch {}
                 })
             ),
         { dispatch: false }
     );
 
-    // Listen to language changes and update cart items language
     updateCartItemsOnLanguageChange$ = createEffect(() =>
         this.actions$.pipe(
             ofType(LanguageActions.setLanguage, LanguageActions.languageLoaded),
             withLatestFrom(this.store.select(selectCartItems)),
             switchMap(([action, cartItems]) => {
                 if (cartItems.length === 0) {
-                    return of(); // No cart items to update
+                    return of();
                 }
 
                 const language = action.language;
 
-                // Check if any cart items are missing names for this language
                 const itemsMissingNames = cartItems.filter(
                     item => !item.localizedNames || !item.localizedNames[language]
                 );
 
                 if (itemsMissingNames.length > 0) {
-                    // Fetch missing names first, then update language
                     return of(CartActions.fetchMissingProductNames({ language }));
                 } else {
-                    // Just update the language
                     return of(CartActions.updateCartItemsLanguage({ language }));
                 }
             })
         )
     );
 
-    // Fetch missing product names for a language
     fetchMissingProductNames$ = createEffect(() =>
         this.actions$.pipe(
             ofType(CartActions.fetchMissingProductNames),
@@ -101,7 +92,6 @@ export class CartEffects {
                     return of(CartActions.updateCartItemsLanguage({ language }));
                 }
 
-                // Fetch all missing product names
                 const productRequests = itemsMissingNames.map(item =>
                     this.productService.getProduct(parseInt(item.id, 10), language).pipe(
                         map(product => ({ id: item.id, name: product.name, language })),
@@ -111,12 +101,10 @@ export class CartEffects {
 
                 return forkJoin(productRequests).pipe(
                     switchMap(productData => {
-                        // Dispatch multiple add localized name actions
                         const addNameActions = productData.map(({ id, name, language: lang }) =>
                             CartActions.addLocalizedNameToCartItem({ cartItemId: id, language: lang, name })
                         );
 
-                        // Return the first action, others will be dispatched via mergeMap
                         return addNameActions.length > 0
                             ? of(...addNameActions, CartActions.updateCartItemsLanguage({ language }))
                             : of(CartActions.updateCartItemsLanguage({ language }));

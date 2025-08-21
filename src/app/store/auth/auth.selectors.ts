@@ -4,14 +4,12 @@ import { AuthState } from './auth.state';
 
 export const selectAuthState = createFeatureSelector<AuthState>('auth');
 
-// Authentication status selectors
 export const selectIsAuthenticated = createSelector(selectAuthState, (state: AuthState) => state.isAuthenticated);
 
 export const selectIsLoading = createSelector(selectAuthState, (state: AuthState) => state.isLoading);
 
 export const selectAuthError = createSelector(selectAuthState, (state: AuthState) => state.error);
 
-// User selectors
 export const selectUser = createSelector(selectAuthState, (state: AuthState) => state.user);
 
 export const selectUserEmail = createSelector(selectUser, (user: User | null) => user?.email || null);
@@ -25,7 +23,6 @@ export const selectUserPicture = createSelector(selectUser, (user: User | null) 
 
 export const selectIsEmailVerified = createSelector(selectUser, (user: User | null) => user?.email_verified || false);
 
-// Token selectors
 export const selectAccessToken = createSelector(selectAuthState, (state: AuthState) => state.accessToken);
 
 export const selectIdToken = createSelector(selectAuthState, (state: AuthState) => state.idToken);
@@ -38,7 +35,6 @@ export const selectHasValidToken = createSelector(
     (accessToken, isExpired) => !!accessToken && !isExpired
 );
 
-// Combined selectors
 export const selectAuthInfo = createSelector(
     selectIsAuthenticated,
     selectUser,

@@ -14,7 +14,6 @@ import * as AuthSelectors from '../store/auth/auth.selectors';
 export class AuthFacade {
     constructor(private store: Store<AppState>) {}
 
-    // Selectors
     get isAuthenticated$(): Observable<boolean> {
         return this.store.select(AuthSelectors.selectIsAuthenticated);
     }
@@ -104,7 +103,6 @@ export class AuthFacade {
         this.store.dispatch(AuthActions.checkTokenExpiration());
     }
 
-    // Helper methods
     getCurrentUser(): Observable<User | null> {
         return this.user$;
     }

@@ -13,7 +13,6 @@ export class AppAuthCallbackComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // Initialize auth state to ensure NgRx store is updated after callback
         this.authFacade.initializeAuth();
     }
 }

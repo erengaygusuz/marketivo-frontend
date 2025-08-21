@@ -33,7 +33,7 @@ import { FluentValidationService } from '../../services/fluent-validation.servic
     selector: 'app-checkout',
     standalone: true,
     templateUrl: './app-checkout.component.html',
-    styleUrls: ['./app-checkout.component.css'],
+    styleUrls: ['./app-checkout.component.scss'],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -237,7 +237,6 @@ export class AppCheckoutComponent implements AfterViewInit, OnInit, OnDestroy {
                 this.stripeError = 'Payment failed';
                 this.isDisabled = false;
             } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-                // Payment succeeded, now place the order
                 this.placeOrder();
             }
         } catch {

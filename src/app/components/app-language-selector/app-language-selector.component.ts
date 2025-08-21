@@ -12,7 +12,7 @@ import { Language } from '../../models/language';
     standalone: true,
     imports: [CommonModule, SelectModule, FormsModule, TranslateModule],
     templateUrl: './app-language-selector.component.html',
-    styleUrls: ['./app-language-selector.component.css'],
+    styleUrls: ['./app-language-selector.component.scss'],
 })
 export class AppLanguageSelectorComponent implements OnInit, OnDestroy {
     languages: Language[] = [];
@@ -22,15 +22,12 @@ export class AppLanguageSelectorComponent implements OnInit, OnDestroy {
     constructor(private languageFacade: LanguageFacade) {}
 
     ngOnInit() {
-        // Load language from storage on component init
         this.languageFacade.loadLanguageFromStorage();
 
-        // Subscribe to available languages
         this.languageFacade.availableLanguages$.pipe(takeUntil(this.destroy$)).subscribe((languages: Language[]) => {
             this.languages = languages;
         });
 
-        // Subscribe to current language
         this.languageFacade.currentLanguage$.pipe(takeUntil(this.destroy$)).subscribe((language: string) => {
             this.selectedLanguage = language;
         });

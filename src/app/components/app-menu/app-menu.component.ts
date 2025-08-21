@@ -14,7 +14,7 @@ import { AppMenuitem } from '../app-menuitem/app-menuitem.component';
     standalone: true,
     imports: [CommonModule, AppMenuitem, RouterModule, TranslateModule],
     templateUrl: './app-menu.component.html',
-    styleUrl: './app-menu.component.css',
+    styleUrl: './app-menu.component.scss',
 })
 export class AppMenu implements OnDestroy {
     model: MenuItem[] = [
@@ -98,14 +98,12 @@ export class AppMenu implements OnDestroy {
     }
 
     private initializeMenu(): void {
-        // Leave the first section label empty so it doesn't show a header
         this.model[0].label = '';
         this.model[0].items![0].label = this.translate.instant('Navigation.Homepage');
         this.model[1].label = this.translate.instant('Navigation.Categories');
     }
 
     private updateMenuLabels(): void {
-        // Leave the first section label empty so it doesn't show a header
         this.model[0].label = '';
         this.model[0].items![0].label = this.translate.instant('Navigation.Homepage');
         this.updateCategoriesLabel();

@@ -6,7 +6,6 @@ import { initialCartState } from './cart.state';
 export const cartReducer = createReducer(
     initialCartState,
 
-    // Load cart
     on(CartActions.loadCart, state => ({
         ...state,
         loading: true,
@@ -14,7 +13,6 @@ export const cartReducer = createReducer(
     })),
 
     on(CartActions.loadCartSuccess, (state, { cartItems }) => {
-        // Ensure all cart items have localizedNames property
         const migratedCartItems = cartItems.map(item => ({
             ...item,
             localizedNames: item.localizedNames || { 'en-US': item.name },
@@ -38,19 +36,16 @@ export const cartReducer = createReducer(
         error,
     })),
 
-    // Add to cart
     on(CartActions.addToCart, (state, { cartItem }) => {
         const existingItemIndex = state.cartItems.findIndex(item => item.id === cartItem.id);
 
         let updatedCartItems;
 
         if (existingItemIndex > -1) {
-            // Item exists, increment quantity
             updatedCartItems = state.cartItems.map((item, index) =>
                 index === existingItemIndex ? { ...item, quantity: item.quantity + 1 } : item
             );
         } else {
-            // New item, add to cart and ensure it has localizedNames
             const newCartItem = {
                 ...cartItem,
                 quantity: 1,
@@ -70,10 +65,8 @@ export const cartReducer = createReducer(
         };
     }),
 
-    // Update cart item quantity
     on(CartActions.updateCartItemQuantity, (state, { cartItemId, quantity }) => {
         if (quantity <= 0) {
-            // Remove item if quantity is 0 or less
             const updatedCartItems = state.cartItems.filter(item => item.id !== cartItemId);
             const { totalPrice, totalQuantity } = computeTotals(updatedCartItems);
 
@@ -97,7 +90,6 @@ export const cartReducer = createReducer(
         };
     }),
 
-    // Remove from cart
     on(CartActions.removeFromCart, (state, { cartItemId }) => {
         const updatedCartItems = state.cartItems.filter(item => item.id !== cartItemId);
         const { totalPrice, totalQuantity } = computeTotals(updatedCartItems);
@@ -110,7 +102,6 @@ export const cartReducer = createReducer(
         };
     }),
 
-    // Clear cart
     on(CartActions.clearCart, state => ({
         ...state,
         cartItems: [],
@@ -118,7 +109,6 @@ export const cartReducer = createReducer(
         totalQuantity: 0,
     })),
 
-    // Compute cart totals
     on(CartActions.computeCartTotals, state => {
         const { totalPrice, totalQuantity } = computeTotals(state.cartItems);
 
@@ -129,7 +119,6 @@ export const cartReducer = createReducer(
         };
     }),
 
-    // Update cart items language
     on(CartActions.updateCartItemsLanguage, (state, { language }) => {
         const updatedCartItems = state.cartItems.map(item => ({
             ...item,
@@ -142,7 +131,6 @@ export const cartReducer = createReducer(
         };
     }),
 
-    // Add localized name to cart item
     on(CartActions.addLocalizedNameToCartItem, (state, { cartItemId, language, name }) => {
         const updatedCartItems = state.cartItems.map(item => {
             if (item.id === cartItemId) {
@@ -152,7 +140,7 @@ export const cartReducer = createReducer(
                         ...item.localizedNames,
                         [language]: name,
                     },
-                    name: name, // Update current name
+                    name: name,
                 };
             }
 
@@ -166,7 +154,6 @@ export const cartReducer = createReducer(
     })
 );
 
-// Helper function to compute totals
 function computeTotals(cartItems: CartItem[]) {
     let totalPrice = 0;
     let totalQuantity = 0;

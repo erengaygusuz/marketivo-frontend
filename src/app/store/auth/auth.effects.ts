@@ -13,13 +13,12 @@ export class AuthEffects {
     private store = inject(Store);
     private auth0Service = inject(AuthService);
 
-    // Initialize auth state when app starts
     initializeAuth$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.initializeAuth),
             switchMap(() =>
                 this.auth0Service.isLoading$.pipe(
-                    filter(loading => !loading), // Wait for Auth0 to finish loading
+                    filter(loading => !loading),
                     take(1),
                     switchMap(() =>
                         this.auth0Service.isAuthenticated$.pipe(
@@ -35,24 +34,20 @@ export class AuthEffects {
         )
     );
 
-    // Listen to Auth0 authentication state changes
     listenToAuthState$ = createEffect(() =>
         this.auth0Service.isAuthenticated$.pipe(
             map(isAuthenticated => AuthActions.setAuthenticationStatus({ isAuthenticated }))
         )
     );
 
-    // Listen to Auth0 loading state changes
     listenToLoadingState$ = createEffect(() =>
         this.auth0Service.isLoading$.pipe(map(isLoading => AuthActions.setLoading({ isLoading })))
     );
 
-    // Listen to Auth0 user changes and update store
     listenToUserChanges$ = createEffect(() =>
         this.auth0Service.user$.pipe(map(user => AuthActions.setUser({ user: user || null })))
     );
 
-    // Handle login
     login$ = createEffect(
         () =>
             this.actions$.pipe(
@@ -64,7 +59,6 @@ export class AuthEffects {
         { dispatch: false }
     );
 
-    // Handle logout
     logout$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.logout),
@@ -84,7 +78,6 @@ export class AuthEffects {
         )
     );
 
-    // Get access token when authentication is successful
     getAccessToken$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.setAuthenticationStatus),
@@ -98,7 +91,6 @@ export class AuthEffects {
         )
     );
 
-    // Refresh token
     refreshToken$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.refreshToken),
@@ -111,7 +103,6 @@ export class AuthEffects {
         )
     );
 
-    // Store user data in session storage when user is set
     storeUserData$ = createEffect(
         () =>
             this.actions$.pipe(
@@ -136,7 +127,6 @@ export class AuthEffects {
         { dispatch: false }
     );
 
-    // Clear session storage on logout
     clearStorageOnLogout$ = createEffect(
         () =>
             this.actions$.pipe(
@@ -149,7 +139,6 @@ export class AuthEffects {
         { dispatch: false }
     );
 
-    // Handle Auth0 errors
     handleAuth0Errors$ = createEffect(() =>
         this.auth0Service.error$.pipe(
             filter(error => !!error),

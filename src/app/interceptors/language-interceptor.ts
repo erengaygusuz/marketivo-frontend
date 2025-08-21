@@ -13,7 +13,6 @@ export const LanguageInterceptor: HttpInterceptorFn = (req, next) => {
         store.select(selectCurrentLanguage).pipe(
             take(1),
             switchMap(currentLanguage => {
-                // Clone request with Accept-Language header
                 const langReq = req.clone({
                     setHeaders: {
                         'Accept-Language': currentLanguage || 'en-US',

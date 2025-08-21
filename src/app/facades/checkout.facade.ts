@@ -27,7 +27,6 @@ export class CheckoutFacade {
         return this.store.select(CheckoutSelectors.selectBillingAddressStates);
     }
 
-    // Selectors - Loading & Error States
     get loading$(): Observable<boolean> {
         return this.store.select(CheckoutSelectors.selectCheckoutLoading);
     }
@@ -48,7 +47,6 @@ export class CheckoutFacade {
         return this.store.select(CheckoutSelectors.selectClientSecret);
     }
 
-    // Actions - Data Loading
     loadCountries(): void {
         this.store.dispatch(CheckoutActions.loadCountries());
     }
@@ -57,7 +55,6 @@ export class CheckoutFacade {
         this.store.dispatch(CheckoutActions.loadStates({ countryCode, addressType }));
     }
 
-    // Actions - Payment Processing
     createPaymentIntent(paymentInfo: PaymentInfo): void {
         this.store.dispatch(CheckoutActions.createPaymentIntent({ paymentInfo }));
     }
@@ -70,7 +67,6 @@ export class CheckoutFacade {
         this.store.dispatch(CheckoutActions.setPaymentProcessing({ isProcessing }));
     }
 
-    // Actions - Reset & Error Handling
     resetCheckout(): void {
         this.store.dispatch(CheckoutActions.resetCheckout());
     }
