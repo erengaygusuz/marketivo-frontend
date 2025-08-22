@@ -26,8 +26,13 @@ export const appRoutes: Routes = [
             {
                 path: 'order-history',
                 component: AppOrderHistoryComponent,
+                canActivate: [AuthGuard],
             },
-            { path: 'checkout', component: AppCheckoutComponent },
+            {
+                path: 'checkout',
+                component: AppCheckoutComponent,
+                canActivate: [AuthGuard],
+            },
             { path: 'cart-details', component: AppCartDetailsComponent },
             { path: 'products/:id', component: AppProductDetailsComponent },
             { path: 'search/:keyword', component: AppProductListComponent },
