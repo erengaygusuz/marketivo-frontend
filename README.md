@@ -577,25 +577,50 @@ npm run build
 
 ## 📸 Screenshots
 
-*Screenshots will be added as the application develops*
-
-### Homepage
-*Coming soon*
-
 ### Product Catalog
-*Coming soon*
+![Products](screenshots/00-products.png)
+*Main product catalog with grid layout and search functionality*
+
+![Different View of Products](screenshots/01-different-view-of-products.png)
+*Alternative product list view with enhanced filtering options*
+
+### Product Details
+![Product Details](screenshots/02-product-details.png)
+*Detailed product view with specifications and add to cart functionality*
+
+### Theme Support
+![Dark/Light Mode](screenshots/03-dark-light-mode.png)
+*Application supports both dark and light themes for better user experience*
+
+### Multi-language Support
+![Multi-language Support](screenshots/04-multi-language-support.png)
+*Complete internationalization with English and Turkish language support*
 
 ### Shopping Cart
-*Coming soon*
+![Cart Details](screenshots/05-cart-details.png)
+*Shopping cart management with item quantity controls and total calculations*
 
 ### Checkout Process
-*Coming soon*
+![Checkout Process](screenshots/06-checkout-1.png)
+*Secure checkout process with customer information and address forms*
+
+![Checkout Validations](screenshots/07-checkout-validations.png)
+*Real-time form validation with internationalized error messages*
+
+![Checkout Success](screenshots/08-checkout-successfull.png)
+*Order confirmation page with payment success notification*
+
+### Order Management
+![Order History](screenshots/09-order-history.png)
+*Complete order history with tracking and order details*
 
 ### User Profile
-*Coming soon*
+![User Profile](screenshots/10-profile.png)
+*User profile management with account settings and personal information*
 
-### Admin Dashboard
-*Coming soon*
+### Authentication
+![Auth0 Login](screenshots/11-auth0-login.png)
+*Secure authentication powered by Auth0 with multiple login options*
 
 ## 📄 License
 
